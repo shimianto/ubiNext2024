@@ -3,15 +3,19 @@
 #include <vector>
 
 namespace Graphics3D {
-	enum MeshTypes
-	{
-		Cube
-	};
+enum MeshTypes
+{
+  CUBE
+};
 
-	class Mesh
-	{
-	public:
-		std::vector<Triangle> triangles;
-	};
+class Mesh
+{
+  public:
+  std::vector<Triangle> triangles;
+
+  Mesh (MeshTypes type = CUBE);
+
+  private:
+  void SetCubeMesh();
+};
 }
-
