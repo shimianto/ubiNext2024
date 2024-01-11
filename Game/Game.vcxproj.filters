@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="NextAPI\App\app.cpp">
+      <Filter>NextAPI\App</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\DirectSound.cpp">
+      <Filter>NextAPI\App</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\main.cpp">
+      <Filter>NextAPI\App</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleController.cpp">
+      <Filter>NextAPI\App</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleSound.cpp">
+      <Filter>NextAPI\App</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\SimpleSprite.cpp">
+      <Filter>NextAPI\App</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\stdafx.cpp">
+      <Filter>NextAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="NextAPI\App\stb_image\stb_image.cpp">
+      <Filter>NextAPI\App\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Vector3.cpp">
+      <Filter>src\Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Triangle.cpp">
+      <Filter>src\Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Mesh.cpp">
+      <Filter>src\Graphics3D</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NextAPI\App\app.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\AppSettings.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\DirectSound.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\main.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\mydirectsound.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleController.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleSound.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\SimpleSprite.h">
+      <Filter>NextAPI\App</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\targetver.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\resource.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\stdafx.h">
+      <Filter>NextAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="NextAPI\App\stb_image\stb_image.h">
+      <Filter>NextAPI\App\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Vector3.h">
+      <Filter>src\Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Triangle.h">
+      <Filter>src\Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Mesh.h">
+      <Filter>src\Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D.h">
+      <Filter>src\Graphics3D</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NextAPI">
+      <UniqueIdentifier>{f318918d-bb9f-4402-ae1c-4f72186d16f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NextAPI\App">
+      <UniqueIdentifier>{e3820b50-2bac-4432-b109-11ac68e4e097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NextAPI\App\stb_image">
+      <UniqueIdentifier>{27290eab-71af-4e9d-843b-f68dd002547a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{44e6517c-1fa5-437a-9a95-056bb07fe83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics3D">
+      <UniqueIdentifier>{19044258-15d6-4918-9714-a744202ee6ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="UbiNext2024.rc" />
+  </ItemGroup>
+</Project>
