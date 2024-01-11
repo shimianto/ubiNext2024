@@ -15,7 +15,16 @@ class Mesh
 
   Mesh (MeshTypes type = CUBE);
 
+  static void InitProjectionMatrix (float fNear, float fFar, float fFov);
+  
+  void Update (float deltaTime, float ftheta);
+  void Render();
+
   private:
+  Matrix matRotZ, matRotX;
+  static Matrix projectionMatrix;
+  static float fNear, fFar, fFov;
+
   void SetCubeMesh();
 };
 }
