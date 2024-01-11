@@ -1,0 +1,20 @@
+# Format Style Options - Created with Clang Power Tools
+---
+BasedOnStyle: Microsoft
+AccessModifierOffset: -4
+AlignAfterOpenBracket: DontAlign
+AlignEscapedNewlines: DontAlign
+AlignTrailingComments: false
+BraceWrapping: 
+  AfterNamespace: false
+BreakBeforeBraces: Mozilla
+ColumnLimit: 150
+ContinuationIndentWidth: 2
+FixNamespaceComments: false
+IndentWidth: 2
+MaxEmptyLinesToKeep: 2
+ReflowComments: false
+SortIncludes: false
+SpaceBeforeParens: NonEmptyParentheses
+UseTab: ForIndentation
+...

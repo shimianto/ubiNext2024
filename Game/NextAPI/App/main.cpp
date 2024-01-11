@@ -34,10 +34,7 @@ double gLastTime;
 //---------------------------------------------------------------------------------
 extern void Init();
 extern void Update(float deltaTime);
-void UpdateSampleScene(float deltaTime);
 extern void Render();
-void RenderSampleScene();
-void ShutdownSampleScene();
 extern void Shutdown();
 //---------------------------------------------------------------------------------
 void StartCounter()

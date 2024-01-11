@@ -42,13 +42,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -186,10 +186,12 @@
     <ClInclude Include="NextAPI\resource.h" />
     <ClInclude Include="NextAPI\stdafx.h" />
     <ClInclude Include="NextAPI\targetver.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics3D.h" />
     <ClInclude Include="src\Graphics3D\Mesh.h" />
     <ClInclude Include="src\Graphics3D\Triangle.h" />
     <ClInclude Include="src\Graphics3D\Vector3.h" />
+    <ClInclude Include="src\Math\Matrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NextAPI\App\app.cpp" />
@@ -200,10 +202,12 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="NextAPI\App\stb_image\stb_image.cpp" />
     <ClCompile Include="NextAPI\stdafx.cpp" />
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Graphics3D\Mesh.cpp" />
     <ClCompile Include="src\Graphics3D\Triangle.cpp" />
     <ClCompile Include="src\Graphics3D\Vector3.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Math\Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UbiNext2024.rc" />
