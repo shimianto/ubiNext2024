@@ -157,6 +157,33 @@ Mesh cube;
 //------------------------------------------------------------------------
 void Init()
 {
+	cube.triangles = {
+
+		// SOUTH
+		Triangle({0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}),
+		Triangle({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
+
+		// EAST       
+		Triangle({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f }),
+		Triangle({ 1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f }),
+
+		// NORTH                                                     
+		Triangle({ 1.0f, 0.0f, 1.0f},    {1.0f, 1.0f, 1.0f},    {0.0f, 1.0f, 1.0f }),
+		Triangle({ 1.0f, 0.0f, 1.0f},    {0.0f, 1.0f, 1.0f},    {0.0f, 0.0f, 1.0f }),
+
+		// WEST                                                      
+		Triangle({ 0.0f, 0.0f, 1.0f},    {0.0f, 1.0f, 1.0f},    {0.0f, 1.0f, 0.0f }),
+		Triangle({ 0.0f, 0.0f, 1.0f},    {0.0f, 1.0f, 0.0f},    {0.0f, 0.0f, 0.0f }),
+
+		// TOP                                                       
+		Triangle({ 0.0f, 1.0f, 0.0f},    {0.0f, 1.0f, 1.0f},    {1.0f, 1.0f, 1.0f }),
+		Triangle({ 0.0f, 1.0f, 0.0f},    {1.0f, 1.0f, 1.0f},    {1.0f, 1.0f, 0.0f }),
+
+		// BOTTOM                                                    
+		Triangle({ 1.0f, 0.0f, 1.0f},    {0.0f, 0.0f, 1.0f},    {0.0f, 0.0f, 0.0f }),
+		Triangle({ 1.0f, 0.0f, 1.0f},    {0.0f, 0.0f, 0.0f},    {1.0f, 0.0f, 0.0f }),
+
+	};
 }
 
 
@@ -177,10 +204,6 @@ void Render()
 {	
 	App::Print(450, 700, "Ubi Next 2024", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 
-	Vector3 vec(1.095f,3,2);
-
-
-	App::Print(450, 300, ("My Vector:" + vec.ToString()).c_str(), 1.0f, 1.0f, 1.0f, GLUT_BITMAP_HELVETICA_12);
 }
 //------------------------------------------------------------------------
 // Add your shutdown code here. Called when the APP_QUIT_KEY is pressed.
