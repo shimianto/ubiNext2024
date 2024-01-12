@@ -30,14 +30,72 @@ Vector3 Vector3::operator* (const Matrix &matrix)
   return out;
 }
 
-//Vector3& Vector3::operator=(const Vector3& param)
-//{
-//	x = param.x;
-//	y = param.y;
-//	z = param.z;
+ Vector3 Vector3::operator+ (const Vector3 &other) const
+{
+  return Vector3 (x + other.x, y + other.y, z + other.z);
+}
 
-//	return *this;
-//}
+Vector3 &Vector3::operator+= (const Vector3 &other)
+{
+  x += other.x;
+  y += other.y;
+  z += other.z;
+  return *this;
+}
+
+Vector3 Vector3::operator- (const Vector3 &other) const
+{
+  return Vector3 (x - other.x, y - other.y, z - other.z);
+}
+
+Vector3 &Vector3::operator-= (const Vector3 &other)
+{
+  x -= other.x;
+  y -= other.y;
+  z -= other.z;
+  return *this;
+}
+
+float Vector3::operator* (const Vector3 &other) const
+{
+  return 
+	  x * other.x + 
+	  y * other.y + 
+	  z * other.z;
+}
+
+Vector3 Vector3::operator* (float scalar) const
+{
+  return Vector3 (x * scalar, y * scalar, z * scalar);
+}
+
+Vector3 Vector3::operator*= (float scalar)
+{
+  x *= scalar;
+  y *= scalar;
+  z *= scalar;
+  return *this;
+}
+
+Vector3 Vector3::operator/ (float scalar) const
+{
+  return Vector3 (x / scalar, y / scalar, z / scalar);
+}
+
+Vector3 Vector3::operator/= (float scalar)
+{
+  x /= scalar;
+  y /= scalar;
+  z /= scalar;
+  return *this;
+}
+
+Vector3 Vector3::Normalize() const
+{
+  Vector3 normal;
+  normal = *this / sqrtf (x * x + y * y + z * z);
+  return normal;
+}
 
 std::string Vector3::ToString (int precision) const
 {

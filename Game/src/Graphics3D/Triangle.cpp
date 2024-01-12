@@ -23,3 +23,16 @@ Triangle &Triangle::operator= (const Triangle &param)
 
   return *this;
 }
+
+Vector3 Triangle::GetSurfaceNormal()
+{
+  Vector3 normal, line1, line2;
+  line1 = vertices[1] - vertices[0];
+  line2 = vertices[2] - vertices[0];
+
+  normal.x = line1.y * line2.z - line1.z * line2.y;
+  normal.y = line1.z * line2.x - line1.x * line2.z;
+  normal.z = line1.x * line2.y - line1.y * line2.x;
+
+  return normal;
+}

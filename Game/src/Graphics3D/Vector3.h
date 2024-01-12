@@ -13,6 +13,26 @@ class Vector3
 
   Vector3 operator* (const Matrix &matrix);
 
+  Vector3 operator+ (const Vector3 &other) const;
+
+  Vector3 &operator+= (const Vector3 &other);
+
+  Vector3 operator- (const Vector3 &other) const;
+
+  Vector3 &operator-= (const Vector3 &other);
+
+  float Vector3::operator* (const Vector3 &other) const;
+
+  Vector3 operator* (float scalar) const;
+
+  Vector3 operator*= (float scalar);
+
+  Vector3 operator/ (float scalar) const;
+
+  Vector3 operator/= (float scalar);
+
+  Vector3 Normalize() const;
+
   std::string ToString (int precision = 2) const;
 };
 

@@ -11,4 +11,6 @@ class Triangle
   Triangle (float v1[3], float v2[3], float v3[3]);
 
   Triangle &operator= (const Triangle &param);
+
+  Vector3 GetSurfaceNormal();
 };

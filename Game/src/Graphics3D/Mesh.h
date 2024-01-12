@@ -25,6 +25,7 @@ class Mesh
   static float fNear, fFar, fFov;
 
   void DrawMesh();
+  void RotateMesh (float fTheta);
   void SetCubeMesh();
 };
 

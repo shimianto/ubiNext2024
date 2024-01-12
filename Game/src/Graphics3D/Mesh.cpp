@@ -18,30 +18,15 @@ Mesh::Mesh (MeshTypes type) : matRotZ (Matrix()), matRotX (Matrix())
 }
 void Mesh::Update (float deltaTime, float fTheta)
 {
-  // Set up rotation matrices
-
-  // Rotation Z
-  matRotZ.m[0][0] = cosf (fTheta);
-  matRotZ.m[0][1] = sinf (fTheta);
-  matRotZ.m[1][0] = -sinf (fTheta);
-  matRotZ.m[1][1] = cosf (fTheta);
-  matRotZ.m[2][2] = 1;
-  matRotZ.m[3][3] = 1;
-
-  // Rotation X
-  matRotX.m[0][0] = 1;
-  matRotX.m[1][1] = cosf (fTheta * 0.5f);
-  matRotX.m[1][2] = sinf (fTheta * 0.5f);
-  matRotX.m[2][1] = -sinf (fTheta * 0.5f);
-  matRotX.m[2][2] = cosf (fTheta * 0.5f);
-  matRotX.m[3][3] = 1;
+  RotateMesh (fTheta);
 }
 void Mesh::Render()
 {
   Vector3 vCam;
   // Draw Triangles
   for (auto tri : triangles) {
-	Triangle triProjected, triTranslated, triRotatedZ, triRotatedZX;
+	Triangle triProjected, triTranslated, triRotatedZX;
+	Triangle triRotatedZ;
 
 	// Rotate in Z-Axis
 	triRotatedZ.vertices[0] = tri.vertices[0] * matRotZ;
@@ -60,28 +45,9 @@ void Mesh::Render()
 	triTranslated.vertices[2].z = triRotatedZX.vertices[2].z + 3.0f;
 
 	// Use Cross-Product to get surface normal
-	Vector3 normal, line1, line2;
-	line1.x = triTranslated.vertices[1].x - triTranslated.vertices[0].x;
-	line1.y = triTranslated.vertices[1].y - triTranslated.vertices[0].y;
-	line1.z = triTranslated.vertices[1].z - triTranslated.vertices[0].z;
+	Vector3 normal = triTranslated.GetSurfaceNormal().Normalize();
 
-	line2.x = triTranslated.vertices[2].x - triTranslated.vertices[0].x;
-	line2.y = triTranslated.vertices[2].y - triTranslated.vertices[0].y;
-	line2.z = triTranslated.vertices[2].z - triTranslated.vertices[0].z;
-
-	normal.x = line1.y * line2.z - line1.z * line2.y;
-	normal.y = line1.z * line2.x - line1.x * line2.z;
-	normal.z = line1.x * line2.y - line1.y * line2.x;
-
-	// It's normally normal to normalise the normal
-	float l = sqrtf (normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
-	normal.x /= l;
-	normal.y /= l;
-	normal.z /= l;
-
-	if (normal.x * (triTranslated.vertices[0].x - vCam.x) + 
-		normal.y * (triTranslated.vertices[0].y - vCam.y) + 
-		normal.z * (triTranslated.vertices[0].z - vCam.z) >= 0.0f) {
+	if (normal * (triTranslated.vertices[0] - vCam) >= 0.0f) {
 	  continue;
 	}
 
@@ -146,6 +112,26 @@ void Mesh::SetCubeMesh()
     Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}),
     Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
   };
+}
+void Mesh::RotateMesh (float fTheta)
+{
+  // Set up rotation matrices
+
+  // Rotation Z
+  matRotZ.m[0][0] = cosf (fTheta);
+  matRotZ.m[0][1] = sinf (fTheta);
+  matRotZ.m[1][0] = -sinf (fTheta);
+  matRotZ.m[1][1] = cosf (fTheta);
+  matRotZ.m[2][2] = 1;
+  matRotZ.m[3][3] = 1;
+
+  // Rotation X
+  matRotX.m[0][0] = 1;
+  matRotX.m[1][1] = cosf (fTheta * 0.5f);
+  matRotX.m[1][2] = sinf (fTheta * 0.5f);
+  matRotX.m[2][1] = -sinf (fTheta * 0.5f);
+  matRotX.m[2][2] = cosf (fTheta * 0.5f);
+  matRotX.m[3][3] = 1;
 }
 void Mesh::InitProjectionMatrix (float fNear, float fFar, float fFov)
 {
