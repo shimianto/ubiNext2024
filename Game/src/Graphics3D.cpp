@@ -2,10 +2,10 @@
 #include "Graphics3D.h"
 #include "App\app.h"
 
-void Graphics3D::DrawTriangle (Triangle t, float r, float g, float b)
+void Graphics3D::DrawTriangle (Triangle t, Color c)
 {
   glBegin (GL_TRIANGLES);
-  glColor3f (r, g, b); 
+  glColor3f (c.r, c.g, c.b); 
 
   for each (auto& pt in t.vertices) {
 

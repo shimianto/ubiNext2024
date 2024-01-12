@@ -16,21 +16,28 @@ using namespace std;
 Matrix Mesh::projectionMatrix = Matrix();
 float Mesh::fNear = {0}, Mesh::fFar = {0}, Mesh::fFov = {0};
 
-Mesh::Mesh (MeshTypes type) : matRotZ (Matrix()), matRotX (Matrix())
+Mesh::Mesh ()
 {
   
 }
 void Mesh::Update (float deltaTime, float fTheta)
 {
   RotateMesh (fTheta);
+  UpdateVisibleTriangles();
+  SortVisibleTriangles();
 }
 void Mesh::Render()
 {
+  DrawMesh();
+}
+void Mesh::UpdateVisibleTriangles()
+{
   Vector3 vCam;
-  // Draw Triangles
+  visibleTriangles.clear();
+  
   for (auto tri : triangles) {
-	Triangle triProjected, triTranslated, triRotatedZX;
-	Triangle triRotatedZ;
+	Triangle triProjected;
+	Triangle triTranslated, triRotatedZ, triRotatedZX;
 
 	// Rotate in Z-Axis
 	triRotatedZ.vertices[0] = tri.vertices[0] * matRotZ;
@@ -51,7 +58,8 @@ void Mesh::Render()
 	// Use Cross-Product to get surface normal
 	Vector3 normal = triTranslated.GetSurfaceNormal().Normalize();
 
-	if (normal * (triTranslated.vertices[0] - vCam) >= 0.0f) {
+	if (normal * (triTranslated.vertices[0] - vCam) >= 0.0f) 
+	{
 	  continue;
 	}
 
@@ -59,7 +67,6 @@ void Mesh::Render()
 	triProjected.vertices[0] = triTranslated.vertices[0] * projectionMatrix;
 	triProjected.vertices[1] = triTranslated.vertices[1] * projectionMatrix;
 	triProjected.vertices[2] = triTranslated.vertices[2] * projectionMatrix;
-
 
 	// Scale into view
 	triProjected.vertices[0].x += 1.0f;
@@ -75,19 +82,24 @@ void Mesh::Render()
 	triProjected.vertices[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 	triProjected.vertices[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 
-	// Rasterize triangle
-	float r = 1.0f;
-	float g = 1.0f;
-	float b = 1.0f;
-	App::DrawLine (triProjected.vertices[0].x, triProjected.vertices[0].y, triProjected.vertices[1].x, triProjected.vertices[1].y, 0, 0, 0);
-	App::DrawLine (triProjected.vertices[1].x, triProjected.vertices[1].y, triProjected.vertices[2].x, triProjected.vertices[2].y, 0, 0, 0);
-	App::DrawLine (triProjected.vertices[2].x, triProjected.vertices[2].y, triProjected.vertices[0].x, triProjected.vertices[0].y, 0, 0, 0);
-
-	Graphics3D::DrawTriangle (triProjected, r, g, b);
+	visibleTriangles.push_back (triProjected);
   }
+}
+
+void Mesh::SortVisibleTriangles()
+{
+  sort (visibleTriangles.begin(), visibleTriangles.end(), [] (Triangle &t1, Triangle &t2) {
+	
+	float z1 = (t1.vertices[0].z + t1.vertices[1].z + t1.vertices[2].z) / 3.0f;
+	float z2 = (t2.vertices[0].z + t2.vertices[1].z + t2.vertices[2].z) / 3.0f;
+	return z1 > z2;	
+  });
 }
 void Mesh::DrawMesh()
 {
+  for each (auto tri in visibleTriangles) {
+	tri.Render (Color());
+  }
 }
 //void Mesh::SetCubeMesh()
 //{
@@ -137,6 +149,7 @@ void Mesh::RotateMesh (float fTheta)
   matRotX.m[2][2] = cosf (fTheta * 0.5f);
   matRotX.m[3][3] = 1;
 }
+
 void Mesh::InitProjectionMatrix (float fNear, float fFar, float fFov)
 {
   Mesh::fNear = fNear;

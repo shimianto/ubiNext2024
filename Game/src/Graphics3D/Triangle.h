@@ -1,5 +1,7 @@
 #pragma once
 #include "Vector3.h"
+#include "Colour/Colour.h"
+
 
 class Triangle
 {
@@ -13,4 +15,6 @@ class Triangle
   Triangle &operator= (const Triangle &param);
 
   Vector3 GetSurfaceNormal();
+
+  void Render (Color col);
 };

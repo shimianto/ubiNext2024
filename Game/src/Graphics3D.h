@@ -9,9 +9,9 @@ namespace Graphics3D {
 	// Display Calls.
 	//*******************************************************************************************
 	//-------------------------------------------------------------------------------------------
-	// void DrawTriangle( Triangle t, float r = 1.0f, float g = 1.0f, float b = 1.0f );
+	// void DrawTriangle( Triangle t, Color c );
 	//-------------------------------------------------------------------------------------------
-	// Draw a 2D Triangle using the vertices' coordinates from t, using color r = red, g = green, b=blue.
+	// Draw a 2D Triangle using the vertices' coordinates from t, using Color c.
 	//-------------------------------------------------------------------------------------------
-	void DrawTriangle (Triangle t, float r = 1.0f, float g = 1.0f, float b = 1.0f);
+	void DrawTriangle (Triangle t, Color c);
 }
