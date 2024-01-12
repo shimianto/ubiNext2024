@@ -93,7 +93,8 @@ Vector3 Vector3::operator/= (float scalar)
 Vector3 Vector3::Normalize() const
 {
   Vector3 normal;
-  normal = *this / sqrtf (x * x + y * y + z * z);
+  float lenght = x * x + y * y + z * z;
+  normal = *this / sqrtf (lenght);
   return normal;
 }
 

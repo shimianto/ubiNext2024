@@ -15,9 +15,11 @@ class Mesh
   Mesh (MeshTypes type = CUBE);
 
   static void InitProjectionMatrix (float fNear, float fFar, float fFov);
+  static std::vector<Triangle> LoadTrianglesFromObjectFile (std::string file);
   
   void Update (float deltaTime, float ftheta);
   void Render();
+
 
   private:
   Matrix matRotZ, matRotX;
@@ -26,6 +28,6 @@ class Mesh
 
   void DrawMesh();
   void RotateMesh (float fTheta);
-  void SetCubeMesh();
+
 };
 

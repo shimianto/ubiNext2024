@@ -1,20 +1,24 @@
 #include "stdafx.h"
 #include "Mesh.h"
-#include "../Renderer/Renderer.h"
+
+#include <string>
+#include <fstream>
+#include <strstream>
+#include <algorithm>
 #include <App/app.h>
 //---------------------------------------------------------------------------------
-#include <string>
+#include "../Renderer/Renderer.h"
 #include "App/main.h"
 #include "../Graphics3D.h"
+
+using namespace std;
 
 Matrix Mesh::projectionMatrix = Matrix();
 float Mesh::fNear = {0}, Mesh::fFar = {0}, Mesh::fFov = {0};
 
 Mesh::Mesh (MeshTypes type) : matRotZ (Matrix()), matRotX (Matrix())
 {
-  if (type == CUBE) {
-	SetCubeMesh();
-  }
+  
 }
 void Mesh::Update (float deltaTime, float fTheta)
 {
@@ -40,9 +44,9 @@ void Mesh::Render()
 
 	// Offset into the screen
 	triTranslated = triRotatedZX;
-	triTranslated.vertices[0].z = triRotatedZX.vertices[0].z + 3.0f;
-	triTranslated.vertices[1].z = triRotatedZX.vertices[1].z + 3.0f;
-	triTranslated.vertices[2].z = triRotatedZX.vertices[2].z + 3.0f;
+	triTranslated.vertices[0].z = triRotatedZX.vertices[0].z + 8.0f;
+	triTranslated.vertices[1].z = triRotatedZX.vertices[1].z + 8.0f;
+	triTranslated.vertices[2].z = triRotatedZX.vertices[2].z + 8.0f;
 
 	// Use Cross-Product to get surface normal
 	Vector3 normal = triTranslated.GetSurfaceNormal().Normalize();
@@ -85,34 +89,34 @@ void Mesh::Render()
 void Mesh::DrawMesh()
 {
 }
-void Mesh::SetCubeMesh()
-{
-  triangles = {
-    // SOUTH
-    Triangle ({0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}),
-    Triangle ({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
-
-    // EAST
-    Triangle ({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}),
-    Triangle ({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}),
-
-    // NORTH
-    Triangle ({1.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}),
-    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}),
-
-    // WEST
-    Triangle ({0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}),
-    Triangle ({0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f}),
-
-    // TOP
-    Triangle ({0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 1.0f}),
-    Triangle ({0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 0.0f}),
-
-    // BOTTOM
-    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}),
-    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
-  };
-}
+//void Mesh::SetCubeMesh()
+//{
+//  triangles = {
+//    // SOUTH
+//    Triangle ({0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}),
+//    Triangle ({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
+//
+//    // EAST
+//    Triangle ({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}),
+//    Triangle ({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}),
+//
+//    // NORTH
+//    Triangle ({1.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}),
+//    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}),
+//
+//    // WEST
+//    Triangle ({0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}),
+//    Triangle ({0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f}),
+//
+//    // TOP
+//    Triangle ({0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 1.0f}),
+//    Triangle ({0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 0.0f}),
+//
+//    // BOTTOM
+//    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}),
+//    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
+//  };
+//}
 void Mesh::RotateMesh (float fTheta)
 {
   // Set up rotation matrices
@@ -149,4 +153,40 @@ void Mesh::InitProjectionMatrix (float fNear, float fFar, float fFov)
   projectionMatrix.m[3][2] = (-fFar * fNear) / (fFar - fNear);
   projectionMatrix.m[2][3] = 1.0f;
   projectionMatrix.m[3][3] = 0.0f;
+}
+
+vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
+{
+  vector<Triangle> trianglesList;
+
+  ifstream f (fileName);
+  if (!f.is_open())
+	return trianglesList;
+
+  // Local cache of verticess
+  vector<Vector3> vertices;
+
+  while (!f.eof()) {
+	char line[128];
+	f.getline (line, 128);
+
+	strstream s;
+	s << line;
+
+	char junk;
+
+	if (line[0] == 'v') {
+	  Vector3 v;
+	  s >> junk >> v.x >> v.y >> v.z;
+	  vertices.push_back (v);
+	}
+
+	if (line[0] == 'f') {
+	  int f[3];
+	  s >> junk >> f[0] >> f[1] >> f[2];
+	  trianglesList.push_back ({vertices[f[0] - 1], vertices[f[1] - 1], vertices[f[2] - 1]});
+	}
+  }
+
+  return trianglesList;
 }

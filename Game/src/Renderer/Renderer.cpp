@@ -5,9 +5,10 @@
 #include "..\Math\Matrix.h"
 
 Renderer::Renderer() : 
-	cube (Mesh (CUBE)), 
+	cube (Mesh ()), 
 	fTheta (0.0f)
 {
+  cube.triangles = Mesh::LoadTrianglesFromObjectFile (".\\TestData\\VideoShip.obj");
 }
 
 void Renderer::Init (float fNear, float fFar, float fFov)
