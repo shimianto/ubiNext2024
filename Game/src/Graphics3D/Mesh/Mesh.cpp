@@ -135,10 +135,10 @@ void Mesh::RotateMesh (float fTheta)
   // Set up rotation matrices
 
   // Rotation Z
-  matRotZ = Matrix::Matrix_MakeRotationZ(fTheta);
+  matRotZ = Matrix::MakeRotationMatrixZ(fTheta);
 
   // Rotation X
-  matRotX = Matrix::Matrix_MakeRotationX(fTheta);
+  matRotX = Matrix::MakeRotationMatrixX(fTheta);
 }
 
 vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)

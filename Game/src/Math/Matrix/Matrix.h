@@ -20,7 +20,7 @@ public:
 
 	static Matrix MakeProjectionMatrix (float fNear = 0.1f, float fFar = 1000.0f, float fFov = 90.0f);
 
-    static Matrix Matrix_MakeRotationX (float fAngleRad);
-    static Matrix Matrix_MakeRotationY (float fAngleRad);
-    static Matrix Matrix_MakeRotationZ (float fAngleRad);
+    static Matrix MakeRotationMatrixX (float fAngleRad);
+    static Matrix MakeRotationMatrixY (float fAngleRad);
+    static Matrix MakeRotationMatrixZ (float fAngleRad);
 };

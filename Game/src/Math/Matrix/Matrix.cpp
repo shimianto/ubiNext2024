@@ -67,7 +67,7 @@ Matrix Matrix::MakeProjectionMatrix (float fNear, float fFar, float fFov)
   return proj;
 }
 
-Matrix Matrix::Matrix_MakeRotationX (float fAngleRad)
+Matrix Matrix::MakeRotationMatrixX (float fAngleRad)
 {
   Matrix matrix;
   matrix.m[0][0] = 1.0f;
@@ -79,7 +79,7 @@ Matrix Matrix::Matrix_MakeRotationX (float fAngleRad)
   return matrix;
 }
 
-Matrix Matrix::Matrix_MakeRotationY (float fAngleRad)
+Matrix Matrix::MakeRotationMatrixY (float fAngleRad)
 {
   Matrix matrix;
   matrix.m[0][0] = cosf (fAngleRad);
@@ -91,7 +91,7 @@ Matrix Matrix::Matrix_MakeRotationY (float fAngleRad)
   return matrix;
 }
 
-Matrix Matrix::Matrix_MakeRotationZ (float fAngleRad)
+Matrix Matrix::MakeRotationMatrixZ (float fAngleRad)
 {
   Matrix matrix;
   matrix.m[0][0] = cosf (fAngleRad);
