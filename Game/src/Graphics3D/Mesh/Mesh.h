@@ -1,6 +1,6 @@
 #pragma once
-#include "..\Triangle.h"
 #include <vector>
+#include "..\..\Math\Triangle\Triangle.h"
 
 enum MeshTypes
 {
@@ -28,6 +28,5 @@ class Mesh
   void RotateMesh (float fTheta);
   void UpdateVisibleTriangles();
   void SortVisibleTriangles();
-
 };
 

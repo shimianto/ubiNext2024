@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Matrix.h"
 #include <App/AppSettings.h>
-#include "../Graphics3D/Vector3.h"
+#include "..\Vector3\Vector3.h"
 
 const Matrix Matrix::PROJ_MAT = Matrix::MakeProjectionMatrix();
 

@@ -1,8 +1,8 @@
+#include <App/app.h>
 #include "stdafx.h"
 #include "Triangle.h"
-#include <App/app.h>
-#include "../Graphics3D.h"
-#include "Color/Color.h"
+#include "..\..\Graphics3D\Graphics3D.h"
+#include "..\Vector3\Vector3.h"
 
 Triangle::Triangle (Vector3 v1, Vector3 v2, Vector3 v3) : 
 	vertices{v1, v2, v3}

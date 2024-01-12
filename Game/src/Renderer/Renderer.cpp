@@ -2,7 +2,7 @@
 #include "App/app.h"
 #include "Renderer.h"
 #include "..\Graphics3D\Mesh\Mesh.h"
-#include "..\Math\Matrix.h"
+#include "..\Math\Matrix\Matrix.h"
 
 Renderer::Renderer() : 
 	cube (Mesh ()), 

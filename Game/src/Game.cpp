@@ -7,9 +7,9 @@
 #include <math.h>
 //------------------------------------------------------------------------
 #include "App\app.h"
-#include "Math\Matrix.h"
+#include "Math\Matrix\Matrix.h"
 
-#include "Graphics3D.h"
+#include ".\\Graphics3D\Graphics3D.h"
 #include "Renderer/Renderer.h"
 
 //------------------------------------------------------------------------

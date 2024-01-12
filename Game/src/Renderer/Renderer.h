@@ -1,6 +1,6 @@
 #pragma once
 #include "..\Graphics3D\Mesh\Mesh.h"
-#include "..\Math\Matrix.h"
+#include "..\Math\Matrix\Matrix.h"
 
 class Renderer
 {
