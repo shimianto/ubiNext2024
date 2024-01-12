@@ -1,5 +1,5 @@
 #pragma once
-//#include "..\\Graphics3D\Vector3.h"
+class Vector3;
 
 class Matrix
 {
@@ -16,7 +16,7 @@ public:
 
     static Matrix Identity();
 
-    //static Matrix Translate (Vector3 &v);
+    static Matrix Translate (Vector3 &v);
 
 	static Matrix MakeProjectionMatrix (float fNear = 0.1f, float fFar = 1000.0f, float fFov = 90.0f);
 

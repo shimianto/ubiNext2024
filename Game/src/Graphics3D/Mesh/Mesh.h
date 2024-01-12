@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "..\..\Math\Triangle\Triangle.h"
+#include "..\..\Math\Math.h"
 
 enum MeshTypes
 {

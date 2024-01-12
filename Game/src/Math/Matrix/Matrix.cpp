@@ -42,14 +42,14 @@ Matrix Matrix::Identity()
   return matrix;
 }
 
-//Matrix Matrix::Translate (Vector3 &v)
-//{
-//  Matrix matrix = Matrix::Identity();
-//  matrix (3, 0) = v.x;
-//  matrix (3, 1) = v.y;
-//  matrix (3, 2) = v.z;
-//  return matrix;
-//}
+Matrix Matrix::Translate (Vector3 &v)
+{
+  Matrix matrix = Matrix::Identity();
+  matrix (3, 0) = v.x;
+  matrix (3, 1) = v.y;
+  matrix (3, 2) = v.z;
+  return matrix;
+}
 
 Matrix Matrix::MakeProjectionMatrix (float fNear, float fFar, float fFov)
 {

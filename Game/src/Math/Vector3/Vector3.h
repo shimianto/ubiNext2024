@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-#include "..\Matrix\Matrix.h"
+
+class Matrix;
 
 class Vector3
 {

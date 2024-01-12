@@ -9,7 +9,7 @@
 //---------------------------------------------------------------------------------
 #include "..\../Renderer/Renderer.h"
 #include "App/main.h"
-#include "..\Graphics3D.h"
+#include "../Graphics3D.h"
 
 using namespace std;
 
@@ -94,8 +94,12 @@ void Mesh::SortVisibleTriangles()
 }
 void Mesh::DrawMesh()
 {
-  for each (auto tri in visibleTriangles) {
-	tri.Render (Color());
+  for (auto tri : visibleTriangles) {
+	App::DrawLine (tri.vertices[0].x, tri.vertices[0].y, tri.vertices[1].x, tri.vertices[1].y, 0, 0, 0);
+	App::DrawLine (tri.vertices[1].x, tri.vertices[1].y, tri.vertices[2].x, tri.vertices[2].y, 0, 0, 0);
+	App::DrawLine (tri.vertices[2].x, tri.vertices[2].y, tri.vertices[0].x, tri.vertices[0].y, 0, 0, 0);
+
+	Graphics3D::DrawTriangle (tri, Color());
   }
 }
 //void Mesh::SetCubeMesh()
