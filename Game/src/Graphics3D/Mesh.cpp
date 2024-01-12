@@ -134,20 +134,10 @@ void Mesh::RotateMesh (float fTheta)
   // Set up rotation matrices
 
   // Rotation Z
-  matRotZ.m[0][0] = cosf (fTheta);
-  matRotZ.m[0][1] = sinf (fTheta);
-  matRotZ.m[1][0] = -sinf (fTheta);
-  matRotZ.m[1][1] = cosf (fTheta);
-  matRotZ.m[2][2] = 1;
-  matRotZ.m[3][3] = 1;
+  matRotZ = Matrix::Matrix_MakeRotationZ(fTheta);
 
   // Rotation X
-  matRotX.m[0][0] = 1;
-  matRotX.m[1][1] = cosf (fTheta * 0.5f);
-  matRotX.m[1][2] = sinf (fTheta * 0.5f);
-  matRotX.m[2][1] = -sinf (fTheta * 0.5f);
-  matRotX.m[2][2] = cosf (fTheta * 0.5f);
-  matRotX.m[3][3] = 1;
+  matRotX = Matrix::Matrix_MakeRotationZ(fTheta);
 }
 
 void Mesh::InitProjectionMatrix (float fNear, float fFar, float fFov)
