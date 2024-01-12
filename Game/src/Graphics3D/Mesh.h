@@ -2,7 +2,6 @@
 #include "Triangle.h"
 #include <vector>
 
-namespace Graphics3D {
 enum MeshTypes
 {
   CUBE
@@ -25,6 +24,7 @@ class Mesh
   static Matrix projectionMatrix;
   static float fNear, fFar, fFov;
 
+  void DrawMesh();
   void SetCubeMesh();
 };
-}
+

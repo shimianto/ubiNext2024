@@ -2,8 +2,6 @@
 #include "..\Graphics3D\Mesh.h"
 #include "..\Math\Matrix.h"
 
-using namespace Graphics3D;
-
 class Renderer
 {
  private:

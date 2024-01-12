@@ -4,8 +4,6 @@
 #include "..\Graphics3D\Mesh.h"
 #include "..\Math\Matrix.h"
 
-using namespace Graphics3D;
-
 Renderer::Renderer() : 
 	cube (Mesh (CUBE)), 
 	fTheta (0.0f)
@@ -19,7 +17,7 @@ void Renderer::Init (float fNear, float fFar, float fFov)
 
 void Renderer::Update (float deltaTime)
 {
-  fTheta += 0.0001f * deltaTime;
+  fTheta += 0.0005f * deltaTime;
   cube.Update(deltaTime, fTheta);
 }
 

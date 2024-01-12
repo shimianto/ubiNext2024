@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Triangle.h"
 
-namespace Graphics3D {
 Triangle::Triangle (Vector3 v1, Vector3 v2, Vector3 v3)
 {
   vertices[0] = v1;
@@ -23,5 +22,4 @@ Triangle &Triangle::operator= (const Triangle &param)
   vertices[2] = param.vertices[2];
 
   return *this;
-}
 }

@@ -2,8 +2,10 @@
 #include "Mesh.h"
 #include "../Renderer/Renderer.h"
 #include <App/app.h>
-
-namespace Graphics3D {
+//---------------------------------------------------------------------------------
+#include <string>
+#include "App/main.h"
+#include "../Graphics3D.h"
 
 Matrix Mesh::projectionMatrix = Matrix();
 float Mesh::fNear = {0}, Mesh::fFar = {0}, Mesh::fFov = {0};
@@ -36,6 +38,7 @@ void Mesh::Update (float deltaTime, float fTheta)
 }
 void Mesh::Render()
 {
+  Vector3 vCam;
   // Draw Triangles
   for (auto tri : triangles) {
 	Triangle triProjected, triTranslated, triRotatedZ, triRotatedZX;
@@ -45,18 +48,42 @@ void Mesh::Render()
 	triRotatedZ.vertices[1] = tri.vertices[1] * matRotZ;
 	triRotatedZ.vertices[2] = tri.vertices[2] * matRotZ;
 
-
 	// Rotate in X-Axis
 	triRotatedZX.vertices[0] = triRotatedZ.vertices[0] * matRotX;
 	triRotatedZX.vertices[1] = triRotatedZ.vertices[1] * matRotX;
 	triRotatedZX.vertices[2] = triRotatedZ.vertices[2] * matRotX;
-
 
 	// Offset into the screen
 	triTranslated = triRotatedZX;
 	triTranslated.vertices[0].z = triRotatedZX.vertices[0].z + 3.0f;
 	triTranslated.vertices[1].z = triRotatedZX.vertices[1].z + 3.0f;
 	triTranslated.vertices[2].z = triRotatedZX.vertices[2].z + 3.0f;
+
+	// Use Cross-Product to get surface normal
+	Vector3 normal, line1, line2;
+	line1.x = triTranslated.vertices[1].x - triTranslated.vertices[0].x;
+	line1.y = triTranslated.vertices[1].y - triTranslated.vertices[0].y;
+	line1.z = triTranslated.vertices[1].z - triTranslated.vertices[0].z;
+
+	line2.x = triTranslated.vertices[2].x - triTranslated.vertices[0].x;
+	line2.y = triTranslated.vertices[2].y - triTranslated.vertices[0].y;
+	line2.z = triTranslated.vertices[2].z - triTranslated.vertices[0].z;
+
+	normal.x = line1.y * line2.z - line1.z * line2.y;
+	normal.y = line1.z * line2.x - line1.x * line2.z;
+	normal.z = line1.x * line2.y - line1.y * line2.x;
+
+	// It's normally normal to normalise the normal
+	float l = sqrtf (normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+	normal.x /= l;
+	normal.y /= l;
+	normal.z /= l;
+
+	if (normal.x * (triTranslated.vertices[0].x - vCam.x) + 
+		normal.y * (triTranslated.vertices[0].y - vCam.y) + 
+		normal.z * (triTranslated.vertices[0].z - vCam.z) >= 0.0f) {
+	  continue;
+	}
 
 	// Project triangles from 3D --> 2D
 	triProjected.vertices[0] = triTranslated.vertices[0] * projectionMatrix;
@@ -82,10 +109,15 @@ void Mesh::Render()
 	float r = 1.0f;
 	float g = 1.0f;
 	float b = 1.0f;
-	App::DrawLine (triProjected.vertices[0].x, triProjected.vertices[0].y, triProjected.vertices[1].x, triProjected.vertices[1].y, r, g, b);
-	App::DrawLine (triProjected.vertices[1].x, triProjected.vertices[1].y, triProjected.vertices[2].x, triProjected.vertices[2].y, r, g, b);
-	App::DrawLine (triProjected.vertices[2].x, triProjected.vertices[2].y, triProjected.vertices[0].x, triProjected.vertices[0].y, r, g, b);
+	App::DrawLine (triProjected.vertices[0].x, triProjected.vertices[0].y, triProjected.vertices[1].x, triProjected.vertices[1].y, 0, 0, 0);
+	App::DrawLine (triProjected.vertices[1].x, triProjected.vertices[1].y, triProjected.vertices[2].x, triProjected.vertices[2].y, 0, 0, 0);
+	App::DrawLine (triProjected.vertices[2].x, triProjected.vertices[2].y, triProjected.vertices[0].x, triProjected.vertices[0].y, 0, 0, 0);
+
+	Graphics3D::DrawTriangle (triProjected, r, g, b);
   }
+}
+void Mesh::DrawMesh()
+{
 }
 void Mesh::SetCubeMesh()
 {
@@ -131,5 +163,4 @@ void Mesh::InitProjectionMatrix (float fNear, float fFar, float fFov)
   projectionMatrix.m[3][2] = (-fFar * fNear) / (fFar - fNear);
   projectionMatrix.m[2][3] = 1.0f;
   projectionMatrix.m[3][3] = 0.0f;
-}
 }

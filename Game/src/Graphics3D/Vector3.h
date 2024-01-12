@@ -2,7 +2,6 @@
 #include <string>
 #include "..\\Math\Matrix.h"
 
-namespace Graphics3D {
 class Vector3
 {
   public:
@@ -16,4 +15,4 @@ class Vector3
 
   std::string ToString (int precision = 2) const;
 };
-}
+

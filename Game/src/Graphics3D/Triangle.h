@@ -1,7 +1,6 @@
 #pragma once
 #include "Vector3.h"
 
-namespace Graphics3D {
 class Triangle
 {
   public:
@@ -13,4 +12,3 @@ class Triangle
 
   Triangle &operator= (const Triangle &param);
 };
-}

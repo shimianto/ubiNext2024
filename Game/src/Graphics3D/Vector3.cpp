@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "Vector3.h"
 
-namespace Graphics3D {
 Vector3::Vector3 (float x, float y, float z) : x (x), y (y), z (z)
 {
 }
@@ -57,5 +56,4 @@ std::string Vector3::ToString (int precision) const
   sZ << z;
 
   return "(" + sX.str() + ", " + sY.str() + ", " + sZ.str() + ")";
-}
 }

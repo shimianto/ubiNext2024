@@ -202,6 +202,7 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="NextAPI\App\stb_image\stb_image.cpp" />
     <ClCompile Include="NextAPI\stdafx.cpp" />
+    <ClCompile Include="src\Graphics3D.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Graphics3D\Mesh.cpp" />
     <ClCompile Include="src\Graphics3D\Triangle.cpp" />
