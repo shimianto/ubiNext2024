@@ -1,5 +1,5 @@
 #pragma once
-#include "Triangle.h"
+#include "..\Triangle.h"
 #include <vector>
 
 enum MeshTypes

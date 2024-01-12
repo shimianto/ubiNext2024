@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Graphics3D/Color/Color.h"
 #include "Graphics3D/Vector3.h"
 #include "Graphics3D/Triangle.h"
-#include "Graphics3D/Mesh.h"
+#include "Graphics3D\Mesh\Mesh.h"
 
 namespace Graphics3D {
 	//*******************************************************************************************

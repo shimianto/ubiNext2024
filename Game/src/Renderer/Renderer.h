@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Graphics3D\Mesh.h"
+#include "..\Graphics3D\Mesh\Mesh.h"
 #include "..\Math\Matrix.h"
 
 class Renderer

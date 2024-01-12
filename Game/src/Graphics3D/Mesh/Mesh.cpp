@@ -7,9 +7,9 @@
 #include <algorithm>
 #include <App/app.h>
 //---------------------------------------------------------------------------------
-#include "../Renderer/Renderer.h"
+#include "..\../Renderer/Renderer.h"
 #include "App/main.h"
-#include "../Graphics3D.h"
+#include "..\../Graphics3D.h"
 
 using namespace std;
 

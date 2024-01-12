@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector3.h"
-#include "Colour/Colour.h"
+#include "Color/Color.h"
 
 
 class Triangle
