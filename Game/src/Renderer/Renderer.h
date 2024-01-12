@@ -12,7 +12,7 @@ class Renderer
  public:
 
 	Renderer();
-    void Init (float fNear = 0.1f, float fFar = 1000.0f, float fFov = 90.0f);
+    void Init ();
     void Update(float deltaTime);
     void Render();
 };

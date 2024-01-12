@@ -11,10 +11,8 @@ Renderer::Renderer() :
   cube.triangles = Mesh::LoadTrianglesFromObjectFile (".\\TestData\\VideoShip.obj");
 }
 
-void Renderer::Init (float fNear, float fFar, float fFov)
-{
-  Mesh::InitProjectionMatrix (fNear, fFar, fFov);
-}
+void Renderer::Init ()
+{}
 
 void Renderer::Update (float deltaTime)
 {

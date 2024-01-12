@@ -13,9 +13,6 @@
 
 using namespace std;
 
-Matrix Mesh::projectionMatrix = Matrix();
-float Mesh::fNear = {0}, Mesh::fFar = {0}, Mesh::fFov = {0};
-
 Mesh::Mesh ()
 {
   
@@ -64,9 +61,9 @@ void Mesh::UpdateVisibleTriangles()
 	}
 
 	// Project triangles from 3D --> 2D
-	triProjected.vertices[0] = triTranslated.vertices[0] * projectionMatrix;
-	triProjected.vertices[1] = triTranslated.vertices[1] * projectionMatrix;
-	triProjected.vertices[2] = triTranslated.vertices[2] * projectionMatrix;
+	triProjected.vertices[0] = triTranslated.vertices[0] * Matrix::PROJ_MAT;
+	triProjected.vertices[1] = triTranslated.vertices[1] * Matrix::PROJ_MAT;
+	triProjected.vertices[2] = triTranslated.vertices[2] * Matrix::PROJ_MAT;
 
 	// Scale into view
 	triProjected.vertices[0].x += 1.0f;
@@ -137,25 +134,7 @@ void Mesh::RotateMesh (float fTheta)
   matRotZ = Matrix::Matrix_MakeRotationZ(fTheta);
 
   // Rotation X
-  matRotX = Matrix::Matrix_MakeRotationZ(fTheta);
-}
-
-void Mesh::InitProjectionMatrix (float fNear, float fFar, float fFov)
-{
-  Mesh::fNear = fNear;
-  Mesh::fFar = fFar;
-  Mesh::fFov = fFov;
-
-  // Projection Matrix
-  float fAspectRatio = (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH;
-  float fFovRad = 1.0f / tanf (fFov * 0.5f / 180.0f * 3.14159f);
-
-  projectionMatrix.m[0][0] = fAspectRatio * fFovRad;
-  projectionMatrix.m[1][1] = fFovRad;
-  projectionMatrix.m[2][2] = fFar / (fFar - fNear);
-  projectionMatrix.m[3][2] = (-fFar * fNear) / (fFar - fNear);
-  projectionMatrix.m[2][3] = 1.0f;
-  projectionMatrix.m[3][3] = 0.0f;
+  matRotX = Matrix::Matrix_MakeRotationX(fTheta);
 }
 
 vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
