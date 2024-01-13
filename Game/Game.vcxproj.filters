@@ -28,20 +28,32 @@
     <ClCompile Include="src\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics3D\Vector3.cpp">
-      <Filter>src\Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics3D\Triangle.cpp">
-      <Filter>src\Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics3D\Mesh.cpp">
-      <Filter>src\Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Math\Matrix.cpp">
-      <Filter>src\Math</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp">
       <Filter>src\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Graphics3D.cpp">
+      <Filter>src\Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Camera\Camera.cpp">
+      <Filter>src\Graphics3D\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Color\Color.cpp">
+      <Filter>src\Graphics3D\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics3D\Mesh\Mesh.cpp">
+      <Filter>src\Graphics3D\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math\Matrix\Matrix.cpp">
+      <Filter>src\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math\Triangle\Triangle.cpp">
+      <Filter>src\Math\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math\Vector3\Vector3.cpp">
+      <Filter>src\Math\Vector3</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputHandler\InputHandler.cpp">
+      <Filter>src\InputHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,23 +93,35 @@
     <ClInclude Include="NextAPI\App\stb_image\stb_image.h">
       <Filter>NextAPI\App\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics3D\Vector3.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D\Triangle.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D\Mesh.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Math\Matrix.h">
-      <Filter>src\Math</Filter>
-    </ClInclude>
     <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>src\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Math.h">
+      <Filter>src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Graphics3D.h">
+      <Filter>src\Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Camera\Camera.h">
+      <Filter>src\Graphics3D\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Color\Color.h">
+      <Filter>src\Graphics3D\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics3D\Mesh\Mesh.h">
+      <Filter>src\Graphics3D\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Matrix\Matrix.h">
+      <Filter>src\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Triangle\Triangle.h">
+      <Filter>src\Math\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Vector3\Vector3.h">
+      <Filter>src\Math\Vector3</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputHandler\InputHandler.h">
+      <Filter>src\InputHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +145,27 @@
     </Filter>
     <Filter Include="src\Renderer">
       <UniqueIdentifier>{124534a4-2dce-403d-9bad-808ccd393952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics3D\Camera">
+      <UniqueIdentifier>{0a2e5e4b-e353-40d5-abe3-5158d94aa687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics3D\Color">
+      <UniqueIdentifier>{db225f7b-a2c6-43e6-856c-6f29dc66d451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics3D\Mesh">
+      <UniqueIdentifier>{6547cc99-dac7-4403-93f4-2ae80a04526b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Math\Matrix">
+      <UniqueIdentifier>{dbff6e02-40cc-4557-883a-60ece3e52c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Math\Triangle">
+      <UniqueIdentifier>{fbf5b1e8-7c19-494c-9ac0-1bb2959a22a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Math\Vector3">
+      <UniqueIdentifier>{6c1d59ee-5a33-49fe-ba55-fca38b3f672b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\InputHandler">
+      <UniqueIdentifier>{98409675-9e84-44ec-ba94-b6826c116bea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
