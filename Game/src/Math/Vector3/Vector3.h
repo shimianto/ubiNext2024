@@ -22,7 +22,7 @@ class Vector3
 
   Vector3 &operator-= (const Vector3 &other);
 
-  float Vector3::operator* (const Vector3 &other) const;
+  float operator* (const Vector3 &other) const;
 
   Vector3 operator* (float scalar) const;
 
@@ -31,6 +31,8 @@ class Vector3
   Vector3 operator/ (float scalar) const;
 
   Vector3 operator/= (float scalar);
+
+  float Magnitude() const;
 
   Vector3 Normalize() const;
 

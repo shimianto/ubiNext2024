@@ -10,6 +10,7 @@
 #include "..\../Renderer/Renderer.h"
 #include "App/main.h"
 #include "../Graphics3D.h"
+#include "../Camera/Camera.h"
 
 using namespace std;
 
@@ -29,7 +30,6 @@ void Mesh::Render()
 
 void Mesh::UpdateVisibleTriangles (float deltaTime)
 {
-  Vector3 vCam;
   fTheta += 0.0005 * deltaTime;
   Matrix matRotZ = Matrix::MakeRotationMatrixZ (fTheta);
   Matrix matRotX = Matrix::MakeRotationMatrixX (fTheta);
@@ -42,6 +42,8 @@ void Mesh::UpdateVisibleTriangles (float deltaTime)
   matWorld = Matrix::Identity(); // Form World Matrix
   matWorld = matRotZ * matRotX; // Transform by rotation
   matWorld = matWorld * matTrans; // Transform by translation
+
+  Camera::mainCamera.UpdateViewMatrices();
   
   visibleTriangles.clear();
 
@@ -56,14 +58,19 @@ void Mesh::UpdateVisibleTriangles (float deltaTime)
 	// Use Cross-Product to get surface normal
 	Vector3 normal = triTransformed.GetSurfaceNormal().Normalize();
 
-	if (normal * (triTransformed.vertices[0] - vCam) >= 0.0f) {
+	if (normal * (triTransformed.vertices[0] - Camera::mainCamera.pos) >= 0.0f) {
 	  continue;
 	}
 
+	// Convert World Space --> View Space
+	triViewed.vertices[0] = triTransformed.vertices[0] * Camera::mainCamera.GetViewMatrix();
+	triViewed.vertices[1] = triTransformed.vertices[1] * Camera::mainCamera.GetViewMatrix();
+	triViewed.vertices[2] = triTransformed.vertices[2] * Camera::mainCamera.GetViewMatrix();
+
 	// Project triangles from 3D --> 2D
-	triProjected.vertices[0] = triTransformed.vertices[0] * Matrix::PROJ_MAT;
-	triProjected.vertices[1] = triTransformed.vertices[1] * Matrix::PROJ_MAT;
-	triProjected.vertices[2] = triTransformed.vertices[2] * Matrix::PROJ_MAT;
+	triProjected.vertices[0] = triViewed.vertices[0] * Matrix::projMat;
+	triProjected.vertices[1] = triViewed.vertices[1] * Matrix::projMat;
+	triProjected.vertices[2] = triViewed.vertices[2] * Matrix::projMat;
 
 	triProjected.vertices[0] = triProjected.vertices[0] / triProjected.vertices[0].w;
 	triProjected.vertices[1] = triProjected.vertices[1] / triProjected.vertices[1].w;

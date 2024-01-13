@@ -26,7 +26,6 @@ class Mesh
       float fTheta;
 
   void DrawMesh();
-  void RotateMesh (float fTheta);
   void UpdateVisibleTriangles (float deltaTime);
   void SortVisibleTriangles();
 };

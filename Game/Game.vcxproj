@@ -186,6 +186,7 @@
     <ClInclude Include="NextAPI\resource.h" />
     <ClInclude Include="NextAPI\stdafx.h" />
     <ClInclude Include="NextAPI\targetver.h" />
+    <ClInclude Include="src\Graphics3D\Camera\Camera.h" />
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="NextAPI\App\SimpleSprite.cpp" />
     <ClCompile Include="NextAPI\App\stb_image\stb_image.cpp" />
     <ClCompile Include="NextAPI\stdafx.cpp" />
+    <ClCompile Include="src\Graphics3D\Camera\Camera.cpp" />
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />

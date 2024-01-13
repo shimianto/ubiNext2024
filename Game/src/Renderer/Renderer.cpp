@@ -5,9 +5,9 @@
 #include "..\Math\Matrix\Matrix.h"
 
 Renderer::Renderer() : 
-	cube (Mesh ())
+	testMesh (Mesh ())
 {
-  cube.triangles = Mesh::LoadTrianglesFromObjectFile (".\\TestData\\VideoShip.obj");
+  testMesh.triangles = Mesh::LoadTrianglesFromObjectFile (".\\TestData\\VideoShip.obj");
 }
 
 void Renderer::Init ()
@@ -15,12 +15,12 @@ void Renderer::Init ()
 
 void Renderer::Update (float deltaTime)
 {
-  cube.Update(deltaTime);
+  testMesh.Update(deltaTime);
 }
 
 void Renderer::Render()
 {
   App::Print (450, 700, "Ubi Next 2024", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
-  cube.Render();
+  testMesh.Render();
 }
 

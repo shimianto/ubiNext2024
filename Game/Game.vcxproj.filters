@@ -28,21 +28,16 @@
     <ClCompile Include="src\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics3D\Vector3.cpp">
-      <Filter>src\Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics3D\Triangle.cpp">
-      <Filter>src\Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics3D\Mesh.cpp">
-      <Filter>src\Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Math\Matrix.cpp">
-      <Filter>src\Math</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderer\Renderer.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
+    <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
+    <ClCompile Include="src\Graphics3D\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Math\Triangle\Triangle.cpp" />
+    <ClCompile Include="src\Math\Vector3\Vector3.cpp" />
+    <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
+    <ClCompile Include="src\Graphics3D\Camera\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -81,24 +76,17 @@
     <ClInclude Include="NextAPI\App\stb_image\stb_image.h">
       <Filter>NextAPI\App\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics3D\Vector3.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D\Triangle.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D\Mesh.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D.h">
-      <Filter>src\Graphics3D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Math\Matrix.h">
-      <Filter>src\Math</Filter>
-    </ClInclude>
     <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>src\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics3D\Color\Color.h" />
+    <ClInclude Include="src\Math\Math.h" />
+    <ClInclude Include="src\Graphics3D\Graphics3D.h" />
+    <ClInclude Include="src\Graphics3D\Mesh\Mesh.h" />
+    <ClInclude Include="src\Math\Triangle\Triangle.h" />
+    <ClInclude Include="src\Math\Vector3\Vector3.h" />
+    <ClInclude Include="src\Math\Matrix\Matrix.h" />
+    <ClInclude Include="src\Graphics3D\Camera\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

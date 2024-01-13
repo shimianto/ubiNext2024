@@ -95,11 +95,15 @@ Vector3 Vector3::operator/= (float scalar)
   return *this;
 }
 
+float Vector3::Magnitude() const
+{
+  return x * x + y * y + z * z;
+}
+
 Vector3 Vector3::Normalize() const
 {
   Vector3 normal;
-  float lenght = x * x + y * y + z * z;
-  normal = *this / sqrtf (lenght);
+  normal = *this / sqrtf (this->Magnitude());
   return normal;
 }
 

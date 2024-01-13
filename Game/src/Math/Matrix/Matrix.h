@@ -4,7 +4,7 @@ class Vector3;
 class Matrix
 {
 public:
-  const static Matrix PROJ_MAT;
+  const static Matrix projMat;
 	
     float m[4][4];
 	Matrix();

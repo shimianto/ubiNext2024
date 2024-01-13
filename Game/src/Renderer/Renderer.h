@@ -5,7 +5,7 @@
 class Renderer
 {
  private:
-	Mesh cube;
+	Mesh testMesh;
  public:
 
 	Renderer();

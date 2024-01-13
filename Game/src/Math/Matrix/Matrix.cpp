@@ -3,7 +3,7 @@
 #include <App/AppSettings.h>
 #include "..\Vector3\Vector3.h"
 
-const Matrix Matrix::PROJ_MAT = Matrix::MakeProjectionMatrix();
+const Matrix Matrix::projMat = Matrix::MakeProjectionMatrix();
 
 Matrix::Matrix() : m{0.0f}
 {
