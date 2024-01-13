@@ -6,9 +6,6 @@ class Renderer
 {
  private:
 	Mesh cube;
-
-	float fTheta;
-  
  public:
 
 	Renderer();

@@ -5,8 +5,7 @@
 #include "..\Math\Matrix\Matrix.h"
 
 Renderer::Renderer() : 
-	cube (Mesh ()), 
-	fTheta (0.0f)
+	cube (Mesh ())
 {
   cube.triangles = Mesh::LoadTrianglesFromObjectFile (".\\TestData\\VideoShip.obj");
 }
@@ -16,8 +15,7 @@ void Renderer::Init ()
 
 void Renderer::Update (float deltaTime)
 {
-  fTheta += 0.0005f * deltaTime;
-  cube.Update(deltaTime, fTheta);
+  cube.Update(deltaTime);
 }
 
 void Renderer::Render()

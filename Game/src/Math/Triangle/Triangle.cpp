@@ -26,9 +26,7 @@ Vector3 Triangle::GetSurfaceNormal()
   line1 = vertices[1] - vertices[0];
   line2 = vertices[2] - vertices[0];
 
-  sNormal.x = line1.y * line2.z - line1.z * line2.y;
-  sNormal.y = line1.z * line2.x - line1.x * line2.z;
-  sNormal.z = line1.x * line2.y - line1.y * line2.x;
+  sNormal = Vector3::CrossProduct (line1, line2);
 
   return sNormal;
 }

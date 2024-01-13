@@ -24,7 +24,7 @@ Matrix Matrix::operator* (const Matrix &matrix)
 	    this->m[r][0] * matrix.m[0][c] + this->m[r][1] * matrix.m[1][c] + this->m[r][2] * matrix.m[2][c] + this->m[r][3] * matrix.m[3][c];
 	}
   }
-  return matrix;
+  return outMat;
 }
 
 Matrix Matrix::operator*= (const Matrix &matrix)

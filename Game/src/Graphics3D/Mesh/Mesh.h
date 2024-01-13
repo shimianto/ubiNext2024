@@ -16,17 +16,18 @@ class Mesh
 
   static std::vector<Triangle> LoadTrianglesFromObjectFile (std::string file);
   
-  void Update (float deltaTime, float ftheta);
+  void Update (float deltaTime);
   void Render();
 
 
   private:
-  Matrix matRotZ, matRotX;
+  //Matrix matRotZ, matRotX;
   std::vector<Triangle> visibleTriangles;
+      float fTheta;
 
   void DrawMesh();
   void RotateMesh (float fTheta);
-  void UpdateVisibleTriangles();
+  void UpdateVisibleTriangles (float deltaTime);
   void SortVisibleTriangles();
 };
 

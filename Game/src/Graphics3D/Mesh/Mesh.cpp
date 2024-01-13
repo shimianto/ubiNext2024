@@ -17,61 +17,64 @@ Mesh::Mesh ()
 {
   
 }
-void Mesh::Update (float deltaTime, float fTheta)
+void Mesh::Update (float deltaTime)
 {
-  RotateMesh (fTheta);
-  UpdateVisibleTriangles();
+  UpdateVisibleTriangles (deltaTime);
   SortVisibleTriangles();
 }
 void Mesh::Render()
 {
   DrawMesh();
 }
-void Mesh::UpdateVisibleTriangles()
+
+void Mesh::UpdateVisibleTriangles (float deltaTime)
 {
   Vector3 vCam;
-  visibleTriangles.clear();
+  fTheta += 0.0005 * deltaTime;
+  Matrix matRotZ = Matrix::MakeRotationMatrixZ (fTheta);
+  Matrix matRotX = Matrix::MakeRotationMatrixX (fTheta);
+
+  Matrix matTrans;
+  Vector3 vecTrans(0.0f, 0.0f, 8.0f);
+  matTrans = Matrix::Translate(vecTrans);
+
+  Matrix matWorld;
+  matWorld = Matrix::Identity(); // Form World Matrix
+  matWorld = matRotZ * matRotX; // Transform by rotation
+  matWorld = matWorld * matTrans; // Transform by translation
   
+  visibleTriangles.clear();
+
   for (auto tri : triangles) {
-	Triangle triProjected;
-	Triangle triTranslated, triRotatedZ, triRotatedZX;
+	Triangle triProjected, triTransformed, triViewed;
 
-	// Rotate in Z-Axis
-	triRotatedZ.vertices[0] = tri.vertices[0] * matRotZ;
-	triRotatedZ.vertices[1] = tri.vertices[1] * matRotZ;
-	triRotatedZ.vertices[2] = tri.vertices[2] * matRotZ;
-
-	// Rotate in X-Axis
-	triRotatedZX.vertices[0] = triRotatedZ.vertices[0] * matRotX;
-	triRotatedZX.vertices[1] = triRotatedZ.vertices[1] * matRotX;
-	triRotatedZX.vertices[2] = triRotatedZ.vertices[2] * matRotX;
-
-	// Offset into the screen
-	triTranslated = triRotatedZX;
-	triTranslated.vertices[0].z = triRotatedZX.vertices[0].z + 8.0f;
-	triTranslated.vertices[1].z = triRotatedZX.vertices[1].z + 8.0f;
-	triTranslated.vertices[2].z = triRotatedZX.vertices[2].z + 8.0f;
+	// World Matrix Transform
+	triTransformed.vertices[0] = tri.vertices[0] * matWorld;
+	triTransformed.vertices[1] = tri.vertices[1] * matWorld;
+	triTransformed.vertices[2] = tri.vertices[2] * matWorld;
 
 	// Use Cross-Product to get surface normal
-	Vector3 normal = triTranslated.GetSurfaceNormal().Normalize();
+	Vector3 normal = triTransformed.GetSurfaceNormal().Normalize();
 
-	if (normal * (triTranslated.vertices[0] - vCam) >= 0.0f) 
-	{
+	if (normal * (triTransformed.vertices[0] - vCam) >= 0.0f) {
 	  continue;
 	}
 
 	// Project triangles from 3D --> 2D
-	triProjected.vertices[0] = triTranslated.vertices[0] * Matrix::PROJ_MAT;
-	triProjected.vertices[1] = triTranslated.vertices[1] * Matrix::PROJ_MAT;
-	triProjected.vertices[2] = triTranslated.vertices[2] * Matrix::PROJ_MAT;
+	triProjected.vertices[0] = triTransformed.vertices[0] * Matrix::PROJ_MAT;
+	triProjected.vertices[1] = triTransformed.vertices[1] * Matrix::PROJ_MAT;
+	triProjected.vertices[2] = triTransformed.vertices[2] * Matrix::PROJ_MAT;
+
+	triProjected.vertices[0] = triProjected.vertices[0] / triProjected.vertices[0].w;
+	triProjected.vertices[1] = triProjected.vertices[1] / triProjected.vertices[1].w;
+	triProjected.vertices[2] = triProjected.vertices[2] / triProjected.vertices[2].w;
 
 	// Scale into view
-	triProjected.vertices[0].x += 1.0f;
-	triProjected.vertices[0].y += 1.0f;
-	triProjected.vertices[1].x += 1.0f;
-	triProjected.vertices[1].y += 1.0f;
-	triProjected.vertices[2].x += 1.0f;
-	triProjected.vertices[2].y += 1.0f;
+	// Offset verts into visible normalised space
+	Vector3 vOffsetView = {1, 1, 0};
+	triProjected.vertices[0] = triProjected.vertices[0] + vOffsetView;
+	triProjected.vertices[1] = triProjected.vertices[1] + vOffsetView;
+	triProjected.vertices[2] = triProjected.vertices[2] + vOffsetView;
 	triProjected.vertices[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
 	triProjected.vertices[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 	triProjected.vertices[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
@@ -101,44 +104,6 @@ void Mesh::DrawMesh()
 
 	Graphics3D::DrawTriangle (tri, Color());
   }
-}
-//void Mesh::SetCubeMesh()
-//{
-//  triangles = {
-//    // SOUTH
-//    Triangle ({0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}),
-//    Triangle ({0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
-//
-//    // EAST
-//    Triangle ({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}),
-//    Triangle ({1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f, 1.0f}),
-//
-//    // NORTH
-//    Triangle ({1.0f, 0.0f, 1.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 1.0f}),
-//    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}),
-//
-//    // WEST
-//    Triangle ({0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 1.0f}, {0.0f, 1.0f, 0.0f}),
-//    Triangle ({0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f}),
-//
-//    // TOP
-//    Triangle ({0.0f, 1.0f, 0.0f}, {0.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 1.0f}),
-//    Triangle ({0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 0.0f}),
-//
-//    // BOTTOM
-//    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}),
-//    Triangle ({1.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}),
-//  };
-//}
-void Mesh::RotateMesh (float fTheta)
-{
-  // Set up rotation matrices
-
-  // Rotation Z
-  matRotZ = Matrix::MakeRotationMatrixZ(fTheta);
-
-  // Rotation X
-  matRotX = Matrix::MakeRotationMatrixX(fTheta);
 }
 
 vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
