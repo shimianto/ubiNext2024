@@ -4,8 +4,6 @@ class Vector3;
 class Matrix
 {
 public:
-  const static Matrix projMat;
-	
     float m[4][4];
 	Matrix();
 
@@ -17,10 +15,4 @@ public:
     static Matrix Identity();
 
     static Matrix Translate (Vector3 &v);
-
-	static Matrix MakeProjectionMatrix (float fNear = 0.1f, float fFar = 1000.0f, float fFov = 90.0f);
-
-    static Matrix MakeRotationMatrixX (float fAngleRad);
-    static Matrix MakeRotationMatrixY (float fAngleRad);
-    static Matrix MakeRotationMatrixZ (float fAngleRad);
 };

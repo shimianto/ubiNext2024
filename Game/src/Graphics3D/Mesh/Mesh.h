@@ -2,11 +2,6 @@
 #include <vector>
 #include "..\..\Math\Math.h"
 
-enum MeshTypes
-{
-  CUBE
-};
-
 class Mesh
 {
   public:
@@ -14,19 +9,7 @@ class Mesh
 
   Mesh ();
 
-  static std::vector<Triangle> LoadTrianglesFromObjectFile (std::string file);
-  
-  void Update (float deltaTime);
-  void Render();
+  std::vector<Triangle> LoadTrianglesFromObjectFile (std::string file);
 
-
-  private:
-  //Matrix matRotZ, matRotX;
-  std::vector<Triangle> visibleTriangles;
-      float fTheta;
-
-  void DrawMesh();
-  void UpdateVisibleTriangles (float deltaTime);
-  void SortVisibleTriangles();
 };
 

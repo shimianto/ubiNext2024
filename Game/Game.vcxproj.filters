@@ -52,6 +52,9 @@
     <ClCompile Include="src\Math\Vector3\Vector3.cpp">
       <Filter>src\Math\Vector3</Filter>
     </ClCompile>
+    <ClCompile Include="src\InputHandler\InputHandler.cpp">
+      <Filter>src\InputHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -117,6 +120,9 @@
     <ClInclude Include="src\Math\Vector3\Vector3.h">
       <Filter>src\Math\Vector3</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputHandler\InputHandler.h">
+      <Filter>src\InputHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
@@ -157,6 +163,9 @@
     </Filter>
     <Filter Include="src\Math\Vector3">
       <UniqueIdentifier>{6c1d59ee-5a33-49fe-ba55-fca38b3f672b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\InputHandler">
+      <UniqueIdentifier>{98409675-9e84-44ec-ba94-b6826c116bea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

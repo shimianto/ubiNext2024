@@ -188,6 +188,7 @@
     <ClInclude Include="NextAPI\targetver.h" />
     <ClInclude Include="src\Graphics3D\Camera\Camera.h" />
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
+    <ClInclude Include="src\InputHandler\InputHandler.h" />
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics3D\Graphics3D.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\Math\Matrix\Matrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\InputHandler\InputHandler.cpp" />
     <ClCompile Include="NextAPI\App\app.cpp" />
     <ClCompile Include="NextAPI\App\DirectSound.cpp" />
     <ClCompile Include="NextAPI\App\main.cpp" />

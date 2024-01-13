@@ -4,18 +4,11 @@
 
 class Camera
 {
-  private:
-  Matrix viewMat, invViewMat;
   public:
   static Camera mainCamera;
 
   Vector3 pos, target, up;
+  float fYaw;
 
   Camera();
-	
-  void UpdateViewMatrices();
-
-  Matrix GetInvViewMatrix() const;
-  Matrix GetViewMatrix() const;
-
 };

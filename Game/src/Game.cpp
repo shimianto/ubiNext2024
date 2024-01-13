@@ -5,12 +5,17 @@
 //------------------------------------------------------------------------
 #include <windows.h>
 #include <math.h>
+#include <list>
+
 //------------------------------------------------------------------------
 #include "App\app.h"
 #include "Math\Matrix\Matrix.h"
 
 #include ".\\Graphics3D\Graphics3D.h"
 #include "Renderer/Renderer.h"
+#include "InputHandler/InputHandler.h"
+#include "Graphics3D/Mesh/Mesh.h"
+#include "Math/Triangle/Triangle.h"
 
 //------------------------------------------------------------------------
 
@@ -139,15 +144,23 @@ void ShutdownSampleScene()
 //------------------------------------------------------------------------
 
 Renderer renderer;
+InputHandler handler;
 
-//------------------------------------------------------------------------
+Mesh testMesh;
+
+  //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
 // Called before first update. Do any initial setup here.
 //------------------------------------------------------------------------
 void Init()
 {
-  renderer.Init();
+  testMesh.LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
+  std::list<Mesh> meshesList;
+  meshesList.push_back (testMesh);
+
+  handler.Init();
+  renderer.Init (meshesList);
 }
 
 //------------------------------------------------------------------------
@@ -156,6 +169,7 @@ void Init()
 //------------------------------------------------------------------------
 void Update (float deltaTime)
 {
+  handler.HandleInput (deltaTime);
   renderer.Update (deltaTime);
 }
 
