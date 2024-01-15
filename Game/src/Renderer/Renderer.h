@@ -3,6 +3,7 @@
 #include <App/app.h>
 
 #include "..\Graphics3D\Mesh\Mesh.h"
+#include "..\Graphics3D\Camera\Camera.h"
 #include "..\Math\Matrix\Matrix.h"
 
 class Renderer
@@ -14,9 +15,13 @@ class Renderer
 
      std::list<Mesh> m_meshes;
      std::vector<Triangle> m_visibleTriangles;
+
      Matrix m_matWorld;
      Matrix m_matProj;
      Matrix m_viewMat, m_invViewMat;
+
+     Camera m_camera;
+
     void SetWorldMatrix();
     void SetViewMatrices();
     void SetVisibleTriangles (const Mesh &mesh);
