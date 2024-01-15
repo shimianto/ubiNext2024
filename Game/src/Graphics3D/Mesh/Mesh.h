@@ -1,14 +1,14 @@
 #pragma once
 #include <vector>
 #include "..\..\Math\Math.h"
+#include "..\..\Managers\EntityManager\BaseEntity.h"
 
-class Mesh
+class Mesh : BaseEntity
 {
   public:
   std::vector<Triangle> triangles;
 
-  Mesh ();
-
+  using BaseEntity::BaseEntity;
   std::vector<Triangle> LoadTrianglesFromObjectFile (std::string file);
 
 };

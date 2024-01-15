@@ -55,6 +55,12 @@
     <ClCompile Include="src\InputHandler\InputHandler.cpp">
       <Filter>src\InputHandler</Filter>
     </ClCompile>
+    <ClCompile Include="src\Managers\EntityManager\BaseEntity.cpp">
+      <Filter>src\Managers\EntityManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Managers\EntityManager\EntityManager.cpp">
+      <Filter>src\Managers\EntityManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -123,6 +129,12 @@
     <ClInclude Include="src\InputHandler\InputHandler.h">
       <Filter>src\InputHandler</Filter>
     </ClInclude>
+    <ClInclude Include="src\Managers\EntityManager\BaseEntity.h">
+      <Filter>src\Managers\EntityManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Managers\EntityManager\EntityManager.h">
+      <Filter>src\Managers\EntityManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
@@ -166,6 +178,12 @@
     </Filter>
     <Filter Include="src\InputHandler">
       <UniqueIdentifier>{98409675-9e84-44ec-ba94-b6826c116bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Managers">
+      <UniqueIdentifier>{bb32f05c-b6ce-4030-8e26-4f8611d7c4b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Managers\EntityManager">
+      <UniqueIdentifier>{9e90693b-4100-4db7-9237-9694b6963070}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -15,10 +15,6 @@
 
 using namespace std;
 
-Mesh::Mesh ()
-{ 
-}
-
 vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
 {
   triangles.clear();
@@ -55,4 +51,3 @@ vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
 
   return triangles;
 }
-
