@@ -8,7 +8,7 @@
 #include "../Graphics3D/Color/Color.h"
 #include "../Graphics3D/Graphics3D.h"
 
-Renderer::Renderer ()
+Renderer::Renderer()
 {
 }
 
@@ -49,8 +49,8 @@ void Renderer::Update (const float &deltaTime)
 
 void Renderer::SetWorldMatrix()
 {
-  Matrix matRotZ = MakeRotationMatrixZ ();
-  Matrix matRotX = MakeRotationMatrixX ();
+  Matrix matRotZ = MakeRotationMatrixZ (Camera::mainCamera.fZaw);
+  Matrix matRotX = MakeRotationMatrixX (Camera::mainCamera.fXaw);
 
   Matrix matTrans;
   Vector3 vecTrans (0.0f, 0.0f, 8.0f);
@@ -71,8 +71,6 @@ void Renderer::SetViewMatrices()
   Vector3 vRight = Vector3::CrossProduct (vForward, Camera::mainCamera.up).Normalize();
   // Calculate new Up direction
   Vector3 vUp = Vector3::CrossProduct (vRight, vForward);
-
-  //vForward *= -1;
 
   // Construct View Matrix based on Camera data
   m_viewMat.m[0][0] = vRight.x;
@@ -210,7 +208,6 @@ void Renderer::SortVisibleTriangles()
 
 void Renderer::Render()
 {
-  App::Print (450, 700, "Ubi Next 2024", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
   DrawVisibleTriangles();
 }
 

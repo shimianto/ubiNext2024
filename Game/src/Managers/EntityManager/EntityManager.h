@@ -12,7 +12,9 @@ class EntityManager
 
   public:
       EntityManager();
+      ~EntityManager();
+
       int RegisterEntity (BaseEntity &entity);
-      void UnregisterEntity (BaseEntity entity);
       BaseEntity GetEntityFromID (int id);
+      void ClearEntities();
 };

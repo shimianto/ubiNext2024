@@ -8,7 +8,7 @@ class Camera
   static Camera mainCamera;
 
   Vector3 pos, target, up;
-  float fYaw;
+  float fXaw, fYaw, fZaw;
 
   Camera();
 };

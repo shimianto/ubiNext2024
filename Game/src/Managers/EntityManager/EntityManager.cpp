@@ -9,6 +9,11 @@ EntityManager::EntityManager()
 {
 }
 
+EntityManager::~EntityManager()
+{
+  ClearEntities();
+}
+
 int EntityManager::RegisterEntity (BaseEntity &entity)
 {
   assert (entity.m_id <= s_nextValidId);
@@ -20,12 +25,13 @@ int EntityManager::RegisterEntity (BaseEntity &entity)
   return entity.m_id;
 }
 
-void EntityManager::UnregisterEntity (BaseEntity entity)
-{
-}
-
-
 BaseEntity EntityManager::GetEntityFromID (int id)
 {
   return m_entities[id];
+}
+
+void EntityManager::ClearEntities()
+{
+  m_entities.clear();
+  s_nextValidId = 0;
 }

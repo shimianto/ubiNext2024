@@ -10,8 +10,8 @@ class Renderer
 {
  private:
      const float m_FOV = 90.0f;
-     const float m_NEAR = 0.1f; // Min render distance from camera
-     const float m_FAR = 1000.0f; // Max render distance from camera
+     const float m_NEAR = 0.1f; 
+     const float m_FAR = 1000.0f; 
 
      std::list<Mesh> m_meshes;
      std::vector<Triangle> m_visibleTriangles;
