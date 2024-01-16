@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Graphics3D/Mesh/Mesh.h"
 
 class BaseEntity
 {
@@ -8,9 +9,11 @@ class BaseEntity
       int m_id;
       bool m_isActive;
 
+
   public:
+      Mesh mesh;
   
-      BaseEntity(EntityManager &manager);
+      BaseEntity();
       int GetId();
       bool IsActive();
       void SetActive (bool active);

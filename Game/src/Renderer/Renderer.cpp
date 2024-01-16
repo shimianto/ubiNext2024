@@ -7,14 +7,15 @@
 #include <algorithm>
 #include "../Graphics3D/Color/Color.h"
 #include "../Graphics3D/Graphics3D.h"
+#include "../Scene/Scene.h"
 
-Renderer::Renderer ()
+Renderer::Renderer()
 {
 }
 
-void Renderer::Init (std::list<Mesh> meshes)
+void Renderer::Init (Scene &scene)
 {
-  m_meshes = meshes;
+  m_scene = &scene;
   m_matProj = MakeProjectionMatrix();
 }
 
@@ -41,16 +42,17 @@ void Renderer::Update (const float &deltaTime)
 
   m_visibleTriangles.clear();
 
-  for (auto &mesh : m_meshes) {
-	SetVisibleTriangles (mesh);
+
+  for (auto id : m_scene->GetActiveEntities()) {
+	SetVisibleTriangles (m_scene->GetEntityFromID (id).mesh);
   }
   SortVisibleTriangles();
 }
 
 void Renderer::SetWorldMatrix()
 {
-  Matrix matRotZ = MakeRotationMatrixZ ();
-  Matrix matRotX = MakeRotationMatrixX ();
+  Matrix matRotZ = MakeRotationMatrixZ (Camera::mainCamera.fZaw);
+  Matrix matRotX = MakeRotationMatrixX (Camera::mainCamera.fXaw);
 
   Matrix matTrans;
   Vector3 vecTrans (0.0f, 0.0f, 8.0f);
@@ -71,8 +73,6 @@ void Renderer::SetViewMatrices()
   Vector3 vRight = Vector3::CrossProduct (vForward, Camera::mainCamera.up).Normalize();
   // Calculate new Up direction
   Vector3 vUp = Vector3::CrossProduct (vRight, vForward);
-
-  //vForward *= -1;
 
   // Construct View Matrix based on Camera data
   m_viewMat.m[0][0] = vRight.x;
@@ -210,7 +210,6 @@ void Renderer::SortVisibleTriangles()
 
 void Renderer::Render()
 {
-  App::Print (450, 700, "Ubi Next 2024", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
   DrawVisibleTriangles();
 }
 

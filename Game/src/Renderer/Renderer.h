@@ -6,14 +6,16 @@
 #include "..\Graphics3D\Camera\Camera.h"
 #include "..\Math\Matrix\Matrix.h"
 
+class Scene;
+
 class Renderer
 {
  private:
      const float m_FOV = 90.0f;
-     const float m_NEAR = 0.1f; // Min render distance from camera
-     const float m_FAR = 1000.0f; // Max render distance from camera
+     const float m_NEAR = 0.1f; 
+     const float m_FAR = 1000.0f; 
 
-     std::list<Mesh> m_meshes;
+     Scene *m_scene;
      std::vector<Triangle> m_visibleTriangles;
 
      Matrix m_matWorld;
@@ -40,7 +42,7 @@ class Renderer
  public:
 
 	Renderer ();
-    void Init (std::list<Mesh> meshes = std::list<Mesh>());
+    void Init (Scene &scene);
     void Update (const float &deltaTime);
     void Render();
 };

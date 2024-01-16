@@ -18,36 +18,27 @@
 #include "Math/Triangle/Triangle.h"
 #include "Graphics3D/Camera/Camera.h"
 #include "Managers/EntityManager/EntityManager.h"
+#include "Scene/Scene.h"
 
-
-EntityManager entityManager;
-Renderer renderer;
-InputHandler handler;
-Camera playerCam;
-
+Scene mainScene;
 
 void Init()
 {
-  Mesh testMesh = Mesh(entityManager);
-  testMesh.LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
-  std::list<Mesh> meshesList;
-  meshesList.push_back (testMesh);
-
-  handler.Init();
-  renderer.Init (meshesList);
+  mainScene.SetScreen (MENU_SCREEN);
+  mainScene.Init ();
 }
 
 void Update (float deltaTime)
 {
-  handler.HandleInput (deltaTime);
-  renderer.Update (deltaTime);
+  mainScene.Update (deltaTime);
 }
 
 void Render()
 {
-  renderer.Render();
+  mainScene.Render();
 }
 
 void Shutdown()
 {
+  mainScene.Shutdown();
 }

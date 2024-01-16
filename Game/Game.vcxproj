@@ -198,6 +198,7 @@
     <ClInclude Include="src\Math\Triangle\Triangle.h" />
     <ClInclude Include="src\Math\Vector3\Vector3.h" />
     <ClInclude Include="src\Math\Matrix\Matrix.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Managers\EntityManager\BaseEntity.cpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="src\Math\Vector3\Vector3.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UbiNext2024.rc" />
