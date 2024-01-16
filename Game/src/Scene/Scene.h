@@ -6,7 +6,8 @@
 enum ScreenType
 {
     MENU_SCREEN,
-    MAIN_SCREEN
+    MAIN_SCREEN,
+    GRID_TEST
 };
 
 class Scene

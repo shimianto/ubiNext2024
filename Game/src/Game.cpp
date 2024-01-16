@@ -15,7 +15,7 @@ Scene mainScene;
 
 void Init()
 {
-  mainScene.SetScreen (MENU_SCREEN);
+  mainScene.SetScreen (GRID_TEST);
   mainScene.Init ();
 }
 

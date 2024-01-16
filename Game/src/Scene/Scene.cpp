@@ -104,6 +104,9 @@ void Scene::RenderScreen()
   case MAIN_SCREEN:
 	App::Print (450, 700, "Main Scene", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
 	break;
+  case GRID_TEST:
+	App::Print (450, 700, "Grid Test", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+	break;
   default:
 	break;
   }
