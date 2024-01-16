@@ -2,11 +2,10 @@
 #include "BaseEntity.h"
 #include "EntityManager.h"
 
-BaseEntity::BaseEntity (EntityManager &manager) : 
+BaseEntity::BaseEntity () : 
+	m_id(-1),
 	m_isActive (true)
 {
-  m_id = -1;
-  manager.RegisterEntity (*this);
 }
 
 int BaseEntity::GetId()

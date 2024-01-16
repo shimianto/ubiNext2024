@@ -7,14 +7,15 @@
 #include <algorithm>
 #include "../Graphics3D/Color/Color.h"
 #include "../Graphics3D/Graphics3D.h"
+#include "../Scene/Scene.h"
 
 Renderer::Renderer()
 {
 }
 
-void Renderer::Init (std::list<Mesh> meshes)
+void Renderer::Init (Scene &scene)
 {
-  m_meshes = meshes;
+  m_scene = &scene;
   m_matProj = MakeProjectionMatrix();
 }
 
@@ -41,8 +42,9 @@ void Renderer::Update (const float &deltaTime)
 
   m_visibleTriangles.clear();
 
-  for (auto &mesh : m_meshes) {
-	SetVisibleTriangles (mesh);
+
+  for (auto id : m_scene->GetActiveEntities()) {
+	SetVisibleTriangles (m_scene->GetEntityFromID (id).mesh);
   }
   SortVisibleTriangles();
 }

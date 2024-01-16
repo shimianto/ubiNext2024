@@ -13,7 +13,7 @@ Scene::Scene()
 void Scene::Init ()
 {
   m_inputHandler.Init (*this);
-  m_renderer.Init (m_meshesList);
+  m_renderer.Init (*this);
 }
 
 void Scene::Update (float deltaTime)
@@ -40,6 +40,7 @@ ScreenType Scene::GetScreen()
 
 void Scene::SetScreen (ScreenType type)
 {
+  m_entityManager.ClearEntities();
   m_screenOnDisplay = type;
   switch (type) {
   case MENU_SCREEN:
@@ -58,24 +59,27 @@ BaseEntity Scene::GetEntityFromID (int id)
   return m_entityManager.GetEntityFromID(id);
 }
 
+std::set<int> Scene::GetActiveEntities() const
+{
+  return m_entityManager.GetActiveEntities();
+}
+
 void Scene::SetMainScene()
 {
   Camera::mainCamera = Camera();
 
-  Mesh testMesh = Mesh (m_entityManager);
-  testMesh.LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
+  BaseEntity newEntity;
+  newEntity.mesh.LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
-  m_meshesList.clear();
-  m_meshesList.push_back (testMesh);
+  m_entityManager.RegisterEntity (newEntity);
 }
 
 void Scene::SetMenuScene()
 {
-  Mesh testMesh = Mesh (m_entityManager);
-  testMesh.LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
+  BaseEntity newEntity;
+  newEntity.mesh.LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
 
-  m_meshesList.clear();
-  m_meshesList.push_back (testMesh);
+  m_entityManager.RegisterEntity (newEntity);
 }
 
 void Scene::UpdateScreen()

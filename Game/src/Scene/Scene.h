@@ -14,7 +14,6 @@ class Scene
   protected:
   
       ScreenType m_screenOnDisplay;
-      std::list<Mesh> m_meshesList;
   
       EntityManager m_entityManager;
       Renderer m_renderer;
@@ -36,4 +35,5 @@ class Scene
       void SetScreen (ScreenType type);
 
       BaseEntity GetEntityFromID (int id);
+      std::set<int> GetActiveEntities() const;
 };

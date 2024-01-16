@@ -15,6 +15,7 @@
 
 using namespace std;
 
+
 vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
 {
   triangles.clear();
