@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Graphics3D/Mesh/Mesh.h"
 #include "../Components/Health/Health.h"
+#include "../Components/Transform/Transform.h"
 
 class BaseEntity
 {
@@ -14,6 +15,7 @@ class BaseEntity
   public:
       Mesh mesh;
       Health health;
+      Transform transform;
   
       BaseEntity();
       int GetId();

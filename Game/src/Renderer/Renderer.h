@@ -5,6 +5,7 @@
 #include "..\Graphics3D\Mesh\Mesh.h"
 #include "..\Graphics3D\Camera\Camera.h"
 #include "..\Math\Matrix\Matrix.h"
+#include "../Scene//Components/Transform/Transform.h"
 
 class Scene;
 
@@ -14,6 +15,7 @@ class Renderer
      const float m_FOV = 90.0f;
      const float m_NEAR = 0.1f; 
      const float m_FAR = 1000.0f; 
+     const Vector3 m_CAMERA_DEFAULT_TRANSLATION = Vector3 (0.0f, 0.0f, 8.0f);
 
      Scene *m_scene;
      std::vector<Triangle> m_visibleTriangles;
@@ -26,13 +28,8 @@ class Renderer
 
     void SetWorldMatrix();
     void SetViewMatrices();
-    void SetVisibleTriangles (const Mesh &mesh);
+    void SetVisibleTriangles (const Mesh &mesh, const Transform &transform);
     void SortVisibleTriangles();
-
-    Matrix MakeProjectionMatrix ();
-    Matrix MakeRotationMatrixX (float fAngleRad = 0);
-    Matrix MakeRotationMatrixY (float fAngleRad = 0);
-    Matrix MakeRotationMatrixZ (float fAngleRad = 0);
 
     void DrawVisibleTriangles();
     

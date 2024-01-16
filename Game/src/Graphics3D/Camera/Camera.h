@@ -7,8 +7,8 @@ class Camera
   public:
   static Camera mainCamera;
 
-  Vector3 pos, target, up;
-  float fXaw, fYaw, fZaw;
+  Vector3 target;
+  Transform transform;
 
   Camera();
 };
