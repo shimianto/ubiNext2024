@@ -200,7 +200,9 @@
     <ClInclude Include="src\Math\Vector3\Vector3.h" />
     <ClInclude Include="src\Math\Matrix\Matrix.h" />
     <ClInclude Include="src\Scene\Components\Health\Health.h" />
+    <ClInclude Include="src\Scene\Managers\UIManager\UIManager.h" />
     <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\Scene\UI\UI.h" />
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +228,9 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
     <ClCompile Include="src\Scene\Components\Health\Health.cpp" />
+    <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Scene\UI\UI.cpp" />
     <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -11,11 +11,11 @@ void InputHandler::Init (Scene &scene)
 
 void InputHandler::HandleInput (float deltaTime)
 {
-  switch (m_Scene->GetScreen()) {
-  case MENU_SCREEN:
+  switch (m_Scene->GetOpenedScene()) {
+  case MENU_SCENE:
 	  HandleMenuSceneInput (deltaTime);
 	break;
-  case MAIN_SCREEN:
+  case MAIN_SCENE:
 	  HandleMainSceneInput (deltaTime);
 	break;
   default:
@@ -54,7 +54,7 @@ void InputHandler::HandleMainSceneInput (float deltaTime)
 void InputHandler::HandleMenuSceneInput (float deltaTime)
 {
   if (App::IsKeyPressed (VK_SPACE)) {
-	m_Scene->SetScreen (MAIN_SCREEN);
-	m_Scene->Init();
+	m_Scene->SetScene (MAIN_SCENE);
+	//m_Scene->Init();
   }
 }
