@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "BaseEntity.h"
-#include "EntityManager.h"
 
 BaseEntity::BaseEntity () : 
 	m_id(-1),

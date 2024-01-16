@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Color\Color.h"
-#include "Mesh\Mesh.h"
 #include "..\Math\Triangle\Triangle.h"
 
 namespace Graphics3D {

@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "App/app.h"
 #include "Renderer.h"
-#include "..\Graphics3D\Mesh\Mesh.h"
+#include "../Scene/Components/Mesh/Mesh.h"
 #include "..\Math\Matrix\Matrix.h"
 #include "../Graphics3D/Camera/Camera.h"
 #include <algorithm>
 #include "../Graphics3D/Color/Color.h"
 #include "../Graphics3D/Graphics3D.h"
 #include "../Scene/Scene.h"
+#include "../ThreadGroup/ThreadGroup.h"
+#include <functional>
 
 Renderer::Renderer()
 {
@@ -16,23 +18,7 @@ Renderer::Renderer()
 void Renderer::Init (Scene &scene)
 {
   m_scene = &scene;
-  m_matProj = MakeProjectionMatrix();
-}
-
-Matrix Renderer::MakeProjectionMatrix ()
-{
-  Matrix proj;
-  float fAspectRatio = (float)APP_INIT_WINDOW_HEIGHT / (float)APP_INIT_WINDOW_WIDTH;
-  float fFovRad = 1.0f / tanf (m_FOV * 0.5f / 180.0f * 3.14159f);
-
-  proj.m[0][0] = fAspectRatio * fFovRad;
-  proj.m[1][1] = fFovRad;
-  proj.m[2][2] = m_FAR / (m_FAR - m_NEAR);
-  proj.m[3][2] = (-m_FAR * m_NEAR) / (m_FAR - m_NEAR);
-  proj.m[2][3] = 1.0f;
-  proj.m[3][3] = 0.0f;
-
-  return proj;
+  m_matProj = Matrix::MakeProjectionMatrix(m_FOV, m_NEAR, m_FAR);
 }
 
 void Renderer::Update (const float &deltaTime)
@@ -42,35 +28,32 @@ void Renderer::Update (const float &deltaTime)
 
   m_visibleTriangles.clear();
 
+  ThreadGroup threadGrp;
 
   for (auto id : m_scene->GetActiveEntities()) {
-	SetVisibleTriangles (m_scene->GetEntityFromID (id).mesh);
+	BaseEntity entity = m_scene->GetEntityFromID (id);
+
+	threadGrp.group.emplace_back (&Renderer::SetVisibleTriangles, this, entity.mesh, entity.transform);
   }
+  threadGrp.JoinAll();
+
   SortVisibleTriangles();
 }
 
 void Renderer::SetWorldMatrix()
 {
-  Matrix matRotZ = MakeRotationMatrixZ (Camera::mainCamera.fZaw);
-  Matrix matRotX = MakeRotationMatrixX (Camera::mainCamera.fXaw);
-
-  Matrix matTrans;
-  Vector3 vecTrans (0.0f, 0.0f, 8.0f);
-  matTrans = Matrix::Translate (vecTrans);
-
-  m_matWorld;
-  m_matWorld = Matrix::Identity(); // Form World Matrix
-  m_matWorld = matRotZ * matRotX; // Transform by rotation
-  m_matWorld = m_matWorld * matTrans; // Transform by translation
+  m_matWorld = 
+	  Matrix::MakeRotationMatrix (Vector3()) * 
+	  Matrix::Translate (m_CAMERA_DEFAULT_TRANSLATION);
 }
 void Renderer::SetViewMatrices()
 {
-  Matrix matRotY = MakeRotationMatrixY (Camera::mainCamera.fYaw);
+  Matrix matCamRotation = Matrix::MakeRotationMatrix (Camera::mainCamera.transform.rotation);
 
   // Calculate new forward direction
-  Vector3 vForward = ((Camera::mainCamera.target) * matRotY).Normalize();
+  Vector3 vForward = ((Camera::mainCamera.target) * matCamRotation).Normalize();
   // Calculate new right direction
-  Vector3 vRight = Vector3::CrossProduct (vForward, Camera::mainCamera.up).Normalize();
+  Vector3 vRight = Vector3::CrossProduct (vForward, Camera::mainCamera.transform.up).Normalize();
   // Calculate new Up direction
   Vector3 vUp = Vector3::CrossProduct (vRight, vForward);
 
@@ -87,9 +70,9 @@ void Renderer::SetViewMatrices()
   m_viewMat.m[2][1] = vUp.z;
   m_viewMat.m[2][2] = vForward.z;
   m_viewMat.m[2][3] = 0.0f;
-  m_viewMat.m[3][0] = -(vRight * Camera::mainCamera.pos);
-  m_viewMat.m[3][1] = -(vUp * Camera::mainCamera.pos);
-  m_viewMat.m[3][2] = -(vForward * Camera::mainCamera.pos);
+  m_viewMat.m[3][0] = -(vRight * Camera::mainCamera.transform.position);
+  m_viewMat.m[3][1] = -(vUp * Camera::mainCamera.transform.position);
+  m_viewMat.m[3][2] = -(vForward * Camera::mainCamera.transform.position);
 
   // Invert View Matrix
   m_invViewMat.m[0][0] = vRight.x;
@@ -104,62 +87,32 @@ void Renderer::SetViewMatrices()
   m_invViewMat.m[2][1] = vForward.y;
   m_invViewMat.m[2][2] = vForward.z;
   m_invViewMat.m[2][3] = 0.0f;
-  m_invViewMat.m[3][0] = Camera::mainCamera.pos.x;
-  m_invViewMat.m[3][1] = Camera::mainCamera.pos.y;
-  m_invViewMat.m[3][2] = Camera::mainCamera.pos.z;
+  m_invViewMat.m[3][0] = Camera::mainCamera.transform.position.x;
+  m_invViewMat.m[3][1] = Camera::mainCamera.transform.position.y;
+  m_invViewMat.m[3][2] = Camera::mainCamera.transform.position.z;
   m_invViewMat.m[3][3] = 1.0f;
 }
 
-Matrix Renderer::MakeRotationMatrixX (float fAngleRad)
+void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform)
 {
-  Matrix matrix;
-  matrix.m[0][0] = 1.0f;
-  matrix.m[1][1] = cosf (fAngleRad);
-  matrix.m[1][2] = sinf (fAngleRad);
-  matrix.m[2][1] = -sinf (fAngleRad);
-  matrix.m[2][2] = cosf (fAngleRad);
-  matrix.m[3][3] = 1.0f;
-  return matrix;
-}
-Matrix Renderer::MakeRotationMatrixY (float fAngleRad)
-{
-  Matrix matrix;
-  matrix.m[0][0] = cosf (fAngleRad);
-  matrix.m[0][2] = sinf (fAngleRad);
-  matrix.m[2][0] = -sinf (fAngleRad);
-  matrix.m[1][1] = 1.0f;
-  matrix.m[2][2] = cosf (fAngleRad);
-  matrix.m[3][3] = 1.0f;
-  return matrix;
-}
-Matrix Renderer::MakeRotationMatrixZ (float fAngleRad)
-{
-  Matrix matrix;
-  matrix.m[0][0] = cosf (fAngleRad);
-  matrix.m[0][1] = sinf (fAngleRad);
-  matrix.m[1][0] = -sinf (fAngleRad);
-  matrix.m[1][1] = cosf (fAngleRad);
-  matrix.m[2][2] = 1.0f;
-  matrix.m[3][3] = 1.0f;
-  return matrix;
-}
+  Matrix localTransformedMat = Matrix::MakeTransformedMatrix (transform);
 
-void Renderer::SetVisibleTriangles (const Mesh &mesh)
-{
   for (auto tri : mesh.triangles) {
-	Triangle triProjected, triTransformed, triViewed;
+	Triangle triTransformed;
 
 	// World Matrix Transform
-	triTransformed.vertices[0] = tri.vertices[0] * m_matWorld;
-	triTransformed.vertices[1] = tri.vertices[1] * m_matWorld;
-	triTransformed.vertices[2] = tri.vertices[2] * m_matWorld;
+	triTransformed.vertices[0] = (tri.vertices[0] * localTransformedMat) * m_matWorld;
+	triTransformed.vertices[1] = (tri.vertices[1] * localTransformedMat) * m_matWorld;
+	triTransformed.vertices[2] = (tri.vertices[2] * localTransformedMat) * m_matWorld;
 
 	// Use Cross-Product to get surface normal
 	Vector3 normal = triTransformed.GetSurfaceNormal().Normalize();
 
-	if (normal * (triTransformed.vertices[0] - Camera::mainCamera.pos) >= 0.0f) {
+	if (normal * (triTransformed.vertices[0] - Camera::mainCamera.transform.position) >= 0.0f) {
 	  continue;
 	}
+
+	Triangle triViewed;
 
 	// Convert World Space --> View Space
 	triViewed.vertices[0] = triTransformed.vertices[0] * m_viewMat;
@@ -173,6 +126,8 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh)
 	nClippedTriangles = GetNumPtsCliped ({0.0f, 0.0f, m_NEAR}, {0.0f, 0.0f, 1.0f}, triViewed, clipped[0], clipped[1]);
 
 	for (int n = 0; n < nClippedTriangles; n++) {
+	  Triangle triProjected;
+
 	  // Project triangles from 3D --> 2D
 	  triProjected.vertices[0] = clipped[n].vertices[0] * m_matProj;
 	  triProjected.vertices[1] = clipped[n].vertices[1] * m_matProj;
@@ -185,15 +140,11 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh)
 	  // Scale into view
 	  // Offset verts into visible normalised space
 	  Vector3 vOffsetView = {1, 1, 0};
-	  triProjected.vertices[0] = triProjected.vertices[0] + vOffsetView;
-	  triProjected.vertices[1] = triProjected.vertices[1] + vOffsetView;
-	  triProjected.vertices[2] = triProjected.vertices[2] + vOffsetView;
-	  triProjected.vertices[0].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-	  triProjected.vertices[0].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-	  triProjected.vertices[1].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-	  triProjected.vertices[1].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
-	  triProjected.vertices[2].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
-	  triProjected.vertices[2].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+	  for (int i = 0; i < 3; i++) {
+		triProjected.vertices[i] = triProjected.vertices[i] + vOffsetView;
+		triProjected.vertices[i].x *= 0.5f * (float)APP_INIT_WINDOW_WIDTH;
+		triProjected.vertices[i].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
+	  }
 
 	  m_visibleTriangles.push_back (triProjected);
 	}
@@ -202,8 +153,8 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh)
 void Renderer::SortVisibleTriangles()
 {
   sort (m_visibleTriangles.begin(), m_visibleTriangles.end(), [] (Triangle &t1, Triangle &t2) {
-	float z1 = (t1.vertices[0].z + t1.vertices[1].z + t1.vertices[2].z) / 3.0f;
-	float z2 = (t2.vertices[0].z + t2.vertices[1].z + t2.vertices[2].z) / 3.0f;
+	float z1 = t1.vertices->Magnitude() / 3.0f;
+	float z2 = t2.vertices->Magnitude() / 3.0f;
 	return z1 > z2;
   });
 }
@@ -212,7 +163,6 @@ void Renderer::Render()
 {
   DrawVisibleTriangles();
 }
-
 void Renderer::DrawVisibleTriangles()
 {
   for (auto &triToRaster : m_visibleTriangles) {

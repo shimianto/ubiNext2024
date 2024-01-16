@@ -2,7 +2,7 @@
 #include <vector>
 #include <set>
 
-#include "BaseEntity.h"
+#include "../../BaseEntity/BaseEntity.h"
 
 class EntityManager
 {

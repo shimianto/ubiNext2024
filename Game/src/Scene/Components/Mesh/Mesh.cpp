@@ -4,14 +4,8 @@
 #include <string>
 #include <fstream>
 #include <strstream>
-#include <algorithm>
 #include <App/app.h>
 //---------------------------------------------------------------------------------
-#include "..\../Renderer/Renderer.h"
-#include "App/main.h"
-#include "../Graphics3D.h"
-#include "../Camera/Camera.h"
-#include <list>
 
 using namespace std;
 
@@ -24,7 +18,6 @@ vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
   if (!f.is_open())
 	return triangles;
 
-  // Local cache of verticess
   vector<Vector3> vertices;
 
   while (!f.eof()) {
@@ -48,7 +41,6 @@ vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
 	  triangles.push_back ({vertices[f[0] - 1], vertices[f[1] - 1], vertices[f[2] - 1]});
 	}
   }
-
 
   return triangles;
 }

@@ -1,8 +1,7 @@
 #include "Scene.h"
 #include <list>
 #include "stdafx.h"
-#include "../Graphics3D/Mesh/Mesh.h"
-#include "../Managers/EntityManager/EntityManager.h"
+#include "Components/Mesh/Mesh.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 
@@ -66,7 +65,7 @@ std::set<int> Scene::GetActiveEntities() const
 
 void Scene::SetMainScene()
 {
-  Camera::mainCamera = Camera();
+  Camera::mainCamera.transform = Transform();
 
   BaseEntity newEntity;
   newEntity.mesh.LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
@@ -86,8 +85,8 @@ void Scene::UpdateScreen()
 {
   switch (m_screenOnDisplay) {
   case MENU_SCREEN:
-	Camera::mainCamera.fXaw += 0.005;
-	Camera::mainCamera.fZaw += 0.005;
+	//Camera::mainCamera.fXaw += 0.005;
+	//Camera::mainCamera.fZaw += 0.005;
 	break;
   case MAIN_SCREEN:
 	break;

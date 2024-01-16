@@ -26,28 +26,28 @@ void InputHandler::HandleInput (float deltaTime)
 void InputHandler::HandleMainSceneInput (float deltaTime)
 {
   if (App::GetController().GetLeftThumbStickY() > 0.5f) {
-	Camera::mainCamera.pos.z += 1 / deltaTime;
+	Camera::mainCamera.transform.position.z += 1 / deltaTime;
   } else if (App::GetController().GetLeftThumbStickY() < -0.5f) {
-	Camera::mainCamera.pos.z -= 1 / deltaTime;
+	Camera::mainCamera.transform.position.z -= 1 / deltaTime;
   }
 
   if (App::GetController().GetLeftThumbStickX() > 0.5f) {
-	Camera::mainCamera.fYaw += 1 / deltaTime;
+	Camera::mainCamera.transform.rotation.y += 1 / deltaTime;
   } else if (App::GetController().GetLeftThumbStickX() < -0.5f) {
-	Camera::mainCamera.fYaw -= 1 / deltaTime;
+	Camera::mainCamera.transform.rotation.y -= 1 / deltaTime;
   }
 
   if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_UP, false)) {
-	Camera::mainCamera.pos.y += 1 / deltaTime;
+	Camera::mainCamera.transform.position.y += 1 / deltaTime;
   }
   if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_DOWN, false)) {
-	Camera::mainCamera.pos.y -= 1 / deltaTime;
+	Camera::mainCamera.transform.position.y -= 1 / deltaTime;
   }
   if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_LEFT, false)) {
-	Camera::mainCamera.pos.x += 1 / deltaTime;
+	Camera::mainCamera.transform.position.x += 1 / deltaTime;
   }
   if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_RIGHT, false)) {
-	Camera::mainCamera.pos.x -= 1 / deltaTime;
+	Camera::mainCamera.transform.position.x -= 1 / deltaTime;
   }
 }
 
