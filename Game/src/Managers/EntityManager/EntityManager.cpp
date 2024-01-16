@@ -40,5 +40,7 @@ const std::set<int> EntityManager::GetActiveEntities() const
 void EntityManager::ClearEntities()
 {
   m_entities.clear();
+  m_activeEntities.clear();
+  m_inactiveEntities.clear();
   s_nextValidId = 0;
 }
