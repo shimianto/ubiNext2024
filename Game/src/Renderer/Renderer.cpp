@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "App/app.h"
 #include "Renderer.h"
-#include "..\Graphics3D\Mesh\Mesh.h"
+#include "../Scene/Components/Mesh/Mesh.h"
 #include "..\Math\Matrix\Matrix.h"
 #include "../Graphics3D/Camera/Camera.h"
 #include <algorithm>

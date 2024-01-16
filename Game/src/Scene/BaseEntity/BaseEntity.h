@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Graphics3D/Mesh/Mesh.h"
+#include "../Components/Mesh/Mesh.h"
 #include "../Components/Health/Health.h"
 #include "../Components/Transform/Transform.h"
 

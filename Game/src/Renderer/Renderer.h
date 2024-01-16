@@ -2,10 +2,10 @@
 #include <list>
 #include <App/app.h>
 
-#include "..\Graphics3D\Mesh\Mesh.h"
+#include "../Scene/Components/Mesh/Mesh.h"
 #include "..\Graphics3D\Camera\Camera.h"
 #include "..\Math\Matrix\Matrix.h"
-#include "../Scene//Components/Transform/Transform.h"
+#include "../Scene/Components/Transform/Transform.h"
 
 class Scene;
 
