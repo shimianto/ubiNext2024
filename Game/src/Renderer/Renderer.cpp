@@ -8,6 +8,8 @@
 #include "../Graphics3D/Color/Color.h"
 #include "../Graphics3D/Graphics3D.h"
 #include "../Scene/Scene.h"
+#include "../ThreadGroup/ThreadGroup.h"
+#include <functional>
 
 Renderer::Renderer()
 {
@@ -26,10 +28,14 @@ void Renderer::Update (const float &deltaTime)
 
   m_visibleTriangles.clear();
 
+  ThreadGroup threadGrp;
+
   for (auto id : m_scene->GetActiveEntities()) {
 	BaseEntity entity = m_scene->GetEntityFromID (id);
-	SetVisibleTriangles (entity.mesh, entity.transform);
+
+	threadGrp.group.emplace_back (&Renderer::SetVisibleTriangles, this, entity.mesh, entity.transform);
   }
+  threadGrp.JoinAll();
 
   SortVisibleTriangles();
 }

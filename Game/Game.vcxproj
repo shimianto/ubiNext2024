@@ -201,6 +201,7 @@
     <ClInclude Include="src\Math\Matrix\Matrix.h" />
     <ClInclude Include="src\Scene\Components\Health\Health.h" />
     <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Scene\BaseEntity\BaseEntity.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
     <ClCompile Include="src\Scene\Components\Health\Health.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UbiNext2024.rc" />
