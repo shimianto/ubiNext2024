@@ -2,7 +2,6 @@
 #include <list>
 #include "stdafx.h"
 #include "../Graphics3D/Mesh/Mesh.h"
-#include "../Managers/EntityManager/EntityManager.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 

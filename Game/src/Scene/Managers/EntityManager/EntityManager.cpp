@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EntityManager.h"
-#include "BaseEntity.h"
+#include "../../BaseEntity/BaseEntity.h"
 
 
 int EntityManager::s_nextValidId = 0;

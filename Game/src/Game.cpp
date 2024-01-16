@@ -17,7 +17,6 @@
 #include "Graphics3D/Mesh/Mesh.h"
 #include "Math/Triangle/Triangle.h"
 #include "Graphics3D/Camera/Camera.h"
-#include "Managers/EntityManager/EntityManager.h"
 #include "Scene/Scene.h"
 
 Scene mainScene;

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Managers/EntityManager/EntityManager.h"
+#include "./Managers/EntityManager/EntityManager.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 
