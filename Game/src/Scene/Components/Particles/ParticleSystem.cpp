@@ -2,11 +2,12 @@
 #include "ParticleSystem.h"
 #include "../../../Graphics3D/Graphics3D.h"
 #include "Particle.h"
+#include "../../Systems/Systems.h"
 
 template class Pool<Particle>;
 
 
-void ParticleSystem::NewParticle (Transform t)
+void ParticleSystem::NewParticle (const Vector3 &pos)
 {
   int id = particlePool_.InstantiateNextAvailable();
 
@@ -16,8 +17,9 @@ void ParticleSystem::NewParticle (Transform t)
 
   Particle &p = particlePool_.GetElementByID (id);
   p.lifeTime = 100;
-  p.transform = t;
-  p.velocity = Vector3();
+  p.position = pos;
+  p.velocity = Vector3 (Systems::RandInt (-2, 2), Systems::RandInt (-2, 2));
+  p.color = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
 }
 
 void ParticleSystem::Update (float deltaTime)
@@ -36,6 +38,6 @@ void ParticleSystem::Render()
   for (const auto &id : particlePool_.GetInUseElements()) {
 	Particle p = particlePool_.GetElementByID (id);
 
-	Graphics3D::DrawTriangle((p.tri + p.transform.position), Color(1, 0 , 0));
+	Graphics3D::DrawTriangle((p.tri + p.position), p.color);
   }
 }

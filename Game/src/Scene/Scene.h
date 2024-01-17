@@ -52,5 +52,5 @@ class Scene
 
       const SceneType GetActiveScene() const;
 
-      void PlayParticlesAtPosition (Vector3 position);
+      void PlayParticlesAtPosition (const Vector3 &position);
 };

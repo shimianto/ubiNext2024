@@ -10,8 +10,8 @@ Particle::Particle () :
 bool Particle::animate()
 {
   lifeTime--;
-  transform.position.x += velocity.x;
-  transform.position.y += velocity.y;
+  position.x += velocity.x;
+  position.y += velocity.y;
 
   return lifeTime <= 0;
 }

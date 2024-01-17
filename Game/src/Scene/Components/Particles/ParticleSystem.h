@@ -10,7 +10,7 @@ class ParticleSystem
 
   public:
 
-	  void NewParticle(Transform t);
+	  void NewParticle (const Vector3 &pos);
 	  void Update(float deltaTime);
       void Render();
 };

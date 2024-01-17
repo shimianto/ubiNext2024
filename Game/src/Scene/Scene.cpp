@@ -89,11 +89,9 @@ const SceneType Scene::GetActiveScene() const
   return activeScene_;
 }
 
-void Scene::PlayParticlesAtPosition (Vector3 position)
+void Scene::PlayParticlesAtPosition (const Vector3 &position)
 {
-  Transform pTrans;
-  pTrans.position = position;
-  particles_.NewParticle (pTrans);
+  particles_.NewParticle (position);
 }
 
 void Scene::SetMainScene()
