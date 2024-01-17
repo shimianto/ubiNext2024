@@ -35,7 +35,6 @@ void EntityManager::ClearEntities()
 {
   m_entities.clear();
   m_activeEntities.clear();
-  m_inactiveEntities.clear();
 
   m_nextValidId = 0;
 }
