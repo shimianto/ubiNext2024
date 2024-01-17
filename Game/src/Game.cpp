@@ -17,7 +17,7 @@ UIManager uiManager;
 
 void Init()
 {
-  mainScene.SetScene (MENU_SCENE);
+  mainScene.SetScene (PARTICLES_SCENE);
   mainScene.Init (uiManager);
 }
 

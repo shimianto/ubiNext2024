@@ -11,7 +11,6 @@ class EntityManager
 	  int m_nextValidId;
       std::vector<BaseEntity> m_entities;
       std::set<int> m_activeEntities;
-      std::set<int> m_inactiveEntities;
 
   public:
       EntityManager();

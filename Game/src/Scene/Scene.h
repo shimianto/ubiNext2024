@@ -3,6 +3,7 @@
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 #include "Managers/ComponentManager/ComponentManager.h"
+#include "Components/Particles/ParticleSystem.h"
 
 class UIManager;
 
@@ -10,20 +11,22 @@ enum SceneType
 {
     MENU_SCENE,
     MAIN_SCENE,
-    GRID_TEST
+    GRID_TEST,
+    PARTICLES_SCENE
 };
 
 class Scene
 {
-  protected:
+  private:
   
-      SceneType m_activeScene;
+      SceneType activeScene_;
   
-      EntityManager m_entityManager;
-      Renderer m_renderer;
-      InputHandler m_inputHandler;
+      UIManager *uiManager_;
+      EntityManager entityManager_;
+      Renderer renderer_;
+      InputHandler inputHandler_;
 
-      UIManager *m_uiManager;
+      ParticleSystem particles_;
 
       void SetMainScene();
       void SetMenuScene();
@@ -48,4 +51,6 @@ class Scene
       std::set<int> GetActiveEntities() const;
 
       const SceneType GetActiveScene() const;
+
+      void PlayParticlesAtPosition (const Vector3 &position);
 };

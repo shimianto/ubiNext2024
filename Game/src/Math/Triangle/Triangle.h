@@ -12,5 +12,7 @@ class Triangle
 
   Triangle &operator= (const Triangle &param);
 
+  Triangle operator+ (const Vector3 &param);
+
   Vector3 GetSurfaceNormal();
 };

@@ -191,6 +191,8 @@
     <ClInclude Include="src\Graphics3D\Camera\Camera.h" />
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\InputHandler\InputHandler.h" />
+    <ClInclude Include="src\Scene\Components\Particles\Particle.h" />
+    <ClInclude Include="src\Scene\Components\Particles\ParticleSystem.h" />
     <ClInclude Include="src\Scene\Components\Transform\Transform.h" />
     <ClInclude Include="src\Scene\Managers\ComponentManager\ComponentManager.h" />
     <ClInclude Include="src\Scene\Managers\EntityManager\EntityManager.h" />
@@ -203,6 +205,7 @@
     <ClInclude Include="src\Math\Matrix\Matrix.h" />
     <ClInclude Include="src\Scene\Components\Health\Health.h" />
     <ClInclude Include="src\Scene\Managers\UIManager\UIManager.h" />
+    <ClInclude Include="src\Scene\Pool\Pool.h" />
     <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Scene\Systems\Systems.h" />
     <ClInclude Include="src\Scene\UI\UI.h" />
@@ -223,6 +226,8 @@
     <ClCompile Include="src\Graphics3D\Camera\Camera.cpp" />
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
+    <ClCompile Include="src\Scene\Components\Particles\Particle.cpp" />
+    <ClCompile Include="src\Scene\Components\Particles\ParticleSystem.cpp" />
     <ClCompile Include="src\Scene\Components\Transform\Transform.cpp" />
     <ClCompile Include="src\Scene\Managers\ComponentManager\ComponentManager.cpp" />
     <ClCompile Include="src\Scene\Managers\EntityManager\EntityManager.cpp" />
@@ -234,6 +239,7 @@
     <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
     <ClCompile Include="src\Scene\Components\Health\Health.cpp" />
     <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
+    <ClCompile Include="src\Scene\Pool\Pool.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Systems\Systems.cpp" />
     <ClCompile Include="src\Scene\UI\UI.cpp" />

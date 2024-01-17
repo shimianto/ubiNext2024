@@ -18,8 +18,20 @@ void InputHandler::HandleInput (float deltaTime)
   case MAIN_SCENE:
 	  HandleMainSceneInput (deltaTime);
 	break;
+  case PARTICLES_SCENE:
+	HandleParticleSceneInput();
+	break;
   default:
 	break;
+  }
+}
+
+void InputHandler::HandleParticleSceneInput()
+{
+  if (App::IsKeyPressed (VK_LBUTTON)) {
+	Vector3 position;
+	App::GetMousePos (position.x, position.y);
+	m_Scene->PlayParticlesAtPosition (position);
   }
 }
 
@@ -30,13 +42,11 @@ void InputHandler::HandleMainSceneInput (float deltaTime)
   } else if (App::GetController().GetLeftThumbStickY() < -0.5f) {
 	Camera::mainCamera.transform.position.z -= 1 / deltaTime;
   }
-
   if (App::GetController().GetLeftThumbStickX() > 0.5f) {
 	Camera::mainCamera.transform.rotation.y += 1 / deltaTime;
   } else if (App::GetController().GetLeftThumbStickX() < -0.5f) {
 	Camera::mainCamera.transform.rotation.y -= 1 / deltaTime;
   }
-
   if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_UP, false)) {
 	Camera::mainCamera.transform.position.y += 1 / deltaTime;
   }
