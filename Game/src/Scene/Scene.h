@@ -3,21 +3,26 @@
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 
-enum ScreenType
+class UIManager;
+
+enum SceneType
 {
-    MENU_SCREEN,
-    MAIN_SCREEN
+    MENU_SCENE,
+    MAIN_SCENE,
+    GRID_TEST
 };
 
 class Scene
 {
   protected:
   
-      ScreenType m_screenOnDisplay;
+      SceneType m_activeScene;
   
       EntityManager m_entityManager;
       Renderer m_renderer;
       InputHandler m_inputHandler;
+
+      UIManager *m_uiManager;
   
       void SetMainScene();
       void SetMenuScene();
@@ -25,15 +30,17 @@ class Scene
       void RenderScreen();
 
   public:
-      Scene();
-      void Init ();
+      Scene ();
+      void Init (UIManager &uiManager);
       void Update(float deltaTime);
       void Render();
       void Shutdown();
 
-      ScreenType GetScreen();
-      void SetScreen (ScreenType type);
+      SceneType GetOpenedScene();
+      void SetScene (SceneType type);
 
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
+
+      const SceneType GetActiveScene() const;
 };

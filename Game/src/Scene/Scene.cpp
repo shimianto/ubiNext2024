@@ -4,19 +4,27 @@
 #include "Components/Mesh/Mesh.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
+#include "Managers//UIManager/UIManager.h"
 
 Scene::Scene()
 {
 }
 
-void Scene::Init ()
+void Scene::Init (UIManager &uiManager)
 {
+  m_uiManager = &uiManager;
+
+  m_uiManager->Init(*this);
+
   m_inputHandler.Init (*this);
   m_renderer.Init (*this);
 }
 
+
 void Scene::Update (float deltaTime)
 {
+  m_uiManager->Update (*this);
+
   UpdateScreen();
   m_inputHandler.HandleInput (deltaTime);
   m_renderer.Update (deltaTime);
@@ -24,6 +32,8 @@ void Scene::Update (float deltaTime)
 
 void Scene::Render()
 {
+  m_uiManager->Render (*this);
+
   RenderScreen();
   m_renderer.Render();
 }
@@ -32,20 +42,20 @@ void Scene::Shutdown()
 {
 }
 
-ScreenType Scene::GetScreen()
+SceneType Scene::GetOpenedScene()
 {
-  return m_screenOnDisplay;
+  return m_activeScene;
 }
 
-void Scene::SetScreen (ScreenType type)
+void Scene::SetScene (SceneType type)
 {
   m_entityManager.ClearEntities();
-  m_screenOnDisplay = type;
+  m_activeScene = type;
   switch (type) {
-  case MENU_SCREEN:
+  case MENU_SCENE:
 	SetMenuScene();
 	break;
-  case MAIN_SCREEN:
+  case MAIN_SCENE:
 	SetMainScene();
 	break;
   default:
@@ -61,6 +71,11 @@ BaseEntity Scene::GetEntityFromID (int id)
 std::set<int> Scene::GetActiveEntities() const
 {
   return m_entityManager.GetActiveEntities();
+}
+
+const SceneType Scene::GetActiveScene() const
+{
+  return m_activeScene;
 }
 
 void Scene::SetMainScene()
@@ -83,12 +98,10 @@ void Scene::SetMenuScene()
 
 void Scene::UpdateScreen()
 {
-  switch (m_screenOnDisplay) {
-  case MENU_SCREEN:
-	//Camera::mainCamera.fXaw += 0.005;
-	//Camera::mainCamera.fZaw += 0.005;
+  switch (m_activeScene) {
+  case MENU_SCENE:
 	break;
-  case MAIN_SCREEN:
+  case MAIN_SCENE:
 	break;
   default:
 	break;
@@ -97,12 +110,10 @@ void Scene::UpdateScreen()
 
 void Scene::RenderScreen()
 {
-  switch (m_screenOnDisplay) {
-  case MENU_SCREEN:
-	App::Print (450, 700, "Menu: Ubi Next 2024", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+  switch (m_activeScene) {
+  case MENU_SCENE:
 	break;
-  case MAIN_SCREEN:
-	App::Print (450, 700, "Main Scene", 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+  case MAIN_SCENE:
 	break;
   default:
 	break;

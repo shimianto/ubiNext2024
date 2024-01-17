@@ -10,13 +10,15 @@
 //------------------------------------------------------------------------
 #include "App\app.h"
 #include "Scene/Scene.h"
+#include "Scene/Managers/UIManager/UIManager.h"
 
 Scene mainScene;
+UIManager uiManager;
 
 void Init()
 {
-  mainScene.SetScreen (MENU_SCREEN);
-  mainScene.Init ();
+  mainScene.SetScene (GRID_TEST);
+  mainScene.Init (uiManager);
 }
 
 void Update (float deltaTime)
