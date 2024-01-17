@@ -2,9 +2,6 @@
 #include "EntityManager.h"
 #include "../../BaseEntity/BaseEntity.h"
 
-
-int EntityManager::s_nextValidId = 0;
-
 EntityManager::EntityManager()
 {
 }
@@ -14,20 +11,17 @@ EntityManager::~EntityManager()
   ClearEntities();
 }
 
-int EntityManager::RegisterEntity (BaseEntity &entity)
+int EntityManager::RegisterEntity (BaseEntity entity)
 {
-  assert (entity.m_id <= s_nextValidId);
-
-  entity.m_id = s_nextValidId;
+  entity.m_id = m_nextValidId;
   m_entities.push_back(entity);
-
   m_activeEntities.insert (entity.m_id);
 
-  s_nextValidId++;
+  m_nextValidId++;
   return entity.m_id;
 }
 
-BaseEntity &EntityManager::GetEntityFromID (int id)
+BaseEntity &EntityManager::GetEntityFromID (const int &id)
 {
   return m_entities[id];
 }
@@ -42,5 +36,6 @@ void EntityManager::ClearEntities()
   m_entities.clear();
   m_activeEntities.clear();
   m_inactiveEntities.clear();
-  s_nextValidId = 0;
+
+  m_nextValidId = 0;
 }

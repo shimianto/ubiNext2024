@@ -50,6 +50,7 @@ SceneType Scene::GetOpenedScene()
 void Scene::SetScene (SceneType type)
 {
   m_entityManager.ClearEntities();
+  components.ClearComponents();
   m_activeScene = type;
   switch (type) {
   case MENU_SCENE:
@@ -61,6 +62,14 @@ void Scene::SetScene (SceneType type)
   default:
 	break;
   }
+}
+
+int Scene::InstantiateNewEntity()
+{
+  int entId = m_entityManager.RegisterEntity (BaseEntity());
+  components.InstantiateComponents (entId);
+
+  return entId;
 }
 
 BaseEntity Scene::GetEntityFromID (int id)
@@ -82,18 +91,14 @@ void Scene::SetMainScene()
 {
   Camera::mainCamera.transform = Transform();
 
-  BaseEntity newEntity;
-  newEntity.mesh.LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
-
-  m_entityManager.RegisterEntity (newEntity);
+  int newEntityId = InstantiateNewEntity();
+  components.GetMeshFromID(newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 }
 
 void Scene::SetMenuScene()
 {
-  BaseEntity newEntity;
-  newEntity.mesh.LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
-
-  m_entityManager.RegisterEntity (newEntity);
+  int newEntityId = InstantiateNewEntity();
+  components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
 }
 
 void Scene::UpdateScreen()

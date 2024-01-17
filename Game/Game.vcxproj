@@ -192,6 +192,7 @@
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\InputHandler\InputHandler.h" />
     <ClInclude Include="src\Scene\Components\Transform\Transform.h" />
+    <ClInclude Include="src\Scene\Managers\ComponentManager\ComponentManager.h" />
     <ClInclude Include="src\Scene\Managers\EntityManager\EntityManager.h" />
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
     <ClCompile Include="src\Scene\Components\Transform\Transform.cpp" />
+    <ClCompile Include="src\Scene\Managers\ComponentManager\ComponentManager.cpp" />
     <ClCompile Include="src\Scene\Managers\EntityManager\EntityManager.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Scene\Components\Mesh\Mesh.cpp" />
