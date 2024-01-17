@@ -14,6 +14,7 @@ void UIManager::Init (const Scene &scene)
 
   UI gridUI;
   gridUI.InsertNewText (Vector3 (450, 700), "Gird Test", Color());
+  gridUI.InsertNewBar (Vector3 (450, 690), Vector3 (100, 5), 1);
   RegisterUI (GRID_TEST, gridUI);
 
   m_uiMap[scene.GetSceneScreen()].Init();

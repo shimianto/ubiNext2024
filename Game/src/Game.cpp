@@ -17,7 +17,7 @@ UIManager uiManager;
 
 void Init()
 {
-  mainScene.SetScene (MENU_SCENE);
+  mainScene.SetScene (GRID_TEST);
   mainScene.Init (uiManager);
 }
 

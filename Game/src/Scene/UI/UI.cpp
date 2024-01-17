@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UI.h"
 #include <App/app.h>
+#include "../../Graphics3D/Graphics3D.h"
 
 UI::UI()
 {
@@ -24,6 +25,19 @@ void UI::Render()
 		text.color.r, text.color.g, text.color.b,
 		text.font
 	);
+  }
+
+  for (auto &bar : m_uiBar) {
+	App::DrawLine (bar.coords.vertices[0].x, bar.coords.vertices[0].y, bar.coords.vertices[1].x, bar.coords.vertices[1].y, bar.color.r, bar.color.g, bar.color.b);
+	App::DrawLine (bar.coords.vertices[1].x, bar.coords.vertices[1].y, bar.coords.vertices[2].x, bar.coords.vertices[2].y, bar.color.r, bar.color.g, bar.color.b);
+	App::DrawLine (bar.coords.vertices[2].x, bar.coords.vertices[2].y, bar.coords.vertices[3].x, bar.coords.vertices[3].y, bar.color.r, bar.color.g, bar.color.b);
+	App::DrawLine (bar.coords.vertices[3].x, bar.coords.vertices[3].y, bar.coords.vertices[0].x, bar.coords.vertices[0].y, bar.color.r, bar.color.g, bar.color.b);
+
+	Quad filledBar = bar.coords;
+	filledBar.vertices[2].x = ((filledBar.vertices[2].x - filledBar.vertices[1].x) * bar.fill) + filledBar.vertices[1].x;
+	filledBar.vertices[3].x = ((filledBar.vertices[3].x - filledBar.vertices[0].x) * bar.fill) + filledBar.vertices[0].x;
+
+	Graphics3D::DrawQuad (filledBar, bar.color);
   }
 }
 
@@ -49,4 +63,21 @@ UIText::UIText (const Vector3 &position, const char *text, const Color &color, v
 UIBar::UIBar (const Vector3 &position, const Vector3 &size, const float &fill, const Color &color)
     : position (position), size (size), fill (fill), color (color)
 {
+  CalculateCoords (position, size);
+}
+
+void UIBar::CalculateCoords (const Vector3 &position, const Vector3 &size)
+{
+  Vector3 v1, v2, v3, v4;
+  v1 = position;
+
+  v2 = position;
+  v2.y += size.y;
+
+  v3 = position + size;
+
+  v4 = position;
+  v4.x += size.x;
+
+  coords = Quad (v1, v2, v3, v4);
 }

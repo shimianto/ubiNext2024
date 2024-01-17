@@ -5,6 +5,7 @@
 #include "../../Graphics3D/Color/Color.h"
 #include "../../Math/Vector3/Vector3.h"
 #include "../../../glut/include/GL/freeglut_std.h"
+#include "../../Math/Quad/Quad.h"
 
 struct UIText
 {
@@ -22,8 +23,10 @@ struct UIBar
   Vector3 size;
   float fill;
   Color color;
+  Quad coords;
 
   UIBar (const Vector3 &position = Vector3(), const Vector3 &size = Vector3 (1, 1), const float &fill = 1, const Color &color = Color());
+  void CalculateCoords (const Vector3 &position, const Vector3 &size);
 };
 
 class UI
