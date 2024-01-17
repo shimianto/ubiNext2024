@@ -12,11 +12,7 @@ class BaseEntity
       bool m_isActive;
 
 
-  public:
-      Mesh mesh;
-      Health health;
-      Transform transform;
-  
+  public:  
       BaseEntity();
       int GetId();
       bool IsActive();

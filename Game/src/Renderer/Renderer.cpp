@@ -31,9 +31,11 @@ void Renderer::Update (const float &deltaTime)
   ThreadGroup threadGrp;
 
   for (auto id : m_scene->GetActiveEntities()) {
-	BaseEntity entity = m_scene->GetEntityFromID (id);
-
-	threadGrp.group.emplace_back (&Renderer::SetVisibleTriangles, this, entity.mesh, entity.transform);
+	threadGrp.group.emplace_back (
+		&Renderer::SetVisibleTriangles, this, 
+		m_scene->components.GetMeshFromID (id),
+		m_scene->components.GetTransformFromID (id)
+	);
   }
   threadGrp.JoinAll();
 

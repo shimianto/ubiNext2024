@@ -2,6 +2,7 @@
 #include "./Managers/EntityManager/EntityManager.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
+#include "Managers/ComponentManager/ComponentManager.h"
 
 class UIManager;
 
@@ -23,13 +24,16 @@ class Scene
       InputHandler m_inputHandler;
 
       UIManager *m_uiManager;
-  
+
       void SetMainScene();
       void SetMenuScene();
       void UpdateScreen();
       void RenderScreen();
 
   public:
+
+      ComponentManager components;
+
       Scene ();
       void Init (UIManager &uiManager);
       void Update(float deltaTime);
@@ -39,6 +43,7 @@ class Scene
       SceneType GetOpenedScene();
       void SetScene (SceneType type);
 
+      int InstantiateNewEntity();
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
 
