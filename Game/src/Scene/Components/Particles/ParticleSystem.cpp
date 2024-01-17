@@ -19,7 +19,7 @@ void ParticleSystem::NewParticle (const Vector3 &pos)
   p.lifeTime = 100;
   p.position = pos;
   p.velocity = Vector3 (Systems::RandInt (-2, 2), Systems::RandInt (-2, 2));
-  p.color = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
+  //p.color = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
 }
 
 void ParticleSystem::Update (float deltaTime)
