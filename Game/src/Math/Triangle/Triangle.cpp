@@ -20,6 +20,17 @@ Triangle &Triangle::operator= (const Triangle &param)
   return *this;
 }
 
+Triangle Triangle::operator+ (const Vector3 &param)
+{
+  Triangle out;
+
+  out.vertices[0] = this->vertices[0] + param;
+  out.vertices[1] = this->vertices[1] + param;
+  out.vertices[2] = this->vertices[2] + param;
+
+  return out;
+}
+
 Vector3 Triangle::GetSurfaceNormal()
 {
   Vector3 sNormal, line1, line2;

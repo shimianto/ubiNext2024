@@ -14,4 +14,5 @@ class InputHandler
   
       void Init (Scene &scene);
       void HandleInput (float deltaTime);
+      void HandleParticleSceneInput();
 };

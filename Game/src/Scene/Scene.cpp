@@ -12,30 +12,32 @@ Scene::Scene()
 
 void Scene::Init (UIManager &uiManager)
 {
-  m_uiManager = &uiManager;
+  uiManager_ = &uiManager;
 
-  m_uiManager->Init(*this);
+  uiManager_->Init(*this);
 
-  m_inputHandler.Init (*this);
-  m_renderer.Init (*this);
+  inputHandler_.Init (*this);
+  renderer_.Init (*this);
 }
 
 
 void Scene::Update (float deltaTime)
 {
-  m_uiManager->Update (*this);
+  uiManager_->Update (*this);
 
   UpdateScreen();
-  m_inputHandler.HandleInput (deltaTime);
-  m_renderer.Update (deltaTime);
+  inputHandler_.HandleInput (deltaTime);
+  renderer_.Update (deltaTime);
+  particles_.Update(deltaTime);
 }
 
 void Scene::Render()
 {
-  m_uiManager->Render (*this);
+  uiManager_->Render (*this);
 
   RenderScreen();
-  m_renderer.Render();
+  renderer_.Render();
+  particles_.Render();
 }
 
 void Scene::Shutdown()
@@ -44,14 +46,14 @@ void Scene::Shutdown()
 
 SceneType Scene::GetOpenedScene()
 {
-  return m_activeScene;
+  return activeScene_;
 }
 
 void Scene::SetScene (SceneType type)
 {
-  m_entityManager.ClearEntities();
+  entityManager_.ClearEntities();
   components.ClearComponents();
-  m_activeScene = type;
+  activeScene_ = type;
   switch (type) {
   case MENU_SCENE:
 	SetMenuScene();
@@ -66,7 +68,7 @@ void Scene::SetScene (SceneType type)
 
 int Scene::InstantiateNewEntity()
 {
-  int entId = m_entityManager.RegisterEntity (BaseEntity());
+  int entId = entityManager_.RegisterEntity (BaseEntity());
   components.InstantiateComponents (entId);
 
   return entId;
@@ -74,17 +76,24 @@ int Scene::InstantiateNewEntity()
 
 BaseEntity Scene::GetEntityFromID (int id)
 {
-  return m_entityManager.GetEntityFromID(id);
+  return entityManager_.GetEntityFromID(id);
 }
 
 std::set<int> Scene::GetActiveEntities() const
 {
-  return m_entityManager.GetActiveEntities();
+  return entityManager_.GetActiveEntities();
 }
 
 const SceneType Scene::GetActiveScene() const
 {
-  return m_activeScene;
+  return activeScene_;
+}
+
+void Scene::PlayParticlesAtPosition (Vector3 position)
+{
+  Transform pTrans;
+  pTrans.position = position;
+  particles_.NewParticle (pTrans);
 }
 
 void Scene::SetMainScene()
@@ -103,7 +112,7 @@ void Scene::SetMenuScene()
 
 void Scene::UpdateScreen()
 {
-  switch (m_activeScene) {
+  switch (activeScene_) {
   case MENU_SCENE:
 	break;
   case MAIN_SCENE:
@@ -115,7 +124,7 @@ void Scene::UpdateScreen()
 
 void Scene::RenderScreen()
 {
-  switch (m_activeScene) {
+  switch (activeScene_) {
   case MENU_SCENE:
 	break;
   case MAIN_SCENE:
