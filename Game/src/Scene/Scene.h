@@ -16,7 +16,7 @@ class Scene
 {
   protected:
   
-      SceneType m_openedScene;
+      SceneType m_activeScene;
   
       EntityManager m_entityManager;
       Renderer m_renderer;
@@ -42,5 +42,5 @@ class Scene
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
 
-      const SceneType GetSceneScreen() const;
+      const SceneType GetActiveScene() const;
 };

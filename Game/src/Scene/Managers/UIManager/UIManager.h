@@ -15,4 +15,5 @@ class UIManager
       void Render (const Scene &scene);
 
 	  void RegisterUI (const SceneType &screen, UI &ui);
+      UI GetActiveUI (const Scene &scene);
 };

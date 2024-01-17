@@ -55,6 +55,26 @@ int UI::InsertNewBar (const Vector3 &position, const Vector3 &size, const float 
   return m_uiBar.size() - 1;
 }
 
+UIText UI::GetTextFromId (const int &id)
+{
+  return m_uiText[id];
+}
+
+UIBar UI::GetBarFromId (const int &id)
+{
+  return m_uiBar[id];
+}
+
+void UI::UpdateTextFromId (const int &id, const UIText &text)
+{
+  m_uiText[id] = text;
+}
+
+void UI::UpdateBarFromId (const int &id, const UIBar &bar)
+{
+  m_uiBar[id] = bar;
+}
+
 UIText::UIText (const Vector3 &position, const char *text, const Color &color, void *font) : 
 	position (position), text (text), color (color), font (font)
 {

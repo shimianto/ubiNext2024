@@ -44,13 +44,13 @@ void Scene::Shutdown()
 
 SceneType Scene::GetOpenedScene()
 {
-  return m_openedScene;
+  return m_activeScene;
 }
 
 void Scene::SetScene (SceneType type)
 {
   m_entityManager.ClearEntities();
-  m_openedScene = type;
+  m_activeScene = type;
   switch (type) {
   case MENU_SCENE:
 	SetMenuScene();
@@ -73,9 +73,9 @@ std::set<int> Scene::GetActiveEntities() const
   return m_entityManager.GetActiveEntities();
 }
 
-const SceneType Scene::GetSceneScreen() const
+const SceneType Scene::GetActiveScene() const
 {
-  return m_openedScene;
+  return m_activeScene;
 }
 
 void Scene::SetMainScene()
@@ -98,7 +98,7 @@ void Scene::SetMenuScene()
 
 void Scene::UpdateScreen()
 {
-  switch (m_openedScene) {
+  switch (m_activeScene) {
   case MENU_SCENE:
 	break;
   case MAIN_SCENE:
@@ -110,7 +110,7 @@ void Scene::UpdateScreen()
 
 void Scene::RenderScreen()
 {
-  switch (m_openedScene) {
+  switch (m_activeScene) {
   case MENU_SCENE:
 	break;
   case MAIN_SCENE:
