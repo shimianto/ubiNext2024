@@ -12,6 +12,8 @@ class Vector3
 
   Vector3 (float coords[3]);
 
+  bool Vector3::operator== (const Vector3 &other) const;
+
   Vector3 operator* (const Matrix &matrix);
 
   Vector3 operator+ (const Vector3 &other) const;
@@ -35,8 +37,6 @@ class Vector3
   float Magnitude() const;
 
   Vector3 Normalize() const;
-
-  std::string ToString (int precision = 2) const;
 
   static Vector3 CrossProduct (const Vector3 &v1, const Vector3 &v2);
 };
