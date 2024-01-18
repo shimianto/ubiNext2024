@@ -116,7 +116,7 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 	triTransformed.vertices[1] = (tri.vertices[1] * localTransformedMat) * m_matWorld;
 	triTransformed.vertices[2] = (tri.vertices[2] * localTransformedMat) * m_matWorld;
 
-	// Use Cross-Product to get surface normal
+	// Use Cross-Product to get surface2d_ normal
 	Vector3 normal = triTransformed.GetSurfaceNormal().Normalize();
 
 	if (normal * (triTransformed.vertices[0] - Camera::mainCamera.transform.position) >= 0.0f) {
@@ -174,6 +174,7 @@ void Renderer::Render()
 {
   for (auto id : m_scene->GetActiveEntities()) {
 	  m_scene->components.GetParticlesFromID (id).Render();
+	  m_scene->components.GetGridFromID (id).DrawGrid2D();
   }
   DrawVisibleTriangles();
 }

@@ -4,6 +4,7 @@
 #include "../../Components/Transform/Transform.h"
 #include "../../Components/Health/Health.h"
 #include "../../Components/Particles/ParticleSystem.h"
+#include "../../Components/Grid/Grid.h"
 
 class ComponentManager
 {
@@ -14,6 +15,7 @@ class ComponentManager
 	  std::vector<Health> healthComponents_;
       std::vector<Transform> transformComponents_;
       std::vector<ParticleSystem> particlesComponents_;
+      std::vector<Grid> gridComponents_;
 
   public:
       ~ComponentManager();
@@ -24,6 +26,7 @@ class ComponentManager
       Health &GetHealthFromID (const int &id);
       Transform &GetTransformFromID (const int &id);
       ParticleSystem &GetParticlesFromID (const int &id);
+      Grid &GetGridFromID (const int &id);
 
 	  void ClearComponents();
 };

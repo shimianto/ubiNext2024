@@ -60,8 +60,15 @@ void Scene::SetScene (const SceneType &type)
   case MAIN_SCENE:
 	Systems::SetMainScene(*this);
 	break;
+  case GRID_TEST:
+  {
+	  int newGrid = InstantiateNewEntity();
+	  components.GetGridFromID (newGrid).Init (6, 6, Vector3 (100, 100), Vector3 (160, 80));
+  }
+	  break;
   case PARTICLES_SCENE:
-	InstantiateNewEntity();
+	  InstantiateNewEntity();
+	  break;
   default:
 	break;
   }

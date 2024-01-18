@@ -17,7 +17,7 @@ UIManager uiManager;
 
 void Init()
 {
-  mainScene.Init (uiManager, PARTICLES_SCENE);
+  mainScene.Init (uiManager, GRID_TEST);
 }
 
 void Update (float deltaTime)
