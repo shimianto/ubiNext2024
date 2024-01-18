@@ -43,6 +43,30 @@ void Scene::Shutdown()
   components.ClearComponents();
 }
 
+
+const int Scene::InstantiateNewEntity()
+{
+  int entId = entityManager_.RegisterEntity (BaseEntity());
+  components.InstantiateComponents (entId);
+
+  return entId;
+}
+
+const SceneType Scene::GetActiveScene() const
+{
+  return activeScene_;
+}
+
+BaseEntity Scene::GetEntityFromID (int id)
+{
+  return entityManager_.GetEntityFromID(id);
+}
+
+std::set<int> Scene::GetActiveEntities() const
+{
+  return entityManager_.GetActiveEntities();
+}
+
 void Scene::SetScene (const SceneType &type)
 {
   if (activeScene_ == type) {
@@ -73,28 +97,3 @@ void Scene::SetScene (const SceneType &type)
 	break;
   }
 }
-
-const int Scene::InstantiateNewEntity()
-{
-  int entId = entityManager_.RegisterEntity (BaseEntity());
-  components.InstantiateComponents (entId);
-
-  return entId;
-}
-
-const SceneType Scene::GetActiveScene() const
-{
-  return activeScene_;
-}
-
-BaseEntity Scene::GetEntityFromID (int id)
-{
-  return entityManager_.GetEntityFromID(id);
-}
-
-std::set<int> Scene::GetActiveEntities() const
-{
-  return entityManager_.GetActiveEntities();
-}
-
-
