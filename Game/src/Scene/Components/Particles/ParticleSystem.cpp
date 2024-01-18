@@ -7,7 +7,7 @@
 template class Pool<Particle>;
 
 
-void ParticleSystem::NewParticle (const Vector3 &pos)
+void ParticleSystem::NewParticle (const Vector3 &pos, const Color &col)
 {
   int id = particlePool_.InstantiateNextAvailable();
 
@@ -19,10 +19,11 @@ void ParticleSystem::NewParticle (const Vector3 &pos)
   p.lifeTime = 100;
   p.position = pos;
   p.velocity = Vector3 (Systems::RandInt (-2, 2), Systems::RandInt (-2, 2));
+  p.color = col;
   //p.color = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
 }
 
-void ParticleSystem::Update (float deltaTime)
+void ParticleSystem::Update (const float &deltaTime)
 {
   for (const auto &id : particlePool_.GetInUseElements()) {
 	bool isDone = particlePool_.GetElementByID (id).animate();
@@ -40,4 +41,9 @@ void ParticleSystem::Render()
 
 	Graphics3D::DrawTriangle((p.tri + p.position), p.color);
   }
+}
+
+bool ParticleSystem::HasActiveParticles()
+{
+  return particlePool_.GetInUseElements().size() > 0;
 }

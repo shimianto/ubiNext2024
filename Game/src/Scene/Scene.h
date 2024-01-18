@@ -21,36 +21,27 @@ class Scene
   
       SceneType activeScene_;
   
-      UIManager *uiManager_;
       EntityManager entityManager_;
+      
+      UIManager *uiManager_;
       Renderer renderer_;
       InputHandler inputHandler_;
-
-      ParticleSystem particles_;
-
-      void SetMainScene();
-      void SetMenuScene();
-      void UpdateScreen();
-      void RenderScreen();
 
   public:
 
       ComponentManager components;
 
       Scene ();
-      void Init (UIManager &uiManager);
+      void Init (UIManager &uiManager, const SceneType &sceneType = MENU_SCENE);
       void Update(float deltaTime);
       void Render();
       void Shutdown();
 
-      SceneType GetOpenedScene();
-      void SetScene (SceneType type);
+      const SceneType GetActiveScene() const;
 
-      int InstantiateNewEntity();
+      const int InstantiateNewEntity();
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
 
-      const SceneType GetActiveScene() const;
-
-      void PlayParticlesAtPosition (const Vector3 &position);
+      void SetScene (const SceneType &type);
 };

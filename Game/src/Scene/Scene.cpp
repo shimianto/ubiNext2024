@@ -5,73 +5,56 @@
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 #include "Managers//UIManager/UIManager.h"
+#include "Systems/Systems.h"
 
 Scene::Scene()
 {
 }
 
-void Scene::Init (UIManager &uiManager)
+void Scene::Init (UIManager &uiManager, const SceneType &sceneType)
 {
   uiManager_ = &uiManager;
 
-  uiManager_->Init(*this);
-
   inputHandler_.Init (*this);
+  uiManager_->Init(*this);
   renderer_.Init (*this);
+
+  SetScene (sceneType);
 }
 
 
 void Scene::Update (float deltaTime)
 {
-  uiManager_->Update (*this);
-
-  UpdateScreen();
   inputHandler_.HandleInput (deltaTime);
+
+  uiManager_->Update (*this);
   renderer_.Update (deltaTime);
-  particles_.Update(deltaTime);
 }
 
 void Scene::Render()
 {
   uiManager_->Render (*this);
-
-  RenderScreen();
   renderer_.Render();
-  particles_.Render();
 }
 
 void Scene::Shutdown()
 {
-}
-
-SceneType Scene::GetOpenedScene()
-{
-  return activeScene_;
-}
-
-void Scene::SetScene (SceneType type)
-{
   entityManager_.ClearEntities();
   components.ClearComponents();
-  activeScene_ = type;
-  switch (type) {
-  case MENU_SCENE:
-	SetMenuScene();
-	break;
-  case MAIN_SCENE:
-	SetMainScene();
-	break;
-  default:
-	break;
-  }
 }
 
-int Scene::InstantiateNewEntity()
+
+const int Scene::InstantiateNewEntity()
 {
   int entId = entityManager_.RegisterEntity (BaseEntity());
   components.InstantiateComponents (entId);
 
   return entId;
+}
+
+const SceneType Scene::GetActiveScene() const
+{
+  return activeScene_;
 }
 
 BaseEntity Scene::GetEntityFromID (int id)
@@ -84,52 +67,33 @@ std::set<int> Scene::GetActiveEntities() const
   return entityManager_.GetActiveEntities();
 }
 
-const SceneType Scene::GetActiveScene() const
+void Scene::SetScene (const SceneType &type)
 {
-  return activeScene_;
-}
+  if (activeScene_ == type) {
+	return;
+  }
 
-void Scene::PlayParticlesAtPosition (const Vector3 &position)
-{
-  particles_.NewParticle (position);
-}
+  entityManager_.ClearEntities();
+  components.ClearComponents();
 
-void Scene::SetMainScene()
-{
-  Camera::mainCamera.transform = Transform();
-
-  int newEntityId = InstantiateNewEntity();
-  components.GetMeshFromID(newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
-}
-
-void Scene::SetMenuScene()
-{
-  int newEntityId = InstantiateNewEntity();
-  components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
-}
-
-void Scene::UpdateScreen()
-{
-  switch (activeScene_) {
+  activeScene_ = type;
+  switch (type) {
   case MENU_SCENE:
+	Systems::SetMenuScene(*this);
 	break;
   case MAIN_SCENE:
+	Systems::SetMainScene(*this);
 	break;
+  case GRID_TEST:
+  {
+	  int newGrid = InstantiateNewEntity();
+	  components.GetGridFromID (newGrid).Init (6, 6, Vector3 (100, 100), Vector3 (160, 80));
+  }
+	  break;
+  case PARTICLES_SCENE:
+	  InstantiateNewEntity();
+	  break;
   default:
 	break;
   }
 }
-
-void Scene::RenderScreen()
-{
-  switch (activeScene_) {
-  case MENU_SCENE:
-	break;
-  case MAIN_SCENE:
-	break;
-  default:
-	break;
-  }
-}
-
-

@@ -10,7 +10,8 @@ class ParticleSystem
 
   public:
 
-	  void NewParticle (const Vector3 &pos);
-	  void Update(float deltaTime);
+	  void NewParticle (const Vector3 &pos, const Color &col = Particle::DEFAULT_PARTICLE_COL);
+      void Update (const float &deltaTime);
       void Render();
+      bool HasActiveParticles();
 };

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Color\Color.h"
-#include "..\Math\Triangle\Triangle.h"
-#include "../Math/Quad/Quad.h"
+class Triangle;
+class Color;
+class Quad;
+class UIBar;
 
 namespace Graphics3D {
 	//*******************************************************************************************
@@ -19,9 +20,19 @@ namespace Graphics3D {
     // Display Calls.
     //*******************************************************************************************
     //-------------------------------------------------------------------------------------------
-    // void DrawQuad( Triangle t, Color c );
+    // void DrawQuad( Quad t, Color c );
     //-------------------------------------------------------------------------------------------
-    // Draw a 2D Rectiangle using the vertices' coordinates from q, using Color c.
+    // Draw a 2D Rectangle using the vertices' coordinates from q, using Color c.
     //-------------------------------------------------------------------------------------------
     void DrawQuad (Quad q, Color c);
-    }
+	
+	//*******************************************************************************************
+    // Display Calls.
+    //*******************************************************************************************
+    //-------------------------------------------------------------------------------------------
+    // void DrawBar (const UIBar &bar);
+    //-------------------------------------------------------------------------------------------
+    // Draw a partially filled 2D Rectangle using the data from bar
+    //-------------------------------------------------------------------------------------------
+	void DrawBar (const UIBar &bar);
+}

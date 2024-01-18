@@ -3,6 +3,7 @@
 #include <App/app.h>
 #include "../Graphics3D/Camera/Camera.h"
 #include "../Scene/Scene.h"
+#include "../Scene/Systems/Systems.h"
 
 void InputHandler::Init (Scene &scene)
 {
@@ -11,7 +12,7 @@ void InputHandler::Init (Scene &scene)
 
 void InputHandler::HandleInput (float deltaTime)
 {
-  switch (m_Scene->GetOpenedScene()) {
+  switch (m_Scene->GetActiveScene()) {
   case MENU_SCENE:
 	  HandleMenuSceneInput (deltaTime);
 	break;
@@ -28,10 +29,15 @@ void InputHandler::HandleInput (float deltaTime)
 
 void InputHandler::HandleParticleSceneInput()
 {
+  if (App::IsKeyPressed (VK_RBUTTON)) {
+	Particle::DEFAULT_PARTICLE_COL = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
+  }
+
   if (App::IsKeyPressed (VK_LBUTTON)) {
 	Vector3 position;
 	App::GetMousePos (position.x, position.y);
-	m_Scene->PlayParticlesAtPosition (position);
+
+	m_Scene->components.GetParticlesFromID (0).NewParticle (position);
   }
 }
 

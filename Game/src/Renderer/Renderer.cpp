@@ -36,6 +36,15 @@ void Renderer::Update (const float &deltaTime)
 		m_scene->components.GetMeshFromID (id),
 		m_scene->components.GetTransformFromID (id)
 	);
+	
+	ParticleSystem &ps = m_scene->components.GetParticlesFromID (id);
+	if (ps.HasActiveParticles()) {
+		threadGrp.group.emplace_back (
+			&ParticleSystem::Update, 
+			&ps,
+			deltaTime
+		);
+	}
   }
   threadGrp.JoinAll();
 
@@ -107,7 +116,7 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 	triTransformed.vertices[1] = (tri.vertices[1] * localTransformedMat) * m_matWorld;
 	triTransformed.vertices[2] = (tri.vertices[2] * localTransformedMat) * m_matWorld;
 
-	// Use Cross-Product to get surface normal
+	// Use Cross-Product to get surface2d_ normal
 	Vector3 normal = triTransformed.GetSurfaceNormal().Normalize();
 
 	if (normal * (triTransformed.vertices[0] - Camera::mainCamera.transform.position) >= 0.0f) {
@@ -163,6 +172,10 @@ void Renderer::SortVisibleTriangles()
 
 void Renderer::Render()
 {
+  for (auto id : m_scene->GetActiveEntities()) {
+	  m_scene->components.GetParticlesFromID (id).Render();
+	  m_scene->components.GetGridFromID (id).DrawGrid2D();
+  }
   DrawVisibleTriangles();
 }
 void Renderer::DrawVisibleTriangles()

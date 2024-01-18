@@ -6,8 +6,10 @@
 class Particle
 {
   public:
-
-	  Triangle tri;
+  
+      static Color DEFAULT_PARTICLE_COL;
+	  
+      Triangle tri;
       Vector3 position;
       Vector3 velocity;
       Color color;
