@@ -5,39 +5,36 @@
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 #include "Managers//UIManager/UIManager.h"
+#include "Systems/Systems.h"
 
 Scene::Scene()
 {
 }
 
-void Scene::Init (UIManager &uiManager)
+void Scene::Init (UIManager &uiManager, const SceneType &sceneType)
 {
   uiManager_ = &uiManager;
 
-  uiManager_->Init(*this);
-
   inputHandler_.Init (*this);
+  uiManager_->Init(*this);
   renderer_.Init (*this);
+
+  SetScene (sceneType);
 }
 
 
 void Scene::Update (float deltaTime)
 {
-  uiManager_->Update (*this);
-
-  UpdateScreen();
   inputHandler_.HandleInput (deltaTime);
+
+  uiManager_->Update (*this);
   renderer_.Update (deltaTime);
-  //particles_.Update(deltaTime);
 }
 
 void Scene::Render()
 {
   uiManager_->Render (*this);
-
-  RenderScreen();
   renderer_.Render();
-  //particles_.Render();
 }
 
 void Scene::Shutdown()
@@ -49,17 +46,22 @@ SceneType Scene::GetOpenedScene()
   return activeScene_;
 }
 
-void Scene::SetScene (SceneType type)
+void Scene::SetScene (const SceneType &type)
 {
+  if (activeScene_ == type) {
+	return;
+  }
+
   entityManager_.ClearEntities();
   components.ClearComponents();
+
   activeScene_ = type;
   switch (type) {
   case MENU_SCENE:
-	SetMenuScene();
+	Systems::SetMenuScene(*this);
 	break;
   case MAIN_SCENE:
-	SetMainScene();
+	Systems::SetMainScene(*this);
 	break;
   case PARTICLES_SCENE:
 	InstantiateNewEntity();
@@ -89,44 +91,6 @@ std::set<int> Scene::GetActiveEntities() const
 const SceneType Scene::GetActiveScene() const
 {
   return activeScene_;
-}
-
-void Scene::SetMainScene()
-{
-  Camera::mainCamera.transform = Transform();
-
-  int newEntityId = InstantiateNewEntity();
-  components.GetMeshFromID(newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
-}
-
-void Scene::SetMenuScene()
-{
-  int newEntityId = InstantiateNewEntity();
-  components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
-}
-
-void Scene::UpdateScreen()
-{
-  switch (activeScene_) {
-  case MENU_SCENE:
-	break;
-  case MAIN_SCENE:
-	break;
-  default:
-	break;
-  }
-}
-
-void Scene::RenderScreen()
-{
-  switch (activeScene_) {
-  case MENU_SCENE:
-	break;
-  case MAIN_SCENE:
-	break;
-  default:
-	break;
-  }
 }
 
 
