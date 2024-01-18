@@ -251,6 +251,9 @@
     <ClCompile Include="src\Scene\Systems\Systems.cpp" />
     <ClCompile Include="src\Scene\UI\UI.cpp" />
     <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
+    <ClCompile Include="src\UnitTesting\MatrixTest.cpp" />
+    <ClCompile Include="src\UnitTesting\UnitTesting.cpp" />
+    <ClCompile Include="src\UnitTesting\Vector3Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UbiNext2024.rc" />

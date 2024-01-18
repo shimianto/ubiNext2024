@@ -9,8 +9,13 @@ Vector3::Vector3 (float x, float y, float z, float w) : x (x), y (y), z (z), w(w
 {
 }
 
-Vector3::Vector3 (float coords[3]) : x (coords[0]), y (coords[1]), z (coords[2])
+Vector3::Vector3 (float coords[3]) : x (coords[0]), y (coords[1]), z (coords[2]), w(1)
 {
+}
+
+bool Vector3::operator== (const Vector3 &other) const
+{
+  return x == other.x && y == other.y && z == other.z;
 }
 
 Vector3 Vector3::operator* (const Matrix &m)
@@ -94,25 +99,6 @@ Vector3 Vector3::Normalize() const
   Vector3 normal;
   normal = *this / sqrtf (this->Magnitude());
   return normal;
-}
-
-std::string Vector3::ToString (int precision) const
-{
-  std::ostringstream sX, sY, sZ;
-
-  sX << std::fixed;
-  sY << std::fixed;
-  sZ << std::fixed;
-
-  sX << std::setprecision (precision);
-  sY << std::setprecision (precision);
-  sZ << std::setprecision (precision);
-
-  sX << x;
-  sY << y;
-  sZ << z;
-
-  return "(" + sX.str() + ", " + sY.str() + ", " + sZ.str() + ")";
 }
 
 Vector3 Vector3::CrossProduct (const Vector3 &v1, const Vector3 &v2)
