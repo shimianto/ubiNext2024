@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Vector3Test.cpp"
 #include "MatrixTest.cpp"
+#include "TriangleTest.cpp"
 
 class UnitTesting
 {
@@ -9,5 +10,6 @@ class UnitTesting
   {
 	Vector3Test::Run();
 	MatrixTest::Run();
+	TriangleTest::Run();
   }
 };
