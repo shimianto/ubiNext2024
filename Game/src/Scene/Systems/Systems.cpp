@@ -15,6 +15,7 @@ void Systems::SetMenuScene (Scene &scene)
 {
   int newEntityId = scene.InstantiateNewEntity();
   scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
+  scene.components.GetAIFromID (newEntityId).SetState(PATROLLING);
 }
 
 int Systems::RandInt (int min, int max)

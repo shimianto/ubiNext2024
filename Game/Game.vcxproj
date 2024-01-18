@@ -191,6 +191,7 @@
     <ClInclude Include="src\Graphics3D\Camera\Camera.h" />
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\InputHandler\InputHandler.h" />
+    <ClInclude Include="src\Scene\Components\AI\BaseAI.h" />
     <ClInclude Include="src\Scene\Components\Grid\Grid.h" />
     <ClInclude Include="src\Scene\Components\Grid\GridElement.h" />
     <ClInclude Include="src\Scene\Components\Particles\Particle.h" />
@@ -208,8 +209,6 @@
     <ClInclude Include="src\Scene\Managers\UIManager\UIManager.h" />
     <ClInclude Include="src\Scene\Pool\Pool.h" />
     <ClInclude Include="src\Scene\Scene.h" />
-    <ClInclude Include="src\Scene\StateMachine\State.h" />
-    <ClInclude Include="src\Scene\StateMachine\StateMachine.h" />
     <ClInclude Include="src\Scene\Systems\Systems.h" />
     <ClInclude Include="src\Scene\UI\UI.h" />
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
@@ -229,6 +228,7 @@
     <ClCompile Include="src\Graphics3D\Camera\Camera.cpp" />
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\BaseAI.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\Grid.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\GridElement.cpp" />
     <ClCompile Include="src\Scene\Components\Particles\Particle.cpp" />
@@ -246,7 +246,6 @@
     <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
     <ClCompile Include="src\Scene\Pool\Pool.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
-    <ClCompile Include="src\Scene\StateMachine\StateMachine.cpp" />
     <ClCompile Include="src\Scene\Systems\Systems.cpp" />
     <ClCompile Include="src\Scene\UI\UI.cpp" />
     <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
