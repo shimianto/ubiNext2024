@@ -17,7 +17,7 @@ void UI::Update()
 
 void UI::Render()
 {
-  for (const auto &text : m_uiText) {
+  for (const auto &text : uiTexts_) {
 	App::Print (
 		text.position.x, 
 		text.position.y, 
@@ -27,7 +27,7 @@ void UI::Render()
 	);
   }
 
-  for (const auto &bar : m_uiBar) {
+  for (const auto &bar : uiBars_) {
 	Graphics3D::DrawBar (bar);
   }
 }
@@ -35,35 +35,35 @@ void UI::Render()
 int UI::InsertNewText (const Vector3 &position, const char *text, const Color &color, void *font)
 {
   UIText newText (position, text, color, font);
-  m_uiText.push_back (newText);
-  return m_uiText.size() - 1; // index where text was inserted
+  uiTexts_.push_back (newText);
+  return uiTexts_.size() - 1; // index where text was inserted
 }
 
 int UI::InsertNewBar (const Vector3 &position, const Vector3 &size, const float &fill, const Color &color)
 {
   UIBar newBar (position, size, fill, color);
-  m_uiBar.push_back (newBar);
-  return m_uiBar.size() - 1;
+  uiBars_.push_back (newBar);
+  return uiBars_.size() - 1;
 }
 
 UIText UI::GetTextFromId (const int &id)
 {
-  return m_uiText[id];
+  return uiTexts_[id];
 }
 
 UIBar UI::GetBarFromId (const int &id)
 {
-  return m_uiBar[id];
+  return uiBars_[id];
 }
 
 void UI::UpdateTextFromId (const int &id, const UIText &text)
 {
-  m_uiText[id] = text;
+  uiTexts_[id] = text;
 }
 
 void UI::UpdateBarFromId (const int &id, const UIBar &bar)
 {
-  m_uiBar[id] = bar;
+  uiBars_[id] = bar;
 }
 
 UIText::UIText (const Vector3 &position, const char *text, const Color &color, void *font) : 

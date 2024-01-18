@@ -6,7 +6,7 @@
 class UIManager
 {
   private:
-	std::map<SceneType, UI> m_uiMap;
+	std::map<SceneType, UI> uiMap_;
 
   public:
 

@@ -32,8 +32,8 @@ struct UIBar
 class UI
 {
   private:
-  std::vector<UIText> m_uiText;
-  std::vector<UIBar> m_uiBar;
+  std::vector<UIText> uiTexts_;
+  std::vector<UIBar> uiBars_;
 
   public:
   

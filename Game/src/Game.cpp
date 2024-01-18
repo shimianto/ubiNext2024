@@ -17,7 +17,7 @@ UIManager uiManager;
 
 void Init()
 {
-  mainScene.Init (uiManager, GRID_TEST);
+  mainScene.Init (uiManager, MENU_SCENE);
 }
 
 void Update (float deltaTime)

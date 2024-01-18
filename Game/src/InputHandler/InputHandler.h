@@ -5,7 +5,7 @@ class InputHandler
 {
   private:
     
-      Scene *m_Scene;
+      Scene *scene_;
 
       void HandleMainSceneInput (float deltaTime);
       void HandleMenuSceneInput (float deltaTime);

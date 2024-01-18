@@ -12,19 +12,17 @@ class Scene;
 class Renderer
 {
  private:
-     const float m_FOV = 90.0f;
-     const float m_NEAR = 0.1f; 
-     const float m_FAR = 1000.0f; 
-     const Vector3 m_CAMERA_DEFAULT_TRANSLATION = Vector3 (0.0f, 0.0f, 8.0f);
+     const float FOV_ = 90.0f;
+     const float NEAR_ = 0.1f; 
+     const float FAR_ = 1000.0f; 
+     const Vector3 CAMERA_DEFAULT_TRANSLATION_ = Vector3 (0.0f, 0.0f, 8.0f);
 
-     Scene *m_scene;
-     std::vector<Triangle> m_visibleTriangles;
+     Scene *scene_;
+     std::vector<Triangle> visibleTriangles_;
 
-     Matrix m_matWorld;
-     Matrix m_matProj;
-     Matrix m_viewMat, m_invViewMat;
-
-     Camera m_camera;
+     Matrix matWorld_;
+     Matrix matProj_;
+     Matrix viewMat_, invViewMat_;
 
     void SetWorldMatrix();
     void SetViewMatrices();

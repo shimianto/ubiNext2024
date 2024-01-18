@@ -17,26 +17,26 @@ void UIManager::Init (const Scene &scene)
   gridUI.InsertNewBar (Vector3 (450, 690), Vector3 (100, 5), 1);
   RegisterUI (GRID_TEST, gridUI);
 
-  m_uiMap[scene.GetActiveScene()].Init();
+  uiMap_[scene.GetActiveScene()].Init();
 }
 
 void UIManager::Update (const Scene &scene)
 {
-  m_uiMap[scene.GetActiveScene()].Update();
+  uiMap_[scene.GetActiveScene()].Update();
 }
 
 void UIManager::Render (const Scene &scene)
 {
-  m_uiMap[scene.GetActiveScene()].Render();
+  uiMap_[scene.GetActiveScene()].Render();
 }
 
 void UIManager::RegisterUI (const SceneType &screen, UI &ui)
 {
-  m_uiMap.insert (std::pair<SceneType, UI> (screen, ui));
+  uiMap_.insert (std::pair<SceneType, UI> (screen, ui));
 }
 
 UI UIManager::GetActiveUI (const Scene &scene)
 {
-  return m_uiMap[scene.GetActiveScene()];
+  return uiMap_[scene.GetActiveScene()];
 }
 	

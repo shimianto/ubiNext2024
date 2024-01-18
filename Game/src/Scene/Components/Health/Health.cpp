@@ -3,15 +3,15 @@
 
 int Health::GetValue()
 {
-  return m_health;
+  return health_;
 }
 
 void Health::SetHealth (int health)
 {
-  m_health = health;
+  health_ = health;
 }
 
 void Health::TakeDamage (int dmg)
 {
-  m_health -= dmg;
+  health_ -= dmg;
 }

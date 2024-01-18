@@ -3,7 +3,7 @@ class Health
 {
   private:
   
-	  int m_health;
+	  int health_;
 
   public:
 

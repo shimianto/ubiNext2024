@@ -36,7 +36,7 @@ public:
     void CreateAnimation( unsigned int id, float speed, const std::vector<int> &frames)
     {
         sAnimation anim;        
-        anim.m_id = id;
+        anim.id_ = id;
         anim.m_speed = speed;
         anim.m_frames = frames;
         m_animations.push_back(anim);        
@@ -66,7 +66,7 @@ private:
 
     struct sAnimation
     {
-        unsigned int m_id = 0;
+        unsigned int id_ = 0;
         float m_speed = 0.0f;
         std::vector<int> m_frames;
     };

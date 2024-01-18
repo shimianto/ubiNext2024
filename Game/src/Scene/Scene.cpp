@@ -46,7 +46,7 @@ void Scene::Shutdown()
 
 const int Scene::InstantiateNewEntity()
 {
-  int entId = entityManager_.RegisterEntity (BaseEntity());
+  int entId = entityManager_.InstantiateNewEntity ();
   components.InstantiateComponents (entId);
 
   return entId;
@@ -69,10 +69,6 @@ std::set<int> Scene::GetActiveEntities() const
 
 void Scene::SetScene (const SceneType &type)
 {
-  if (activeScene_ == type) {
-	return;
-  }
-
   entityManager_.ClearEntities();
   components.ClearComponents();
 

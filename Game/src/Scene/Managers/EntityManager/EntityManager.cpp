@@ -11,30 +11,31 @@ EntityManager::~EntityManager()
   ClearEntities();
 }
 
-int EntityManager::RegisterEntity (BaseEntity entity)
+int EntityManager::InstantiateNewEntity ()
 {
-  entity.m_id = m_nextValidId;
-  m_entities.push_back(entity);
-  m_activeEntities.insert (entity.m_id);
+  BaseEntity entity;
+  entity.id_ = nextValidId_;
+  entities_.push_back(entity);
+  activeEntities_.insert (entity.id_);
 
-  m_nextValidId++;
-  return entity.m_id;
+  nextValidId_++;
+  return entity.id_;
 }
 
 BaseEntity &EntityManager::GetEntityFromID (const int &id)
 {
-  return m_entities[id];
+  return entities_[id];
 }
 
 const std::set<int> EntityManager::GetActiveEntities() const
 {
-  return m_activeEntities;
+  return activeEntities_;
 }
 
 void EntityManager::ClearEntities()
 {
-  m_entities.clear();
-  m_activeEntities.clear();
+  entities_.clear();
+  activeEntities_.clear();
 
-  m_nextValidId = 0;
+  nextValidId_ = 0;
 }

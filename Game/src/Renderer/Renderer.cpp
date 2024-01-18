@@ -17,8 +17,8 @@ Renderer::Renderer()
 
 void Renderer::Init (Scene &scene)
 {
-  m_scene = &scene;
-  m_matProj = Matrix::MakeProjectionMatrix(m_FOV, m_NEAR, m_FAR);
+  scene_ = &scene;
+  matProj_ = Matrix::MakeProjectionMatrix(FOV_, NEAR_, FAR_);
 }
 
 void Renderer::Update (const float &deltaTime)
@@ -26,18 +26,18 @@ void Renderer::Update (const float &deltaTime)
   SetWorldMatrix();
   SetViewMatrices();
 
-  m_visibleTriangles.clear();
+  visibleTriangles_.clear();
 
   ThreadGroup threadGrp;
 
-  for (auto id : m_scene->GetActiveEntities()) {
+  for (auto id : scene_->GetActiveEntities()) {
 	threadGrp.group.emplace_back (
 		&Renderer::SetVisibleTriangles, this, 
-		m_scene->components.GetMeshFromID (id),
-		m_scene->components.GetTransformFromID (id)
+		scene_->components.GetMeshFromID (id),
+		scene_->components.GetTransformFromID (id)
 	);
 	
-	ParticleSystem &ps = m_scene->components.GetParticlesFromID (id);
+	ParticleSystem &ps = scene_->components.GetParticlesFromID (id);
 	if (ps.HasActiveParticles()) {
 		threadGrp.group.emplace_back (
 			&ParticleSystem::Update, 
@@ -46,6 +46,7 @@ void Renderer::Update (const float &deltaTime)
 		);
 	}
   }
+
   threadGrp.JoinAll();
 
   SortVisibleTriangles();
@@ -53,9 +54,9 @@ void Renderer::Update (const float &deltaTime)
 
 void Renderer::SetWorldMatrix()
 {
-  m_matWorld = 
+  matWorld_ = 
 	  Matrix::MakeRotationMatrix (Vector3()) * 
-	  Matrix::Translate (m_CAMERA_DEFAULT_TRANSLATION);
+	  Matrix::Translate (CAMERA_DEFAULT_TRANSLATION_);
 }
 void Renderer::SetViewMatrices()
 {
@@ -69,39 +70,39 @@ void Renderer::SetViewMatrices()
   Vector3 vUp = Vector3::CrossProduct (vRight, vForward);
 
   // Construct View Matrix based on Camera data
-  m_viewMat.m[0][0] = vRight.x;
-  m_viewMat.m[0][1] = vUp.x;
-  m_viewMat.m[0][2] = vForward.x;
-  m_viewMat.m[0][3] = 0.0f;
-  m_viewMat.m[1][0] = vRight.y;
-  m_viewMat.m[1][1] = vUp.y;
-  m_viewMat.m[1][2] = vForward.y;
-  m_viewMat.m[1][3] = 0.0f;
-  m_viewMat.m[2][0] = vRight.z;
-  m_viewMat.m[2][1] = vUp.z;
-  m_viewMat.m[2][2] = vForward.z;
-  m_viewMat.m[2][3] = 0.0f;
-  m_viewMat.m[3][0] = -(vRight * Camera::mainCamera.transform.position);
-  m_viewMat.m[3][1] = -(vUp * Camera::mainCamera.transform.position);
-  m_viewMat.m[3][2] = -(vForward * Camera::mainCamera.transform.position);
+  viewMat_.m[0][0] = vRight.x;
+  viewMat_.m[0][1] = vUp.x;
+  viewMat_.m[0][2] = vForward.x;
+  viewMat_.m[0][3] = 0.0f;
+  viewMat_.m[1][0] = vRight.y;
+  viewMat_.m[1][1] = vUp.y;
+  viewMat_.m[1][2] = vForward.y;
+  viewMat_.m[1][3] = 0.0f;
+  viewMat_.m[2][0] = vRight.z;
+  viewMat_.m[2][1] = vUp.z;
+  viewMat_.m[2][2] = vForward.z;
+  viewMat_.m[2][3] = 0.0f;
+  viewMat_.m[3][0] = -(vRight * Camera::mainCamera.transform.position);
+  viewMat_.m[3][1] = -(vUp * Camera::mainCamera.transform.position);
+  viewMat_.m[3][2] = -(vForward * Camera::mainCamera.transform.position);
 
   // Invert View Matrix
-  m_invViewMat.m[0][0] = vRight.x;
-  m_invViewMat.m[0][1] = vRight.y;
-  m_invViewMat.m[0][2] = vRight.z;
-  m_invViewMat.m[0][3] = 0.0f;
-  m_invViewMat.m[1][0] = vUp.x;
-  m_invViewMat.m[1][1] = vUp.y;
-  m_invViewMat.m[1][2] = vUp.z;
-  m_invViewMat.m[1][3] = 0.0f;
-  m_invViewMat.m[2][0] = vForward.x;
-  m_invViewMat.m[2][1] = vForward.y;
-  m_invViewMat.m[2][2] = vForward.z;
-  m_invViewMat.m[2][3] = 0.0f;
-  m_invViewMat.m[3][0] = Camera::mainCamera.transform.position.x;
-  m_invViewMat.m[3][1] = Camera::mainCamera.transform.position.y;
-  m_invViewMat.m[3][2] = Camera::mainCamera.transform.position.z;
-  m_invViewMat.m[3][3] = 1.0f;
+  invViewMat_.m[0][0] = vRight.x;
+  invViewMat_.m[0][1] = vRight.y;
+  invViewMat_.m[0][2] = vRight.z;
+  invViewMat_.m[0][3] = 0.0f;
+  invViewMat_.m[1][0] = vUp.x;
+  invViewMat_.m[1][1] = vUp.y;
+  invViewMat_.m[1][2] = vUp.z;
+  invViewMat_.m[1][3] = 0.0f;
+  invViewMat_.m[2][0] = vForward.x;
+  invViewMat_.m[2][1] = vForward.y;
+  invViewMat_.m[2][2] = vForward.z;
+  invViewMat_.m[2][3] = 0.0f;
+  invViewMat_.m[3][0] = Camera::mainCamera.transform.position.x;
+  invViewMat_.m[3][1] = Camera::mainCamera.transform.position.y;
+  invViewMat_.m[3][2] = Camera::mainCamera.transform.position.z;
+  invViewMat_.m[3][3] = 1.0f;
 }
 
 void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform)
@@ -112,9 +113,9 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 	Triangle triTransformed;
 
 	// World Matrix Transform
-	triTransformed.vertices[0] = (tri.vertices[0] * localTransformedMat) * m_matWorld;
-	triTransformed.vertices[1] = (tri.vertices[1] * localTransformedMat) * m_matWorld;
-	triTransformed.vertices[2] = (tri.vertices[2] * localTransformedMat) * m_matWorld;
+	triTransformed.vertices[0] = (tri.vertices[0] * localTransformedMat) * matWorld_;
+	triTransformed.vertices[1] = (tri.vertices[1] * localTransformedMat) * matWorld_;
+	triTransformed.vertices[2] = (tri.vertices[2] * localTransformedMat) * matWorld_;
 
 	// Use Cross-Product to get surface2d_ normal
 	Vector3 normal = triTransformed.GetSurfaceNormal().Normalize();
@@ -126,23 +127,23 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 	Triangle triViewed;
 
 	// Convert World Space --> View Space
-	triViewed.vertices[0] = triTransformed.vertices[0] * m_viewMat;
-	triViewed.vertices[1] = triTransformed.vertices[1] * m_viewMat;
-	triViewed.vertices[2] = triTransformed.vertices[2] * m_viewMat;
+	triViewed.vertices[0] = triTransformed.vertices[0] * viewMat_;
+	triViewed.vertices[1] = triTransformed.vertices[1] * viewMat_;
+	triViewed.vertices[2] = triTransformed.vertices[2] * viewMat_;
 
 	// Clip Viewed Triangle against near plane,
 	// this could form two additional additional triangles.
 	int nClippedTriangles = 0;
 	Triangle clipped[2];
-	nClippedTriangles = GetNumPtsCliped ({0.0f, 0.0f, m_NEAR}, {0.0f, 0.0f, 1.0f}, triViewed, clipped[0], clipped[1]);
+	nClippedTriangles = GetNumPtsCliped ({0.0f, 0.0f, NEAR_}, {0.0f, 0.0f, 1.0f}, triViewed, clipped[0], clipped[1]);
 
 	for (int n = 0; n < nClippedTriangles; n++) {
 	  Triangle triProjected;
 
 	  // Project triangles from 3D --> 2D
-	  triProjected.vertices[0] = clipped[n].vertices[0] * m_matProj;
-	  triProjected.vertices[1] = clipped[n].vertices[1] * m_matProj;
-	  triProjected.vertices[2] = clipped[n].vertices[2] * m_matProj;
+	  triProjected.vertices[0] = clipped[n].vertices[0] * matProj_;
+	  triProjected.vertices[1] = clipped[n].vertices[1] * matProj_;
+	  triProjected.vertices[2] = clipped[n].vertices[2] * matProj_;
 
 	  triProjected.vertices[0] = triProjected.vertices[0] / triProjected.vertices[0].w;
 	  triProjected.vertices[1] = triProjected.vertices[1] / triProjected.vertices[1].w;
@@ -157,13 +158,13 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 		triProjected.vertices[i].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 	  }
 
-	  m_visibleTriangles.push_back (triProjected);
+	  visibleTriangles_.push_back (triProjected);
 	}
   }
 }
 void Renderer::SortVisibleTriangles()
 {
-  sort (m_visibleTriangles.begin(), m_visibleTriangles.end(), [] (Triangle &t1, Triangle &t2) {
+  sort (visibleTriangles_.begin(), visibleTriangles_.end(), [] (Triangle &t1, Triangle &t2) {
 	float z1 = t1.vertices->Magnitude() / 3.0f;
 	float z2 = t2.vertices->Magnitude() / 3.0f;
 	return z1 > z2;
@@ -172,15 +173,15 @@ void Renderer::SortVisibleTriangles()
 
 void Renderer::Render()
 {
-  for (auto id : m_scene->GetActiveEntities()) {
-	  m_scene->components.GetParticlesFromID (id).Render();
-	  m_scene->components.GetGridFromID (id).DrawGrid2D();
+  for (auto id : scene_->GetActiveEntities()) {
+	  scene_->components.GetParticlesFromID (id).Render();
+	  scene_->components.GetGridFromID (id).DrawGrid2D();
   }
   DrawVisibleTriangles();
 }
 void Renderer::DrawVisibleTriangles()
 {
-  for (auto &triToRaster : m_visibleTriangles) {
+  for (auto &triToRaster : visibleTriangles_) {
 	// Clip triangles against all four screen edges, this could yield
 	// a bunch of triangles, so create a queue that we traverse to
 	//  ensure we only test new triangles generated against planes

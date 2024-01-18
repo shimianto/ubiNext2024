@@ -7,12 +7,12 @@
 
 void InputHandler::Init (Scene &scene)
 {
-  m_Scene = &scene;
+  scene_ = &scene;
 }
 
 void InputHandler::HandleInput (float deltaTime)
 {
-  switch (m_Scene->GetActiveScene()) {
+  switch (scene_->GetActiveScene()) {
   case MENU_SCENE:
 	  HandleMenuSceneInput (deltaTime);
 	break;
@@ -37,7 +37,7 @@ void InputHandler::HandleParticleSceneInput()
 	Vector3 position;
 	App::GetMousePos (position.x, position.y);
 
-	m_Scene->components.GetParticlesFromID (0).NewParticle (position);
+	scene_->components.GetParticlesFromID (0).NewParticle (position);
   }
 }
 
@@ -70,7 +70,6 @@ void InputHandler::HandleMainSceneInput (float deltaTime)
 void InputHandler::HandleMenuSceneInput (float deltaTime)
 {
   if (App::IsKeyPressed (VK_SPACE)) {
-	m_Scene->SetScene (MAIN_SCENE);
-	//m_Scene->Init();
+	scene_->SetScene (MAIN_SCENE);
   }
 }

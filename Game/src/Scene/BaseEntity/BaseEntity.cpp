@@ -2,22 +2,22 @@
 #include "BaseEntity.h"
 
 BaseEntity::BaseEntity () : 
-	m_id(-1),
-	m_isActive (true)
+	id_(-1),
+	isActive_ (true)
 {
 }
 
 int BaseEntity::GetId()
 {
-  return m_id;
+  return id_;
 }
 
 bool BaseEntity::IsActive()
 {
-  return m_isActive;
+  return isActive_;
 }
 
 void BaseEntity::SetActive (bool active)
 {
-  m_isActive = active;
+  isActive_ = active;
 }

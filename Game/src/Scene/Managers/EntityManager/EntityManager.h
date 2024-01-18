@@ -8,15 +8,15 @@ class EntityManager
 {
   private:
   
-	  int m_nextValidId;
-      std::vector<BaseEntity> m_entities;
-      std::set<int> m_activeEntities;
+	  int nextValidId_;
+      std::vector<BaseEntity> entities_;
+      std::set<int> activeEntities_;
 
   public:
       EntityManager();
       ~EntityManager();
 
-      int RegisterEntity (BaseEntity entity);
+      int InstantiateNewEntity ();
       BaseEntity &GetEntityFromID (const int &id);
 
       const std::set<int> GetActiveEntities() const;

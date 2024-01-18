@@ -8,8 +8,8 @@ class BaseEntity
   friend class EntityManager;
   private:
   
-      int m_id;
-      bool m_isActive;
+      int id_;
+      bool isActive_;
 
 
   public:  

@@ -138,7 +138,7 @@ void CSimpleSprite::SetAnimation(int id)
 {
     for (int i = 0; i < m_animations.size(); i++)
     {
-        if (m_animations[i].m_id == id)
+        if (m_animations[i].id_ == id)
         {
             m_currentAnim = i;
             return;
