@@ -8,35 +8,42 @@ ComponentManager::~ComponentManager()
 
 void ComponentManager::InstantiateComponents (const int &id)
 {
-  assert (id == m_nextValidIndex);
+  assert (id == nextValidIndex_);
 
-  m_meshComponents.push_back (Mesh());
-  m_healthComponents.push_back (Health());
-  m_transformComponents.push_back (Transform());
+  meshComponents_.push_back (Mesh());
+  healthComponents_.push_back (Health());
+  transformComponents_.push_back (Transform());
+  particlesComponents_.push_back (ParticleSystem());
 
-  m_nextValidIndex++;
+  nextValidIndex_++;
 }
 
 Mesh &ComponentManager::GetMeshFromID (const int &id)
 {
-  return m_meshComponents[id];
+  return meshComponents_[id];
 }
 
 Health &ComponentManager::GetHealthFromID (const int &id)
 {
-  return m_healthComponents[id];
+  return healthComponents_[id];
 }
 
 Transform &ComponentManager::GetTransformFromID (const int &id)
 {
-  return m_transformComponents[id];
+  return transformComponents_[id];
+}
+
+ParticleSystem &ComponentManager::GetParticlesFromID (const int &id)
+{
+  return particlesComponents_[id];
 }
 
 void ComponentManager::ClearComponents()
 {
-  m_meshComponents.clear();
-  m_healthComponents.clear();
-  m_transformComponents.clear();
+  meshComponents_.clear();
+  healthComponents_.clear();
+  transformComponents_.clear();
+  particlesComponents_.clear();
 
-  m_nextValidIndex = 0;
+  nextValidIndex_ = 0;
 }

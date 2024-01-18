@@ -28,7 +28,7 @@ void Scene::Update (float deltaTime)
   UpdateScreen();
   inputHandler_.HandleInput (deltaTime);
   renderer_.Update (deltaTime);
-  particles_.Update(deltaTime);
+  //particles_.Update(deltaTime);
 }
 
 void Scene::Render()
@@ -37,7 +37,7 @@ void Scene::Render()
 
   RenderScreen();
   renderer_.Render();
-  particles_.Render();
+  //particles_.Render();
 }
 
 void Scene::Shutdown()
@@ -61,6 +61,8 @@ void Scene::SetScene (SceneType type)
   case MAIN_SCENE:
 	SetMainScene();
 	break;
+  case PARTICLES_SCENE:
+	InstantiateNewEntity();
   default:
 	break;
   }
@@ -87,11 +89,6 @@ std::set<int> Scene::GetActiveEntities() const
 const SceneType Scene::GetActiveScene() const
 {
   return activeScene_;
-}
-
-void Scene::PlayParticlesAtPosition (const Vector3 &position)
-{
-  particles_.NewParticle (position);
 }
 
 void Scene::SetMainScene()

@@ -36,6 +36,15 @@ void Renderer::Update (const float &deltaTime)
 		m_scene->components.GetMeshFromID (id),
 		m_scene->components.GetTransformFromID (id)
 	);
+	
+	ParticleSystem &ps = m_scene->components.GetParticlesFromID (id);
+	if (ps.HasActiveParticles()) {
+		threadGrp.group.emplace_back (
+			&ParticleSystem::Update, 
+			&ps,
+			deltaTime
+		);
+	}
   }
   threadGrp.JoinAll();
 
@@ -163,6 +172,9 @@ void Renderer::SortVisibleTriangles()
 
 void Renderer::Render()
 {
+  for (auto id : m_scene->GetActiveEntities()) {
+	  m_scene->components.GetParticlesFromID (id).Render();
+  }
   DrawVisibleTriangles();
 }
 void Renderer::DrawVisibleTriangles()

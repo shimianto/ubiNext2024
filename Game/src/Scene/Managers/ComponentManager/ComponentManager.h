@@ -3,15 +3,17 @@
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Transform/Transform.h"
 #include "../../Components/Health/Health.h"
+#include "../../Components/Particles/ParticleSystem.h"
 
 class ComponentManager
 {
   private:
   
-	  int m_nextValidIndex;
-	  std::vector<Mesh> m_meshComponents;
-	  std::vector<Health> m_healthComponents;
-	  std::vector<Transform> m_transformComponents;
+	  int nextValidIndex_;
+	  std::vector<Mesh> meshComponents_;
+	  std::vector<Health> healthComponents_;
+      std::vector<Transform> transformComponents_;
+      std::vector<ParticleSystem> particlesComponents_;
 
   public:
       ~ComponentManager();
@@ -21,6 +23,7 @@ class ComponentManager
       Mesh &GetMeshFromID (const int &id);
       Health &GetHealthFromID (const int &id);
       Transform &GetTransformFromID (const int &id);
+      ParticleSystem &GetParticlesFromID (const int &id);
 
 	  void ClearComponents();
 };

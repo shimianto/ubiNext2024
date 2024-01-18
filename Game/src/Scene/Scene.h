@@ -26,8 +26,6 @@ class Scene
       Renderer renderer_;
       InputHandler inputHandler_;
 
-      ParticleSystem particles_;
-
       void SetMainScene();
       void SetMenuScene();
       void UpdateScreen();
@@ -51,6 +49,4 @@ class Scene
       std::set<int> GetActiveEntities() const;
 
       const SceneType GetActiveScene() const;
-
-      void PlayParticlesAtPosition (const Vector3 &position);
 };
