@@ -15,6 +15,7 @@ void ComponentManager::InstantiateComponents (const int &id)
   transformComponents_.push_back (Transform());
   particlesComponents_.push_back (ParticleSystem());
   gridComponents_.push_back (Grid());
+  baseAIComponents_.push_back (BaseAI());
 
   nextValidIndex_++;
 }
@@ -44,6 +45,11 @@ Grid &ComponentManager::GetGridFromID (const int &id)
   return gridComponents_[id];
 }
 
+BaseAI &ComponentManager::GetAIFromID (const int &id)
+{
+  return baseAIComponents_[id];
+}
+
 void ComponentManager::ClearComponents()
 {
   meshComponents_.clear();
@@ -51,6 +57,7 @@ void ComponentManager::ClearComponents()
   transformComponents_.clear();
   particlesComponents_.clear();
   gridComponents_.clear();
+  baseAIComponents_.clear();
 
   nextValidIndex_ = 0;
 }

@@ -31,6 +31,10 @@ class Scene
 
       ComponentManager components;
 
+      //Game Objects
+      std::set<int> enemyObjs;
+
+
       Scene ();
       void Init (UIManager &uiManager, const SceneType &sceneType = MENU_SCENE);
       void Update(float deltaTime);

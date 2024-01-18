@@ -5,6 +5,7 @@
 #include "../../Components/Health/Health.h"
 #include "../../Components/Particles/ParticleSystem.h"
 #include "../../Components/Grid/Grid.h"
+#include "../../Components/AI/BaseAI.h"
 
 class ComponentManager
 {
@@ -16,6 +17,7 @@ class ComponentManager
       std::vector<Transform> transformComponents_;
       std::vector<ParticleSystem> particlesComponents_;
       std::vector<Grid> gridComponents_;
+      std::vector<BaseAI> baseAIComponents_;
 
   public:
       ~ComponentManager();
@@ -27,6 +29,7 @@ class ComponentManager
       Transform &GetTransformFromID (const int &id);
       ParticleSystem &GetParticlesFromID (const int &id);
       Grid &GetGridFromID (const int &id);
+      BaseAI &GetAIFromID (const int &id);
 
 	  void ClearComponents();
 };

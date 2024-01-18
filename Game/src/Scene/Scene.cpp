@@ -29,6 +29,8 @@ void Scene::Update (float deltaTime)
 
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
+  
+  Systems::UpdateEnemies (*this);
 }
 
 void Scene::Render()
