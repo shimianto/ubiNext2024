@@ -12,7 +12,7 @@ void InputHandler::Init (Scene &scene)
 
 void InputHandler::HandleInput (float deltaTime)
 {
-  switch (m_Scene->GetOpenedScene()) {
+  switch (m_Scene->GetActiveScene()) {
   case MENU_SCENE:
 	  HandleMenuSceneInput (deltaTime);
 	break;

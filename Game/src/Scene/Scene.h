@@ -37,12 +37,11 @@ class Scene
       void Render();
       void Shutdown();
 
-      SceneType GetOpenedScene();
       void SetScene (const SceneType &type);
+      const SceneType GetActiveScene() const;
 
-      int InstantiateNewEntity();
+      const int InstantiateNewEntity();
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
 
-      const SceneType GetActiveScene() const;
 };

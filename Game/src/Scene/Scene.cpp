@@ -39,11 +39,8 @@ void Scene::Render()
 
 void Scene::Shutdown()
 {
-}
-
-SceneType Scene::GetOpenedScene()
-{
-  return activeScene_;
+  entityManager_.ClearEntities();
+  components.ClearComponents();
 }
 
 void Scene::SetScene (const SceneType &type)
@@ -70,12 +67,17 @@ void Scene::SetScene (const SceneType &type)
   }
 }
 
-int Scene::InstantiateNewEntity()
+const int Scene::InstantiateNewEntity()
 {
   int entId = entityManager_.RegisterEntity (BaseEntity());
   components.InstantiateComponents (entId);
 
   return entId;
+}
+
+const SceneType Scene::GetActiveScene() const
+{
+  return activeScene_;
 }
 
 BaseEntity Scene::GetEntityFromID (int id)
@@ -86,11 +88,6 @@ BaseEntity Scene::GetEntityFromID (int id)
 std::set<int> Scene::GetActiveEntities() const
 {
   return entityManager_.GetActiveEntities();
-}
-
-const SceneType Scene::GetActiveScene() const
-{
-  return activeScene_;
 }
 
 
