@@ -208,6 +208,8 @@
     <ClInclude Include="src\Scene\Managers\UIManager\UIManager.h" />
     <ClInclude Include="src\Scene\Pool\Pool.h" />
     <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\Scene\StateMachine\State.h" />
+    <ClInclude Include="src\Scene\StateMachine\StateMachine.h" />
     <ClInclude Include="src\Scene\Systems\Systems.h" />
     <ClInclude Include="src\Scene\UI\UI.h" />
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
@@ -244,6 +246,7 @@
     <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
     <ClCompile Include="src\Scene\Pool\Pool.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Scene\StateMachine\StateMachine.cpp" />
     <ClCompile Include="src\Scene\Systems\Systems.cpp" />
     <ClCompile Include="src\Scene\UI\UI.cpp" />
     <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
