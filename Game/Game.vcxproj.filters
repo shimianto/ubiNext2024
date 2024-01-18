@@ -40,9 +40,6 @@
     <ClCompile Include="src\Graphics3D\Color\Color.cpp">
       <Filter>src\Graphics3D\Color</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics3D\Mesh\Mesh.cpp">
-      <Filter>src\Graphics3D\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="src\Math\Matrix\Matrix.cpp">
       <Filter>src\Math\Matrix</Filter>
     </ClCompile>
@@ -55,12 +52,25 @@
     <ClCompile Include="src\InputHandler\InputHandler.cpp">
       <Filter>src\InputHandler</Filter>
     </ClCompile>
-    <ClCompile Include="src\Managers\EntityManager\BaseEntity.cpp">
-      <Filter>src\Managers\EntityManager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Managers\EntityManager\EntityManager.cpp">
-      <Filter>src\Managers\EntityManager</Filter>
-    </ClCompile>
+    <ClCompile Include="src\Math\Quad\Quad.cpp" />
+    <ClCompile Include="src\Scene\BaseEntity\BaseEntity.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\BaseAI.cpp" />
+    <ClCompile Include="src\Scene\Components\Grid\Grid.cpp" />
+    <ClCompile Include="src\Scene\Components\Grid\GridElement.cpp" />
+    <ClCompile Include="src\Scene\Components\Particles\Particle.cpp" />
+    <ClCompile Include="src\Scene\Components\Particles\ParticleSystem.cpp" />
+    <ClCompile Include="src\Scene\Components\Transform\Transform.cpp" />
+    <ClCompile Include="src\Scene\Managers\ComponentManager\ComponentManager.cpp" />
+    <ClCompile Include="src\Scene\Managers\EntityManager\EntityManager.cpp" />
+    <ClCompile Include="src\Scene\Components\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Scene\Components\Health\Health.cpp" />
+    <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
+    <ClCompile Include="src\Scene\Pool\Pool.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Scene\Systems\Systems.cpp" />
+    <ClCompile Include="src\Scene\UI\UI.cpp" />
+    <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\Enemy\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -102,9 +112,6 @@
     <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>src\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Math\Math.h">
-      <Filter>src\Math</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics3D\Graphics3D.h">
       <Filter>src\Graphics3D</Filter>
     </ClInclude>
@@ -113,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="src\Graphics3D\Color\Color.h">
       <Filter>src\Graphics3D\Color</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics3D\Mesh\Mesh.h">
-      <Filter>src\Graphics3D\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="src\Math\Matrix\Matrix.h">
       <Filter>src\Math\Matrix</Filter>
@@ -129,12 +133,25 @@
     <ClInclude Include="src\InputHandler\InputHandler.h">
       <Filter>src\InputHandler</Filter>
     </ClInclude>
-    <ClInclude Include="src\Managers\EntityManager\BaseEntity.h">
-      <Filter>src\Managers\EntityManager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Managers\EntityManager\EntityManager.h">
-      <Filter>src\Managers\EntityManager</Filter>
-    </ClInclude>
+    <ClInclude Include="src\Math\Quad\Quad.h" />
+    <ClInclude Include="src\Scene\BaseEntity\BaseEntity.h" />
+    <ClInclude Include="src\Scene\Components\AI\BaseAI.h" />
+    <ClInclude Include="src\Scene\Components\Grid\Grid.h" />
+    <ClInclude Include="src\Scene\Components\Grid\GridElement.h" />
+    <ClInclude Include="src\Scene\Components\Particles\Particle.h" />
+    <ClInclude Include="src\Scene\Components\Particles\ParticleSystem.h" />
+    <ClInclude Include="src\Scene\Components\Transform\Transform.h" />
+    <ClInclude Include="src\Scene\Managers\ComponentManager\ComponentManager.h" />
+    <ClInclude Include="src\Scene\Managers\EntityManager\EntityManager.h" />
+    <ClInclude Include="src\Scene\Components\Mesh\Mesh.h" />
+    <ClInclude Include="src\Scene\Components\Health\Health.h" />
+    <ClInclude Include="src\Scene\Managers\UIManager\UIManager.h" />
+    <ClInclude Include="src\Scene\Pool\Pool.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\Scene\Systems\Systems.h" />
+    <ClInclude Include="src\Scene\UI\UI.h" />
+    <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
+    <ClInclude Include="src\Scene\GameObjecs\Enemy\Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

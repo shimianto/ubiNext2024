@@ -2,6 +2,7 @@
 #include "Systems.h"
 #include "../../Graphics3D/Camera/Camera.h"
 #include "../Scene.h"
+#include "../GameObjecs/Enemy/Enemy.h"
 
 
 void Systems::SetMainScene(Scene &scene)
@@ -13,9 +14,14 @@ void Systems::SetMainScene(Scene &scene)
 }
 void Systems::SetMenuScene (Scene &scene)
 {
-  int newEntityId = scene.InstantiateNewEntity();
-  scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
-  scene.components.GetAIFromID (newEntityId).SetState(PATROLLING);
+  Enemy::Init (scene);
+}
+
+void Systems::UpdateEnemies (Scene &scene)
+{
+  for (const auto &id : scene.enemyObjs) {
+	scene.components.GetAIFromID (id).Update(id, scene);
+  }
 }
 
 int Systems::RandInt (int min, int max)
