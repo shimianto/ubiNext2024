@@ -2,22 +2,36 @@
 #include "Bullet.h"
 #include "../../Scene.h"
 
-int Bullet::Init (Scene &scene)
+Bullet &Bullet::InstantiateInScene (Scene &scene)
 {
   int poolId = scene.GetBullets().InstantiateNextAvailable();
 
-  if (poolId == -1) {
-	return -1;
+  assert (poolId >= 0);
+
+  Bullet &b = scene.GetBullets().GetElementByID (poolId);
+  b.poolId_ = poolId;
+
+  if (b.scenId_ == -1) {
+	b.scenId_ = scene.InstantiateNewEntity();
+	scene.components.GetMeshFromID (b.scenId_).LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
+	scene.components.GetTransformFromID (b.scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
+
+  } else {
+	scene.EnableEntity (b.scenId_);
+	b.lifetime = b.maxLifetime_;
   }
 
-  *this = scene.GetBullets().GetElementByID (poolId);
-  poolId_ = poolId;
+  return b;
+}
 
-  if (scenId_ == -1) {
-	scenId_ = scene.InstantiateNewEntity();
-	scene.components.GetMeshFromID (scenId_).LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
-	scene.components.GetTransformFromID (scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
-  }
+Bullet::Bullet (int lifetime) : 
+	GameObject(), 
+	maxLifetime_ (lifetime), lifetime (lifetime)
+{
 
+}
+
+int Bullet::Init (Scene &scene)
+{
   return scenId_;
 }

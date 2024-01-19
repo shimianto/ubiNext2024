@@ -8,6 +8,7 @@ namespace Systems
 
 	void MovePlayer (Scene &scene, const Vector3 &movement);
     void ShootBullet (Scene &scene);
+    void UpdateBullets (Scene &scene);
 	void UpdateEnemies(Scene &scene);
 	
 	int RandInt (int min, int max);

@@ -3,9 +3,15 @@
 
 class Bullet : public GameObject
 {
+  private:
+  
+	  int maxLifetime_;
   public:
   
-	  using GameObject::GameObject;
-  
+	  int lifetime;
+
+	  static Bullet &InstantiateInScene (Scene &scene);
+
+	  Bullet(int lifetime = 100);
 	  int Init (Scene &scene) override;
 };

@@ -24,22 +24,35 @@ void Systems::SetMenuScene (Scene &scene)
 
 void Systems::MovePlayer (Scene &scene, const Vector3 &movement)
 {
-  Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetId());
+  Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
 
   playerTransform.position += (movement * Player::speed);
 }
 
 void Systems::ShootBullet (Scene &scene)
 {
-  Bullet newBullet;
-  newBullet.Init(scene);
+  Bullet &newBullet = Bullet::InstantiateInScene (scene);
 
-  if (newBullet.GetId() == -1) {
-	return;
+
+  scene.components.GetTransformFromID (newBullet.GetSceneId()).position =
+    scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId()).position + Vector3 (0, 0, 10);
+}
+
+void Systems::UpdateBullets (Scene &scene)
+{
+  Pool<Bullet> &bulletPool = scene.GetBullets();
+  std::set<int> activeBullets = bulletPool.GetInUseElements();
+
+  for (auto &bulletId : activeBullets) {
+	Bullet &b = bulletPool.GetElementByID (bulletId);
+
+	b.lifetime--;
+
+	if (b.lifetime <= 0) {
+	  bulletPool.DisableElement (bulletId);
+	  scene.DisableEntity (b.GetSceneId());
+	}
   }
-
-  scene.components.GetTransformFromID (newBullet.GetId()).position =
-    scene.components.GetTransformFromID (scene.GetPlayer().GetId()).position + Vector3 (0, 0, 10);
 }
 
 void Systems::UpdateEnemies (Scene &scene)

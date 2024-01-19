@@ -56,8 +56,11 @@ class Scene
       const int InstantiateNewEntity();
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
+      void EnableEntity (const int &id);
+      void DisableEntity (const int &id);
 
-      //Get game Objecs
+
+      //Get Game Objecs
       void SetPlayer(Player &player);
       Player &GetPlayer();
       Pool<Bullet> &GetBullets();

@@ -15,7 +15,7 @@ class GameObject
           {}
 
 	  virtual int Init (Scene &scene) = 0;
-      virtual const int GetId()
+      virtual const int GetSceneId()
       {
 	    return scenId_;
       }
