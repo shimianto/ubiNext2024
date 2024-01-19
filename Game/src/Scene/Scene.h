@@ -32,7 +32,9 @@ class Scene
       ComponentManager components;
 
       //Game Objects
+      int playerId;
       std::set<int> enemyObjs;
+
 
 
       Scene ();

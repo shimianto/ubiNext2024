@@ -6,6 +6,7 @@
 #include "..\Graphics3D\Camera\Camera.h"
 #include "..\Math\Matrix\Matrix.h"
 #include "../Scene/Components/Transform/Transform.h"
+#include <list>
 
 class Scene;
 

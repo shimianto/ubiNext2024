@@ -3,18 +3,31 @@
 #include "../../Graphics3D/Camera/Camera.h"
 #include "../Scene.h"
 #include "../GameObjecs/Enemy/Enemy.h"
+#include "../GameObjecs/Player/Player.h"
 
 
 void Systems::SetMainScene(Scene &scene)
 {
   Camera::mainCamera.transform = Transform();
 
-  int newEntityId = scene.InstantiateNewEntity();
-  scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
+  Camera::mainCamera.transform.position = Vector3 (-6.18, 7.38, -6.72);
+  Camera::mainCamera.transform.rotation = Vector3 (0, -0.42, 0); 
+  
+  //int newEntityId = scene.InstantiateNewEntity();
+  //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
+
+  Player::Init (scene);
 }
 void Systems::SetMenuScene (Scene &scene)
 {
-  Enemy::Init (scene);
+  Player::Init (scene);
+}
+
+void Systems::MovePlayer (Scene &scene, const Vector3 &movement)
+{
+  Transform &playerTransform = scene.components.GetTransformFromID (scene.playerId);
+
+  playerTransform.position += (movement * Player::speed);
 }
 
 void Systems::UpdateEnemies (Scene &scene)

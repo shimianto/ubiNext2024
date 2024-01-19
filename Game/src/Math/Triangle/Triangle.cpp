@@ -11,6 +11,17 @@ Triangle::Triangle (float v1[3], float v2[3], float v3[3]) :
 	vertices{Vector3(v1), Vector3(v2), Vector3(v3)}
 {}
 
+Vector3 Triangle::GetSurfaceNormal()
+{
+  Vector3 sNormal, line1, line2;
+  line1 = vertices[1] - vertices[0];
+  line2 = vertices[2] - vertices[0];
+
+  sNormal = Vector3::CrossProduct (line1, line2);
+
+  return sNormal;
+}
+
 Triangle &Triangle::operator= (const Triangle &param)
 {
   vertices[0] = param.vertices[0];
@@ -31,13 +42,35 @@ Triangle Triangle::operator+ (const Vector3 &param)
   return out;
 }
 
-Vector3 Triangle::GetSurfaceNormal()
+bool Triangle::operator> (const Triangle &param)
 {
-  Vector3 sNormal, line1, line2;
-  line1 = vertices[1] - vertices[0];
-  line2 = vertices[2] - vertices[0];
+  float z1 = vertices->Magnitude() / 3.0f;
+  float z2 = param.vertices->Magnitude() / 3.0f;
 
-  sNormal = Vector3::CrossProduct (line1, line2);
-
-  return sNormal;
+  return z1 > z2;
 }
+
+bool Triangle::operator>= (const Triangle &param)
+{
+  float z1 = vertices->Magnitude() / 3.0f;
+  float z2 = param.vertices->Magnitude() / 3.0f;
+
+  return z1 > z2 || z1==z2;
+}
+
+bool Triangle::operator< (const Triangle &param)
+{
+  float z1 = vertices->Magnitude() / 3.0f;
+  float z2 = param.vertices->Magnitude() / 3.0f;
+
+  return z1 < z2;
+}
+
+bool Triangle::operator<= (const Triangle &param)
+{
+  float z1 = vertices->Magnitude() / 3.0f;
+  float z2 = param.vertices->Magnitude() / 3.0f;
+
+  return z1 < z2 || z1 == z2;
+}
+

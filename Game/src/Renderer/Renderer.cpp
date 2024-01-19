@@ -105,7 +105,7 @@ void Renderer::SetViewMatrices()
   invViewMat_.m[3][3] = 1.0f;
 }
 
-void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform)
+void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform)	
 {
   Matrix localTransformedMat = Matrix::MakeTransformedMatrix (transform);
 

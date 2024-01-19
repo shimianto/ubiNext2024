@@ -10,9 +10,12 @@ class Triangle
 
   Triangle (float v1[3], float v2[3], float v3[3]);
 
-  Triangle &operator= (const Triangle &param);
-
-  Triangle operator+ (const Vector3 &param);
-
   Vector3 GetSurfaceNormal();
+
+  Triangle &operator= (const Triangle &param);
+  Triangle operator+ (const Vector3 &param);
+  bool operator> (const Triangle &param);
+  bool operator>= (const Triangle &param);
+  bool operator< (const Triangle &param);
+  bool operator<= (const Triangle &param);
 };

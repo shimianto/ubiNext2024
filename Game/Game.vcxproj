@@ -199,6 +199,7 @@
     <ClInclude Include="src\Scene\Components\Particles\ParticleSystem.h" />
     <ClInclude Include="src\Scene\Components\Transform\Transform.h" />
     <ClInclude Include="src\Scene\GameObjecs\Enemy\Enemy.h" />
+    <ClInclude Include="src\Scene\GameObjecs\Player\Player.h" />
     <ClInclude Include="src\Scene\Managers\ComponentManager\ComponentManager.h" />
     <ClInclude Include="src\Scene\Managers\EntityManager\EntityManager.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="src\Scene\Components\Particles\ParticleSystem.cpp" />
     <ClCompile Include="src\Scene\Components\Transform\Transform.cpp" />
     <ClCompile Include="src\Scene\GameObjecs\Enemy\Enemy.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\Player\Player.cpp" />
     <ClCompile Include="src\Scene\Managers\ComponentManager\ComponentManager.cpp" />
     <ClCompile Include="src\Scene\Managers\EntityManager\EntityManager.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
