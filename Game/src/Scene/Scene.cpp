@@ -69,6 +69,26 @@ std::set<int> Scene::GetActiveEntities() const
   return entityManager_.GetActiveEntities();
 }
 
+void Scene::SetPlayer (Player &player)
+{
+  player_ = player;
+}
+
+Player &Scene::GetPlayer()
+{
+  return player_;
+}
+
+Pool<Bullet> &Scene::GetBullets()
+{
+  return bullets_;
+}
+
+Pool<Enemy> &Scene::GetEnemies()
+{
+  return enemies_;
+}
+
 void Scene::SetScene (const SceneType &type)
 {
   entityManager_.ClearEntities();

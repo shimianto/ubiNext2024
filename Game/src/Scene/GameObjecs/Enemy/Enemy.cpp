@@ -4,12 +4,24 @@
 
 int Enemy::Init (Scene &scene)
 {
-  int id = scene.InstantiateNewEntity();
-  scene.components.GetMeshFromID (id).LoadTrianglesFromObjectFile ("./data/cone3d.obj");
-  scene.components.GetTransformFromID (id).scale = Vector3 (0.1f, 0.1f, 0.1f);
-  scene.components.GetAIFromID (id).SetState (PATROLLING);
+  int poolId = scene.GetEnemies().InstantiateNextAvailable();
 
-  scene.enemyObjs.insert (id);
+  if (poolId == -1) {
+	return -1;
+  }
 
-  return id;
+  *this = scene.GetEnemies().GetElementByID (poolId);
+  poolId_ = poolId;
+
+  if (scenId_ == -1) {
+	  scenId_ = scene.InstantiateNewEntity();
+	  scene.components.GetMeshFromID (scenId_).LoadTrianglesFromObjectFile ("./data/cone3d.obj");
+	  scene.components.GetTransformFromID (scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
+	  scene.components.GetAIFromID (scenId_).SetState (PATROLLING);
+  }
+
+
+  //scene.enemyObjs.insert (scenId_);
+
+  return scenId_;
 }

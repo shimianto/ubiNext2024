@@ -1,11 +1,13 @@
 #pragma once
+#include "../GameObject.h"
 
 class Scene;
 
-class Player
+class Player : public GameObject
 {
   public:
+	  using GameObject::GameObject;
 
 	static float speed;
-	static int Init (Scene &scene);
+	int Init (Scene &scene) override;
 };

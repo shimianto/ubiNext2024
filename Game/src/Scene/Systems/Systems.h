@@ -7,6 +7,7 @@ namespace Systems
 	void SetMenuScene (Scene &scene);
 
 	void MovePlayer (Scene &scene, const Vector3 &movement);
+    void ShootBullet (Scene &scene);
 	void UpdateEnemies(Scene &scene);
 	
 	int RandInt (int min, int max);

@@ -28,26 +28,33 @@ void Renderer::Update (const float &deltaTime)
 
   visibleTriangles_.clear();
 
-  ThreadGroup threadGrp;
+  //ThreadGroup threadGrp;
 
   for (auto id : scene_->GetActiveEntities()) {
-	threadGrp.group.emplace_back (
+	SetVisibleTriangles (
+		scene_->components.GetMeshFromID (id), 
+		scene_->components.GetTransformFromID (id)
+	);
+
+	/*threadGrp.group.emplace_back (
 		&Renderer::SetVisibleTriangles, this, 
 		scene_->components.GetMeshFromID (id),
 		scene_->components.GetTransformFromID (id)
-	);
+	);*/
 	
 	ParticleSystem &ps = scene_->components.GetParticlesFromID (id);
 	if (ps.HasActiveParticles()) {
-		threadGrp.group.emplace_back (
+	  ps.Update (deltaTime);
+
+		/*threadGrp.group.emplace_back (
 			&ParticleSystem::Update, 
 			&ps,
 			deltaTime
-		);
+		);*/
 	}
   }
 
-  threadGrp.JoinAll();
+  //threadGrp.JoinAll();
 
   SortVisibleTriangles();
 }

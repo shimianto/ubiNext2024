@@ -6,11 +6,10 @@ float Player::speed = 2;
 
 int Player::Init (Scene &scene)
 {
-  int id = scene.InstantiateNewEntity();
-  scene.components.GetMeshFromID (id).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
-  scene.components.GetTransformFromID (id).scale = Vector3 (0.1f, 0.1f, 0.1f);
+  scenId_ = scene.InstantiateNewEntity();
+  scene.components.GetMeshFromID (scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+  scene.components.GetTransformFromID (scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
 
-  scene.playerId = id;
-
-  return id;
+  scene.SetPlayer(*this);
+  return scenId_;
 }

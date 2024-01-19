@@ -87,14 +87,11 @@ void InputHandler::HandleMainSceneInput (float deltaTime)
 	  } else if (App::GetController().GetLeftThumbStickX() < -0.5f) {
 	    Systems::MovePlayer (*scene_, Vector3 (1 / deltaTime, 0));
 	  }
-	  if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_UP, false)) {
+
+	  if (App::IsKeyPressed (VK_SPACE)) {
+	    Systems::ShootBullet (*scene_);
 	  }
-	  if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_DOWN)){
-	  }
-	  if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_LEFT, false)) {
-	  }
-	  if (App::GetController().CheckButton (XINPUT_GAMEPAD_DPAD_RIGHT, false)) {
-	  }
+	
   }
 }
 

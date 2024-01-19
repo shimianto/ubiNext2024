@@ -16,25 +16,37 @@ void Systems::SetMainScene(Scene &scene)
   //int newEntityId = scene.InstantiateNewEntity();
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
-  Player::Init (scene);
+  Player().Init (scene);
 }
 void Systems::SetMenuScene (Scene &scene)
 {
-  Player::Init (scene);
 }
 
 void Systems::MovePlayer (Scene &scene, const Vector3 &movement)
 {
-  Transform &playerTransform = scene.components.GetTransformFromID (scene.playerId);
+  Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetId());
 
   playerTransform.position += (movement * Player::speed);
 }
 
+void Systems::ShootBullet (Scene &scene)
+{
+  Bullet newBullet;
+  newBullet.Init(scene);
+
+  if (newBullet.GetId() == -1) {
+	return;
+  }
+
+  scene.components.GetTransformFromID (newBullet.GetId()).position =
+    scene.components.GetTransformFromID (scene.GetPlayer().GetId()).position + Vector3 (0, 0, 10);
+}
+
 void Systems::UpdateEnemies (Scene &scene)
 {
-  for (const auto &id : scene.enemyObjs) {
+ /* for (const auto &id : scene.enemyObjs) {
 	scene.components.GetAIFromID (id).Update(id, scene);
-  }
+  }*/
 }
 
 int Systems::RandInt (int min, int max)

@@ -4,6 +4,9 @@
 #include "../InputHandler/InputHandler.h"
 #include "Managers/ComponentManager/ComponentManager.h"
 #include "Components/Particles/ParticleSystem.h"
+#include "GameObjecs/Player/Player.h"
+#include "GameObjecs/Bullet/Bullet.h"
+#include "GameObjecs/Enemy/Enemy.h"
 
 class UIManager;
 
@@ -27,13 +30,18 @@ class Scene
       Renderer renderer_;
       InputHandler inputHandler_;
 
+      //Game Objects
+      Player player_;
+      Pool<Bullet> bullets_;
+      Pool<Enemy> enemies_;
+
   public:
 
       ComponentManager components;
 
       //Game Objects
-      int playerId;
-      std::set<int> enemyObjs;
+      //int playerId;
+      //std::set<int> enemyObjs;
 
 
 
@@ -48,6 +56,12 @@ class Scene
       const int InstantiateNewEntity();
       BaseEntity GetEntityFromID (int id);
       std::set<int> GetActiveEntities() const;
+
+      //Get game Objecs
+      void SetPlayer(Player &player);
+      Player &GetPlayer();
+      Pool<Bullet> &GetBullets();
+      Pool<Enemy> &GetEnemies();
 
       void SetScene (const SceneType &type);
 };
