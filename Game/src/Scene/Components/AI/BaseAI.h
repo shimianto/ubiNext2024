@@ -24,3 +24,5 @@ class BaseAI
 
 	bool IsInState (const AIState &state);
 };
+
+// TODO: Implement BaseState class and populate StateMachine with custom classes

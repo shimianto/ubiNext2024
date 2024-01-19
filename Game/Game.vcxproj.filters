@@ -71,6 +71,11 @@
     <ClCompile Include="src\Scene\UI\UI.cpp" />
     <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
     <ClCompile Include="src\Scene\GameObjecs\Enemy\Enemy.cpp" />
+    <ClCompile Include="src\UnitTesting\MatrixTest.cpp" />
+    <ClCompile Include="src\UnitTesting\TriangleTest.cpp" />
+    <ClCompile Include="src\UnitTesting\UnitTesting.cpp" />
+    <ClCompile Include="src\UnitTesting\Vector3Test.cpp" />
+    <ClCompile Include="src\UnitTesting\EntityManagerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -152,6 +157,7 @@
     <ClInclude Include="src\Scene\UI\UI.h" />
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
     <ClInclude Include="src\Scene\GameObjecs\Enemy\Enemy.h" />
+    <ClInclude Include="src\InputHandler\Command\Command.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">
