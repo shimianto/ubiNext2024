@@ -254,6 +254,7 @@
     <ClCompile Include="src\ThreadGroup\ThreadGroup.cpp" />
     <ClCompile Include="src\UnitTesting\EntityManagerTest.cpp" />
     <ClCompile Include="src\UnitTesting\MatrixTest.cpp" />
+    <ClCompile Include="src\UnitTesting\PoolTest.cpp" />
     <ClCompile Include="src\UnitTesting\TriangleTest.cpp" />
     <ClCompile Include="src\UnitTesting\UnitTesting.cpp" />
     <ClCompile Include="src\UnitTesting\Vector3Test.cpp" />

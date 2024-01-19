@@ -3,6 +3,7 @@
 #include "MatrixTest.cpp"
 #include "TriangleTest.cpp"
 #include "EntityManagerTest.cpp"
+#include "PoolTest.cpp"
 
 class UnitTesting
 {
@@ -12,9 +13,9 @@ class UnitTesting
 	Vector3Test::Run();
 	MatrixTest::Run();
 	TriangleTest::Run();
+	PoolTest::Run();
 	EntityManagerTest::Run();
-
-	// TODO: Pooling Unit testing
+	
 	// TODO: Managers Unit testing
 	// TODO: Components Unit testing
 	// TODO: GameObjects Unit testing

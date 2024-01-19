@@ -76,6 +76,7 @@
     <ClCompile Include="src\UnitTesting\UnitTesting.cpp" />
     <ClCompile Include="src\UnitTesting\Vector3Test.cpp" />
     <ClCompile Include="src\UnitTesting\EntityManagerTest.cpp" />
+    <ClCompile Include="src\UnitTesting\PoolTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
