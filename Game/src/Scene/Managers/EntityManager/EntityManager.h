@@ -6,10 +6,11 @@
 
 class EntityManager
 {
+  friend class EntityManagerTest;
   private:
   
 	  int nextValidId_;
-      std::vector<BaseEntity> entities_;
+      std::vector<BaseEntity> entities_; // TODO Object pooling
       std::set<int> activeEntities_;
 
   public:

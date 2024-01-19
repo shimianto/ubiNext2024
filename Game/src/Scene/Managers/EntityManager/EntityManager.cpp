@@ -2,7 +2,7 @@
 #include "EntityManager.h"
 #include "../../BaseEntity/BaseEntity.h"
 
-EntityManager::EntityManager()
+EntityManager::EntityManager() : nextValidId_(0)
 {
 }
 

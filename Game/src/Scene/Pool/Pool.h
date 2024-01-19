@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
 #include <set>
-#include "../Components/Particles/Particle.h"
 
 template <class T>
 class Pool
 {
+  friend class PoolTest;
   private:
   
 	  int maxPoolSize_;
@@ -23,7 +23,7 @@ class Pool
       const std::set<int> GetInUseElements() const;
 };
 
-template <class T> Pool<T>::Pool (int maxSize) : maxPoolSize_ (maxSize)
+template <class T> Pool<T>::Pool (int maxSize) : maxPoolSize_ (maxSize), poolSize_(0)
 {
 }
 

@@ -13,6 +13,29 @@ Vector3::Vector3 (float coords[3]) : x (coords[0]), y (coords[1]), z (coords[2])
 {
 }
 
+float Vector3::Magnitude() const
+{
+  return x * x + y * y + z * z;
+}
+
+Vector3 Vector3::Normalize() const
+{
+  Vector3 normal;
+  normal = *this / sqrtf (this->Magnitude());
+  return normal;
+}
+
+Vector3 Vector3::CrossProduct (const Vector3 &v1, const Vector3 &v2)
+{
+  Vector3 out;
+
+  out.x = v1.y * v2.z - v1.z * v2.y;
+  out.y = v1.z * v2.x - v1.x * v2.z;
+  out.z = v1.x * v2.y - v1.y * v2.x;
+
+  return out;
+}
+
 bool Vector3::operator== (const Vector3 &other) const
 {
   return x == other.x && y == other.y && z == other.z;
@@ -87,27 +110,4 @@ Vector3 Vector3::operator/= (float scalar)
   y /= scalar;
   z /= scalar;
   return *this;
-}
-
-float Vector3::Magnitude() const
-{
-  return x * x + y * y + z * z;
-}
-
-Vector3 Vector3::Normalize() const
-{
-  Vector3 normal;
-  normal = *this / sqrtf (this->Magnitude());
-  return normal;
-}
-
-Vector3 Vector3::CrossProduct (const Vector3 &v1, const Vector3 &v2)
-{
-  Vector3 out;
-
-  out.x = v1.y * v2.z - v1.z * v2.y;
-  out.y = v1.z * v2.x - v1.x * v2.z;
-  out.z = v1.x * v2.y - v1.y * v2.x;
-
-  return out;
 }
