@@ -24,9 +24,10 @@ Bullet &Bullet::InstantiateInScene (Scene &scene)
   return b;
 }
 
-Bullet::Bullet (int lifetime) : 
+Bullet::Bullet (int speed, int lifetime) : 
 	GameObject(), 
-	maxLifetime_ (lifetime), lifetime (lifetime)
+	maxLifetime_ (lifetime), speed(speed),
+	lifetime (lifetime)
 {
 
 }

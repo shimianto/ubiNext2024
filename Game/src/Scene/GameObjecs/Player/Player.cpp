@@ -2,14 +2,32 @@
 #include "Player.h"
 #include "../../Scene.h"
 
-float Player::speed = 2;
+
+Player &Player::InstantiateInScene (Scene &scene)
+{
+  Player newPlayer;
+
+  newPlayer.scenId_ = scene.InstantiateNewEntity();
+  scene.components.GetMeshFromID (newPlayer.scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+  scene.components.GetTransformFromID (newPlayer.scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
+
+  scene.SetPlayer (newPlayer);
+
+  return scene.GetPlayer();
+}
+
+Player::Player() : GameObject(), 
+	speed (2), fireRate (50), fireCoolDown(0)
+{
+}
 
 int Player::Init (Scene &scene)
 {
-  scenId_ = scene.InstantiateNewEntity();
-  scene.components.GetMeshFromID (scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
-  scene.components.GetTransformFromID (scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
-
-  scene.SetPlayer(*this);
+  
   return scenId_;
+}
+
+void Player::StartFireCooldown()
+{
+  fireCoolDown = fireRate;
 }

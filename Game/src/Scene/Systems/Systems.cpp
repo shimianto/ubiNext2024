@@ -16,7 +16,7 @@ void Systems::SetMainScene(Scene &scene)
   //int newEntityId = scene.InstantiateNewEntity();
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
-  Player().Init (scene);
+  Player::InstantiateInScene (scene);
 }
 void Systems::SetMenuScene (Scene &scene)
 {
@@ -25,17 +25,32 @@ void Systems::SetMenuScene (Scene &scene)
 void Systems::MovePlayer (Scene &scene, const Vector3 &movement)
 {
   Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
-
-  playerTransform.position += (movement * Player::speed);
+  playerTransform.position += (movement * scene.GetPlayer().speed);
 }
 
 void Systems::ShootBullet (Scene &scene)
 {
+  Player &player = scene.GetPlayer();
+
+  if (player.fireCoolDown > 0) {
+	return;
+  }
+
+  player.StartFireCooldown();
+
   Bullet &newBullet = Bullet::InstantiateInScene (scene);
 
-
   scene.components.GetTransformFromID (newBullet.GetSceneId()).position =
-    scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId()).position + Vector3 (0, 0, 10);
+    scene.components.GetTransformFromID (player.GetSceneId()).position + Vector3 (0, 0, 10);
+}
+
+void Systems::UpdatePlayer (Scene &scene)
+{
+  Player &p = scene.GetPlayer();
+
+  if (p.fireCoolDown > 0) {
+	p.fireCoolDown--;
+  }
 }
 
 void Systems::UpdateBullets (Scene &scene)
@@ -45,13 +60,16 @@ void Systems::UpdateBullets (Scene &scene)
 
   for (auto &bulletId : activeBullets) {
 	Bullet &b = bulletPool.GetElementByID (bulletId);
-
+	
 	b.lifetime--;
 
 	if (b.lifetime <= 0) {
 	  bulletPool.DisableElement (bulletId);
 	  scene.DisableEntity (b.GetSceneId());
+	  continue;
 	}
+
+	scene.components.GetTransformFromID (b.GetSceneId()).position += Vector3 (0, 0, b.speed);
   }
 }
 

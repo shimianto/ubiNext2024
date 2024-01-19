@@ -6,8 +6,14 @@ class Scene;
 class Player : public GameObject
 {
   public:
-	  using GameObject::GameObject;
+	float speed;
+	float fireRate;
+    float fireCoolDown;
 
-	static float speed;
-	int Init (Scene &scene) override;
+	 static Player &InstantiateInScene (Scene &scene);
+
+	 Player();
+
+	 int Init (Scene &scene) override;
+	 void StartFireCooldown();
 };

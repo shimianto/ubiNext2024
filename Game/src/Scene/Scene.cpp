@@ -30,6 +30,7 @@ void Scene::Update (float deltaTime)
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
   
+  Systems::UpdatePlayer (*this);
   Systems::UpdateEnemies (*this);
   Systems::UpdateBullets (*this);
 }
