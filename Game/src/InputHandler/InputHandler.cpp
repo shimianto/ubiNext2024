@@ -86,7 +86,7 @@ void InputHandler::HandleMainSceneInput (float deltaTime)
 	  if (App::IsKeyPressed (VK_SPACE) || App::GetController().GetRightTrigger()) {
 	    Systems::ChargePlayer (*scene_);
 	  } else {
-	    Systems::MovePlayer (*scene_, deltaTime);
+	    Systems::ShootPlayer (*scene_, deltaTime);
 	  }
 
 	  /*if (App::IsKeyPressed (VK_SPACE)) {

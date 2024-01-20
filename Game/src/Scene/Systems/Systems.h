@@ -8,7 +8,7 @@ namespace Systems
 	void SetMenuScene (Scene &scene);
 
 	void ChargePlayer (Scene &scene);
-	void MovePlayer (Scene &scene, const float &deltaTime);
+	void ShootPlayer (Scene &scene, const float &deltaTime);
     void RotatePlayer (Scene &scene, const Vector3 &rotation);
     void ShootBullet (Scene &scene);
 

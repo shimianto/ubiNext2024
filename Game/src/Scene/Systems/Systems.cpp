@@ -34,7 +34,7 @@ void Systems::ChargePlayer (Scene &scene)
   }
 }
 
-void Systems::MovePlayer (Scene &scene, const float &deltaTime)
+void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
   if (p.shootPower > 0 && p.velocity == Vector3()) {
