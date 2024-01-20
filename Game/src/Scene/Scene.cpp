@@ -33,7 +33,8 @@ void Scene::Update (float deltaTime)
   
   Systems::UpdatePlayer (*this, deltaTime);
   Systems::UpdateEnemies (*this, deltaTime);
-  Systems::UpdateBullets (*this);
+  Systems::UpdateEnemyShooters(*this, deltaTime);
+  Systems::UpdateBullets (*this, deltaTime);
 
   Systems::CheckCollisions (*this);
 }
@@ -102,6 +103,11 @@ Pool<Bullet> &Scene::GetBullets()
 Pool<Enemy> &Scene::GetEnemies()
 {
   return enemies_;
+}
+
+Pool<EnemyShooter> &Scene::GetEnemyShooters()
+{
+  return enemyShooters_;
 }
 
 void Scene::SetScene (const SceneType &type)

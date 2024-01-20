@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "../../Scene.h"
+#include "../../../Math/Vector3/Vector3.h"
 
 Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 {
@@ -31,6 +32,6 @@ Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
   return newEnemy;
 }
 
-Enemy::Enemy() : GameObject(), shootForce(10)
+Enemy::Enemy() : GameObject(), moveForce(10)
 {
 }

@@ -1,6 +1,9 @@
 #pragma once
 #include "../GameObject.h"
 
+class Scene;
+class Vector3;
+
 class Bullet : public GameObject
 {
   private:
@@ -11,7 +14,7 @@ class Bullet : public GameObject
       int speed;
 	  int lifetime;
 
-	  static Bullet &InstantiateInScene (Scene &scene);
+	  static Bullet &InstantiateInScene (Scene &scene, Vector3 position, Vector3 direction);
 
-	  Bullet(int speed = 5, int lifetime = 100);
+	  Bullet(int speed = 5, int lifetime = 300);
 };

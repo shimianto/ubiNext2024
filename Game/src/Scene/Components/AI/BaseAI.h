@@ -4,7 +4,8 @@ class Scene;
 enum AIState
 {
 	IDLE,
-	PATROLLING
+	PATROLLING,
+	SHOOTING,
 };
 
 class BaseAI

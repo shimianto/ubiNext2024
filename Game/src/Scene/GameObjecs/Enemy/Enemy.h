@@ -7,7 +7,7 @@ class Vector3;
 class Enemy : public GameObject
 {
   public:
-	  float shootForce;
+	  float moveForce;
 
 	  static Enemy &InstantiateInScene (Scene &scene, Vector3 position);
 
