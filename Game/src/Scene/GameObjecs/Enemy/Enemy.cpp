@@ -13,8 +13,8 @@ Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 
   if (newEnemy.scenId_ == -1) {
 	newEnemy.scenId_ = scene.InstantiateNewEntity();
-	scene.components.GetMeshFromID (newEnemy.scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
-	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (2, 2, 2);
+	scene.components.GetMeshFromID (newEnemy.scenId_).LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
+	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
 
   } else {

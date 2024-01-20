@@ -81,9 +81,9 @@ void Systems::CheckCollisions (Scene &scene)
 	Enemy &e = enemyPool.GetElementByID (enemyId);
 
 	if (Collider::CheckCollision (scene, player.GetSceneId(), e.GetSceneId())) {
-	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (1, 0, 0);
+	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (1, 0, 0, 0);
 	} else {
-	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (0, 0, 1);
+	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (0, 0, 1, 0);
 	}
   }
 }
@@ -100,6 +100,12 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 
   scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.chargeBarId, chargeBar);
 
+
+  //Gravity
+  if (playerTransform.position.y > -24) {
+	p.velocity.y -= p.drag;
+  }
+
   if (p.velocity == Vector3 (0, 0, 0)) {
 	return;
   }
@@ -109,9 +115,12 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 
   //Bounce on boundaries
   if (playerTransform.position.x < -35 || playerTransform.position.x > 35) {
-	p.velocity.x *= -1;
+	p.velocity.x *= -0.9;
   }
-  if (playerTransform.position.y < -25 || playerTransform.position.y > 25) {
+  if (playerTransform.position.y < -25) {
+	p.velocity.x *= 0.6;
+	p.velocity.y *= -0.6;
+  } else if (playerTransform.position.y > 25) {
 	p.velocity.y *= -1;
   }
 
@@ -120,16 +129,16 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   if (p.velocity.x != 0) {
 	  if (p.velocity.x < 0)
 	  {
-		p.velocity.x += p.drag;
+		//p.velocity.x += p.drag;
 	  } else {
-		p.velocity.x -= p.drag;
+		//p.velocity.x -= p.drag;
 	  }
   }
   if (p.velocity.y != 0) {
 	  if (p.velocity.y < 0) {
-		p.velocity.y += p.drag;
+		//p.velocity.y += p.drag;
 	  } else {
-		p.velocity.y -= p.drag;
+		//p.velocity.y -= p.drag;
 	  }
   }
 
@@ -137,7 +146,7 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   if (p.velocity.x <= p.drag && p.velocity.x >= -p.drag) {
 	p.velocity.x = 0;
   } 
-  if (p.velocity.y <= p.drag && p.velocity.y >= -p.drag) {
+  if (p.velocity.y <= p.drag && p.velocity.y >= -p.drag && playerTransform.position.y < -24) {
 	p.velocity.y = 0;
   } 
 }

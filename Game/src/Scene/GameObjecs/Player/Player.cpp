@@ -23,8 +23,8 @@ Player &Player::InstantiateInScene (Scene &scene)
 
 Player::Player() : 
 	GameObject(), speed (2), fireRate (50), fireCoolDown (0), 
-	shootPower (0), maxPower (20), chargeRate (0.15f), chargeBarId(-1),
-	drag (0.1f), velocity (Vector3())
+	shootPower (0), maxPower (100), chargeRate (0.4f), chargeBarId(-1),
+	drag (0.3f), velocity (Vector3())
 {
 }
 
