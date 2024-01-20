@@ -15,6 +15,7 @@ Bullet &Bullet::InstantiateInScene (Scene &scene)
 	b.scenId_ = scene.InstantiateNewEntity();
 	scene.components.GetMeshFromID (b.scenId_).LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
 	scene.components.GetTransformFromID (b.scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
+	//scene.components.GetColliderFromID(b.scenId_).radius = 
 
   } else {
 	scene.EnableEntity (b.scenId_);
@@ -30,9 +31,4 @@ Bullet::Bullet (int speed, int lifetime) :
 	lifetime (lifetime)
 {
 
-}
-
-int Bullet::Init (Scene &scene)
-{
-  return scenId_;
 }

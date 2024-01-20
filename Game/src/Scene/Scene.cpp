@@ -29,10 +29,13 @@ void Scene::Update (float deltaTime)
 
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
+
   
-  Systems::UpdatePlayer (*this);
+  Systems::UpdatePlayer (*this, deltaTime);
   Systems::UpdateEnemies (*this);
   Systems::UpdateBullets (*this);
+
+  Systems::CheckCollisions (*this);
 }
 
 void Scene::Render()

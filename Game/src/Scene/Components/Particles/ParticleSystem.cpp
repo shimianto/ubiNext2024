@@ -2,7 +2,7 @@
 #include "ParticleSystem.h"
 #include "../../../Graphics3D/Graphics3D.h"
 #include "Particle.h"
-#include "../../Systems/Systems.h"
+#include "../../../Math/Utils/Utils.h"
 
 template class Pool<Particle>;
 
@@ -18,9 +18,8 @@ void ParticleSystem::NewParticle (const Vector3 &pos, const Color &col)
   Particle &p = particlePool_.GetElementByID (id);
   p.lifeTime = 100;
   p.position = pos;
-  p.velocity = Vector3 (Systems::RandInt (-2, 2), Systems::RandInt (-2, 2));
+  p.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2));
   p.color = col;
-  //p.color = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
 }
 
 void ParticleSystem::Update (const float &deltaTime)

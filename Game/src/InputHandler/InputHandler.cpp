@@ -4,6 +4,7 @@
 #include "../Graphics3D/Camera/Camera.h"
 #include "../Scene/Scene.h"
 #include "../Scene/Systems/Systems.h"
+#include "../Math/Utils/Utils.h"
 
 void InputHandler::Init (Scene &scene)
 {
@@ -30,7 +31,7 @@ void InputHandler::HandleInput (float deltaTime)
 void InputHandler::HandleParticleSceneInput()
 {
   if (App::IsKeyPressed (VK_RBUTTON)) {
-	Particle::DEFAULT_PARTICLE_COL = Color (Systems::RandFloat(), Systems::RandFloat(), Systems::RandFloat());
+	Particle::DEFAULT_PARTICLE_COL = Color (Utils::RandFloat(), Utils::RandFloat(), Utils::RandFloat());
   }
 
   if (App::IsKeyPressed (VK_LBUTTON)) {
@@ -76,21 +77,21 @@ void InputHandler::HandleMainSceneInput (float deltaTime)
 	  }
   } 
   else {
-	  if (App::GetController().GetLeftThumbStickY() > 0.5f) {
-	    Systems::MovePlayer (*scene_, Vector3 (0, 0, 1 / deltaTime));
-
-	  } else if (App::GetController().GetLeftThumbStickY() < -0.5f) {
-	    Systems::MovePlayer (*scene_, Vector3 (0, 0, -1 / deltaTime));
-	  }
 	  if (App::GetController().GetLeftThumbStickX() > 0.5f) {
-	    Systems::MovePlayer (*scene_, Vector3 (-1 / deltaTime, 0));
+	    Systems::RotatePlayer (*scene_, Vector3 (1 / deltaTime, 0));
 	  } else if (App::GetController().GetLeftThumbStickX() < -0.5f) {
-	    Systems::MovePlayer (*scene_, Vector3 (1 / deltaTime, 0));
+	    Systems::RotatePlayer (*scene_, Vector3 (-1 / deltaTime, 0));
 	  }
 
-	  if (App::IsKeyPressed (VK_SPACE)) {
-	    Systems::ShootBullet (*scene_);
+	  if (App::IsKeyPressed (VK_SPACE) || App::GetController().GetRightTrigger()) {
+	    Systems::ChargePlayer (*scene_);
+	  } else {
+	    Systems::MovePlayer (*scene_, deltaTime);
 	  }
+
+	  /*if (App::IsKeyPressed (VK_SPACE)) {
+	    Systems::ShootBullet (*scene_);
+	  }*/
 	
   }
 }

@@ -4,28 +4,54 @@
 #include "../Scene.h"
 #include "../GameObjecs/Enemy/Enemy.h"
 #include "../GameObjecs/Player/Player.h"
+#include "../../Math/Vector3/Vector3.h"
 
 
 void Systems::SetMainScene(Scene &scene)
 {
   Camera::mainCamera.transform = Transform();
 
-  Camera::mainCamera.transform.position = Vector3 (-6.18, 7.38, -6.72);
-  Camera::mainCamera.transform.rotation = Vector3 (0, -0.42, 0); 
+  //Camera::mainCamera.transform.position = Vector3 (-6.18, 7.38, -6.72);
+  //Camera::mainCamera.transform.rotation = Vector3 (0, -0.42, 0); 
   
   //int newEntityId = scene.InstantiateNewEntity();
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
+  Enemy::InstantiateInScene (scene, Vector3 (20, 0, 0));
 }
 void Systems::SetMenuScene (Scene &scene)
 {
 }
 
-void Systems::MovePlayer (Scene &scene, const Vector3 &movement)
+void Systems::ChargePlayer (Scene &scene)
+{
+  Player &p = scene.GetPlayer();
+  if (p.velocity == Vector3() && p.shootPower < p.maxPower) {
+	p.shootPower += p.chargeRate;
+  }
+}
+
+void Systems::MovePlayer (Scene &scene, const float &deltaTime)
+{
+  Player &p = scene.GetPlayer();
+  if (p.shootPower > 0 && p.velocity == Vector3()) {
+	  Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
+	  Matrix matRot = Matrix::MakeRotationMatrix (playerTransform.rotation);
+
+	  // Calculate new forward direction
+	  Vector3 vForward = ((Vector3(0,1,0)) * matRot).Normalize();
+
+	  p.velocity = vForward * p.shootPower;
+	  p.shootPower = 0;
+  }
+
+}
+
+void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 {
   Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
-  playerTransform.position += (movement * scene.GetPlayer().speed);
+  playerTransform.rotation.z += rotation.x;
 }
 
 void Systems::ShootBullet (Scene &scene)
@@ -44,13 +70,57 @@ void Systems::ShootBullet (Scene &scene)
     scene.components.GetTransformFromID (player.GetSceneId()).position + Vector3 (0, 0, 10);
 }
 
-void Systems::UpdatePlayer (Scene &scene)
+void Systems::CheckCollisions (Scene &scene)
+{
+  Player &player = scene.GetPlayer();
+  Pool<Enemy> &enemyPool = scene.GetEnemies();
+
+  for (auto &enemyId : enemyPool.GetInUseElements()) {
+	Enemy &e = enemyPool.GetElementByID (enemyId);
+
+	if (Collider::CheckCollision (scene, player.GetSceneId(), e.GetSceneId())) {
+	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (1, 0, 0);
+	} else {
+	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (0, 0, 1);
+	}
+  }
+}
+
+void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
+  Transform &pTrans = scene.components.GetTransformFromID (p.GetSceneId());
 
-  if (p.fireCoolDown > 0) {
-	p.fireCoolDown--;
+  if (p.velocity == Vector3 (0, 0, 0)) {
+	return;
   }
+
+  pTrans.position += p.velocity / deltaTime;
+
+  //Update velocity
+  if (p.velocity.x != 0) {
+	  if (p.velocity.x < 0)
+	  {
+		p.velocity.x += p.drag;
+	  } else {
+		p.velocity.x -= p.drag;
+	  }
+  }
+  if (p.velocity.y != 0) {
+	  if (p.velocity.y < 0) {
+		p.velocity.y += p.drag;
+	  } else {
+		p.velocity.y -= p.drag;
+	  }
+  }
+
+  //Set vel to zero if within variance
+  if (p.velocity.x <= p.drag && p.velocity.x >= -p.drag) {
+	p.velocity.x = 0;
+  } 
+  if (p.velocity.y <= p.drag && p.velocity.y >= -p.drag) {
+	p.velocity.y = 0;
+  } 
 }
 
 void Systems::UpdateBullets (Scene &scene)
@@ -78,13 +148,4 @@ void Systems::UpdateEnemies (Scene &scene)
  /* for (const auto &id : scene.enemyObjs) {
 	scene.components.GetAIFromID (id).Update(id, scene);
   }*/
-}
-
-int Systems::RandInt (int min, int max)
-{
-  return rand() % (max - min + 1) + min;
-}
-float Systems::RandFloat()
-{
-  return (float)rand() / (float)RAND_MAX;
 }

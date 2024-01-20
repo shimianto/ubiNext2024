@@ -14,5 +14,4 @@ class Bullet : public GameObject
 	  static Bullet &InstantiateInScene (Scene &scene);
 
 	  Bullet(int speed = 5, int lifetime = 100);
-	  int Init (Scene &scene) override;
 };

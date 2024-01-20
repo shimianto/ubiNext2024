@@ -2,26 +2,26 @@
 #include "Enemy.h"
 #include "../../Scene.h"
 
-int Enemy::Init (Scene &scene)
+Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 {
   int poolId = scene.GetEnemies().InstantiateNextAvailable();
 
-  if (poolId == -1) {
-	return -1;
+  assert (poolId >= 0);
+
+  Enemy &newEnemy = scene.GetEnemies().GetElementByID (poolId);
+  newEnemy.poolId_ = poolId;
+
+  if (newEnemy.scenId_ == -1) {
+	newEnemy.scenId_ = scene.InstantiateNewEntity();
+	scene.components.GetMeshFromID (newEnemy.scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (2, 2, 2);
+	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
+
+  } else {
+	scene.EnableEntity (newEnemy.scenId_);
   }
 
-  *this = scene.GetEnemies().GetElementByID (poolId);
-  poolId_ = poolId;
+   scene.components.GetTransformFromID (newEnemy.scenId_).position = position;
 
-  if (scenId_ == -1) {
-	  scenId_ = scene.InstantiateNewEntity();
-	  scene.components.GetMeshFromID (scenId_).LoadTrianglesFromObjectFile ("./data/cone3d.obj");
-	  scene.components.GetTransformFromID (scenId_).scale = Vector3 (0.1f, 0.1f, 0.1f);
-	  scene.components.GetAIFromID (scenId_).SetState (PATROLLING);
-  }
-
-
-  //scene.enemyObjs.insert (scenId_);
-
-  return scenId_;
+  return newEnemy;
 }

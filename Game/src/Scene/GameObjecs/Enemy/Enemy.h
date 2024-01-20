@@ -2,12 +2,13 @@
 #include "../GameObject.h"
 
 class Scene;
+class Vector3;
 
 class Enemy : public GameObject
 {
   public:
   
-	  using GameObject::GameObject;
+	 static Enemy &InstantiateInScene (Scene &scene, Vector3 position);
 
-	  int Init (Scene &scene) override;
+	  using GameObject::GameObject;
 };

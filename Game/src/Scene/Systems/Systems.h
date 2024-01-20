@@ -1,17 +1,21 @@
 #pragma once
-#include"../Scene.h"
+class Scene;
+class Vector3;
 
 namespace Systems
 {
 	void SetMainScene (Scene &scene);
 	void SetMenuScene (Scene &scene);
 
-	void MovePlayer (Scene &scene, const Vector3 &movement);
+	void ChargePlayer (Scene &scene);
+	void MovePlayer (Scene &scene, const float &deltaTime);
+    void RotatePlayer (Scene &scene, const Vector3 &rotation);
     void ShootBullet (Scene &scene);
-    void UpdatePlayer (Scene &scene);
+
+	void CheckCollisions (Scene &scene);
+
+    void UpdatePlayer (Scene &scene, const float &deltaTime);
     void UpdateBullets (Scene &scene);
 	void UpdateEnemies(Scene &scene);
 	
-	int RandInt (int min, int max);
-	float RandFloat();
 };

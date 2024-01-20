@@ -6,6 +6,7 @@
 #include "../../Components/Particles/ParticleSystem.h"
 #include "../../Components/Grid/Grid.h"
 #include "../../Components/AI/BaseAI.h"
+#include "../../Components/Collider/Collider.h"
 
 class ComponentManager
 {
@@ -18,6 +19,7 @@ class ComponentManager
       std::vector<ParticleSystem> particlesComponents_;
       std::vector<Grid> gridComponents_;
       std::vector<BaseAI> baseAIComponents_;
+      std::vector<Collider> colliderComponents_;
 
   public:
       ~ComponentManager();
@@ -30,6 +32,7 @@ class ComponentManager
       ParticleSystem &GetParticlesFromID (const int &id);
       Grid &GetGridFromID (const int &id);
       BaseAI &GetAIFromID (const int &id);
+      Collider &GetColliderFromID (const int &id);
 
 	  void ClearComponents();
 };

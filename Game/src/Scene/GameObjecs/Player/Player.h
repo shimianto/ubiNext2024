@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameObject.h"
+#include "../../../Math/Vector3/Vector3.h"
 
 class Scene;
 
@@ -10,10 +11,16 @@ class Player : public GameObject
 	float fireRate;
     float fireCoolDown;
 
+
+	float shootPower;
+    float maxPower;
+    float chargeRate;
+	float drag;
+    Vector3 velocity;
+
 	 static Player &InstantiateInScene (Scene &scene);
 
 	 Player();
 
-	 int Init (Scene &scene) override;
 	 void StartFireCooldown();
 };

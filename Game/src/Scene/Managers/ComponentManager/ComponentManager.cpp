@@ -16,6 +16,7 @@ void ComponentManager::InstantiateComponents (const int &id)
   particlesComponents_.push_back (ParticleSystem());
   gridComponents_.push_back (Grid());
   baseAIComponents_.push_back (BaseAI());
+  colliderComponents_.push_back (Collider());
 
   nextValidIndex_++;
 }
@@ -50,6 +51,11 @@ BaseAI &ComponentManager::GetAIFromID (const int &id)
   return baseAIComponents_[id];
 }
 
+Collider &ComponentManager::GetColliderFromID (const int &id)
+{
+  return colliderComponents_[id];
+}
+
 void ComponentManager::ClearComponents()
 {
   meshComponents_.clear();
@@ -58,6 +64,7 @@ void ComponentManager::ClearComponents()
   particlesComponents_.clear();
   gridComponents_.clear();
   baseAIComponents_.clear();
+  colliderComponents_.clear();
 
   nextValidIndex_ = 0;
 }

@@ -56,7 +56,7 @@ void Renderer::Update (const float &deltaTime)
 
   //threadGrp.JoinAll();
 
-  SortVisibleTriangles();
+  //SortVisibleTriangles();
 }
 
 void Renderer::SetWorldMatrix()
@@ -165,6 +165,7 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 		triProjected.vertices[i].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 	  }
 
+	  triProjected.col = mesh.col;
 	  visibleTriangles_.push_back (triProjected);
 	}
   }
@@ -243,7 +244,7 @@ void Renderer::DrawVisibleTriangles()
 	  App::DrawLine (tri.vertices[1].x, tri.vertices[1].y, tri.vertices[2].x, tri.vertices[2].y, 0, 0, 0);
 	  App::DrawLine (tri.vertices[2].x, tri.vertices[2].y, tri.vertices[0].x, tri.vertices[0].y, 0, 0, 0);
 
-	  Graphics3D::DrawTriangle (tri, Color());
+	  Graphics3D::DrawTriangle (tri, triToRaster.col);
 	}
   }
 }

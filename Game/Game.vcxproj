@@ -176,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="src\InputHandler\Command\Command.h" />
     <ClInclude Include="src\Math\Quad\Quad.h" />
+    <ClInclude Include="src\Math\Utils\Utils.h" />
     <ClInclude Include="src\Scene\BaseEntity\BaseEntity.h" />
     <ClInclude Include="NextAPI\App\app.h" />
     <ClInclude Include="NextAPI\App\AppSettings.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\InputHandler\InputHandler.h" />
     <ClInclude Include="src\Scene\Components\AI\BaseAI.h" />
+    <ClInclude Include="src\Scene\Components\Collider\Collider.h" />
     <ClInclude Include="src\Scene\Components\Grid\Grid.h" />
     <ClInclude Include="src\Scene\Components\Grid\GridElement.h" />
     <ClInclude Include="src\Scene\Components\Particles\Particle.h" />
@@ -220,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Math\Quad\Quad.cpp" />
+    <ClCompile Include="src\Math\Utils\Utils.cpp" />
     <ClCompile Include="src\Scene\BaseEntity\BaseEntity.cpp" />
     <ClCompile Include="src\InputHandler\InputHandler.cpp" />
     <ClCompile Include="NextAPI\App\app.cpp" />
@@ -234,6 +237,7 @@
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
     <ClCompile Include="src\Scene\Components\AI\BaseAI.cpp" />
+    <ClCompile Include="src\Scene\Components\Collider\Collider.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\Grid.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\GridElement.cpp" />
     <ClCompile Include="src\Scene\Components\Particles\Particle.cpp" />
