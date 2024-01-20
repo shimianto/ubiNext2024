@@ -15,6 +15,7 @@ Player &Player::InstantiateInScene (Scene &scene)
   Physics &playerPhysics = scene.components.GetPhysicsFromID (newPlayer.scenId_);
   playerPhysics.gravity = true;
   playerPhysics.drag = 0.05f;
+  playerPhysics.bounceSFX = true;
 
   Health &health = scene.components.GetHealthFromID (newPlayer.scenId_);
   health.SetHealth (3);

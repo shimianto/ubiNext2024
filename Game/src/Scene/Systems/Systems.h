@@ -24,6 +24,8 @@ namespace Systems
 
     void ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime);
 
+    void ExecuteOutOfBoundsPhysics (Transform &entityTransform, Physics &entityPhysics);
+
     template <class T> void DisableGameObjectInScene (Scene &scene, GameObject * gameObj, Pool<T> *pool)
     {
       scene.DisableEntity (gameObj->GetSceneId());

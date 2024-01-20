@@ -32,6 +32,6 @@ void Enemy::InstantiateInScene (Scene &scene, Vector3 position)
    scene.components.GetTransformFromID (newEnemy.scenId_).position = position;
 }
 
-Enemy::Enemy() : GameObject(), moveForce(10)
+Enemy::Enemy() : GameObject(), moveForce(7)
 {
 }

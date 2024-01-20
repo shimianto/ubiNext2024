@@ -18,8 +18,6 @@ class Player : public GameObject
     int hitCooldown;
     int maxCooldown;
 
-
-
 	 static Player &InstantiateInScene (Scene &scene);
 
 	 Player();
