@@ -58,7 +58,10 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 {
   Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
-  playerTransform.rotation.z += rotation.x;
+  Physics &playerPhysics = scene.components.GetPhysicsFromID (scene.GetPlayer().GetSceneId());
+
+  if(playerPhysics.velocity == Vector3())
+	playerTransform.rotation.z += rotation.x;
 }
 
 void Systems::ShootBullet (Scene &scene)
@@ -116,13 +119,22 @@ void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityP
   entityTransform.position += entityPhysics.velocity / deltaTime;
 
   //Bounce on boundaries
-  if (entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x || entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x) {
+  if (entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x) {
 	entityPhysics.velocity.x *= -1;
+	entityTransform.position.x = Physics::ENVIRONMENT_LOWER_BOUDS.x;
+  } 
+  else if(entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x) {
+	entityPhysics.velocity.x *= -1;
+	entityTransform.position.x = Physics::ENVIRONMENT_UPPER_BOUDS.x;
   }
-  if (entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y || entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y) {
+  if (entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y) {
 	entityPhysics.velocity.y *= -1;
+	entityTransform.position.y = Physics::ENVIRONMENT_LOWER_BOUDS.y;
   }
-
+  else if (entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y) {
+	entityPhysics.velocity.y *= -1;
+	entityTransform.position.y = Physics::ENVIRONMENT_UPPER_BOUDS.y;
+  }
 
 	//Gravity
   if (entityPhysics.gravity) {
