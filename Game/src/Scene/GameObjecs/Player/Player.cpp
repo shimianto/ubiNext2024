@@ -12,6 +12,10 @@ Player &Player::InstantiateInScene (Scene &scene)
   scene.components.GetTransformFromID (newPlayer.scenId_).scale = Vector3 (0.06f, 0.06f, 0.06f);
   scene.components.GetColliderFromID (newPlayer.scenId_).radius = 2;
 
+  Physics &playerPhysics = scene.components.GetPhysicsFromID (newPlayer.scenId_);
+  playerPhysics.gravity = true;
+  playerPhysics.drag = 0.05f;
+
   UIBar chargeBar(Vector3 ((float)APP_VIRTUAL_WIDTH - 320, 20), Vector3 (300, 80), 0);
   newPlayer.chargeBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (chargeBar);
 
@@ -22,13 +26,8 @@ Player &Player::InstantiateInScene (Scene &scene)
 }
 
 Player::Player() : 
-	GameObject(), speed (2), fireRate (50), fireCoolDown (0), 
-	shootPower (0), maxPower (20), chargeRate (0.15f), chargeBarId(-1),
-	drag (0.1f), velocity (Vector3())
+	GameObject(),
+	moveForce (0), maxPower (100), chargeRate (0.4f), chargeBarId(-1)
 {
 }
 
-void Player::StartFireCooldown()
-{
-  fireCoolDown = fireRate;
-}

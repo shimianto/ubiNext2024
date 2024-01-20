@@ -1,27 +1,37 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "../../Scene.h"
+#include "../../../Math/Vector3/Vector3.h"
 
-Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
+
+void Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 {
   int poolId = scene.GetEnemies().InstantiateNextAvailable();
 
-  assert (poolId >= 0);
+  if (poolId == -1) {
+	return;
+  }
 
   Enemy &newEnemy = scene.GetEnemies().GetElementByID (poolId);
   newEnemy.poolId_ = poolId;
 
   if (newEnemy.scenId_ == -1) {
 	newEnemy.scenId_ = scene.InstantiateNewEntity();
-	scene.components.GetMeshFromID (newEnemy.scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
-	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (2, 2, 2);
+	Mesh &mesh = scene.components.GetMeshFromID (newEnemy.scenId_);
+	mesh.LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
+	mesh.col = Color (0, 0, 1, 0);
+
+	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.08f, 0.08f, 0.08f);
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
+	scene.components.GetAIFromID (newEnemy.scenId_).SetState (PATROLLING);
+	scene.components.GetPhysicsFromID (newEnemy.scenId_).drag = 0.1f;
 
   } else {
 	scene.EnableEntity (newEnemy.scenId_);
   }
-
    scene.components.GetTransformFromID (newEnemy.scenId_).position = position;
+}
 
-  return newEnemy;
+Enemy::Enemy() : GameObject(), moveForce(10)
+{
 }

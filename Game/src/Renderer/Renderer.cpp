@@ -239,12 +239,17 @@ void Renderer::DrawVisibleTriangles()
 
 
 	// Draw the transformed, viewed, clipped, projected, sorted, clipped triangles
-	for (auto &tri : listTriangles) {
-	  App::DrawLine (tri.vertices[0].x, tri.vertices[0].y, tri.vertices[1].x, tri.vertices[1].y, 0, 0, 0);
-	  App::DrawLine (tri.vertices[1].x, tri.vertices[1].y, tri.vertices[2].x, tri.vertices[2].y, 0, 0, 0);
-	  App::DrawLine (tri.vertices[2].x, tri.vertices[2].y, tri.vertices[0].x, tri.vertices[0].y, 0, 0, 0);
+	Color lineCol = triToRaster.col.a ? Color (0, 0, 0) : triToRaster.col;
 
-	  Graphics3D::DrawTriangle (tri, triToRaster.col);
+	for (auto &tri : listTriangles) {
+		App::DrawLine (tri.vertices[0].x, tri.vertices[0].y, tri.vertices[1].x, tri.vertices[1].y, lineCol.r, lineCol.g, lineCol.b);
+		App::DrawLine (tri.vertices[1].x, tri.vertices[1].y, tri.vertices[2].x, tri.vertices[2].y, lineCol.r, lineCol.g, lineCol.b);
+		App::DrawLine (tri.vertices[2].x, tri.vertices[2].y, tri.vertices[0].x, tri.vertices[0].y, lineCol.r, lineCol.g, lineCol.b);
+	 
+		if (triToRaster.col.a) {
+			Graphics3D::DrawTriangle (tri, triToRaster.col);
+		}
+
 	}
   }
 }

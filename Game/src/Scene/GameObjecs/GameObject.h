@@ -18,4 +18,9 @@ class GameObject
       {
 	    return scenId_;
       }
+
+      virtual const int GetPoolId()
+      {
+	    return poolId_;
+      }
 };
