@@ -7,7 +7,7 @@ class Player : public GameObject
 {
   public:
 	//Shoot
-	float shootPower;
+	float shootForce;
     float maxPower;
     float chargeRate;
     int chargeBarId;

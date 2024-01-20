@@ -19,6 +19,6 @@ namespace Systems
     void UpdatePlayer (Scene &scene, const float &deltaTime);
     void ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime);
     void UpdateBullets (Scene &scene);
-	void UpdateEnemies(Scene &scene);
+    void UpdateEnemies (Scene &scene, const float &deltaTime);
 	
 };

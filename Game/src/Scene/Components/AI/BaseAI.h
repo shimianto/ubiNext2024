@@ -13,16 +13,13 @@ class BaseAI
 	AIState currentState_;
 	AIState previousState_;
 
-    void ExecutePatrollingState (Scene &scene, const int &id);
-
   public:
     void SetState (const AIState &newState);
-
-	void Update (const int &id, Scene &scene);
+    const AIState &GetState () const;
 
 	void RevertState ();
 
 	bool IsInState (const AIState &state);
 };
 
-// TODO: Implement BaseState class and populate StateMachine with custom classes
+// TODO: Implement BaseState class and populate StateMachine with custom state classes

@@ -27,7 +27,7 @@ Player &Player::InstantiateInScene (Scene &scene)
 
 Player::Player() : 
 	GameObject(),
-	shootPower (0), maxPower (100), chargeRate (0.4f), chargeBarId(-1)
+	shootForce (0), maxPower (100), chargeRate (0.4f), chargeBarId(-1)
 {
 }
 

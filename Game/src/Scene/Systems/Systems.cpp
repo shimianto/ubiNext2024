@@ -6,6 +6,7 @@
 #include "../GameObjecs/Enemy/Enemy.h"
 #include "../GameObjecs/Player/Player.h"
 #include "../../Math/Vector3/Vector3.h"
+#include "../../Math/Utils/Utils.h"
 
 
 void Systems::SetMainScene(Scene &scene)
@@ -31,8 +32,8 @@ void Systems::ChargePlayer (Scene &scene)
   Player &p = scene.GetPlayer();
   Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
 
-  if (playerPhysics.velocity == Vector3() && p.shootPower < p.maxPower) {
-	p.shootPower += p.chargeRate;
+  if (playerPhysics.velocity == Vector3() && p.shootForce < p.maxPower) {
+	p.shootForce += p.chargeRate;
   }
 }
 
@@ -41,15 +42,15 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
   Player &p = scene.GetPlayer();
   Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
 
-  if (p.shootPower > 0 && playerPhysics.velocity == Vector3()) {
+  if (p.shootForce > 0 && playerPhysics.velocity == Vector3()) {
 	Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
 	Matrix matRot = Matrix::MakeRotationMatrix (playerTransform.rotation);
 
 	// Calculate new forward direction
 	Vector3 vForward = ((Vector3 (0, 1, 0)) * matRot).Normalize();
 
-	playerPhysics.velocity = vForward * p.shootPower;
-	p.shootPower = 0;
+	playerPhysics.velocity = vForward * p.shootForce;
+	p.shootForce = 0;
   }
 
 }
@@ -99,7 +100,7 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
 
   UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.chargeBarId);
-  chargeBar.fill = (p.shootPower / p.maxPower);
+  chargeBar.fill = (p.shootForce / p.maxPower);
   chargeBar.fill = chargeBar.fill > 1 ? 1 : chargeBar.fill;
   chargeBar.color = Color (chargeBar.fill, 1 - chargeBar.fill, 0);
 
@@ -179,9 +180,26 @@ void Systems::UpdateBullets (Scene &scene)
   }
 }
 
-void Systems::UpdateEnemies (Scene &scene)
+void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 {
- /* for (const auto &id : scene.enemyObjs) {
-	scene.components.GetAIFromID (id).Update(id, scene);
-  }*/
+  Pool<Enemy> enemyPool = scene.GetEnemies();
+  for (const auto &poolId : enemyPool.GetInUseElements()) {
+	Enemy &enemy = enemyPool.GetElementByID (poolId);
+	Transform &enemytransform = scene.components.GetTransformFromID (enemy.GetSceneId());
+	Physics &enemyPhysics = scene.components.GetPhysicsFromID (enemy.GetSceneId());
+	BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
+
+	ExecuteEntityPhysics (enemytransform, enemyPhysics, deltaTime);
+
+	//Run AI
+	switch (enemyAI.GetState()) {
+	case PATROLLING:
+	  if (enemyPhysics.velocity == Vector3()) {
+		enemyPhysics.velocity = Vector3(Utils::RandInt(-1,1)) * enemy.shootForce;
+	  }
+	  break;
+	default:
+	  break;
+	}
+  }
 }

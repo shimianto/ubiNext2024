@@ -17,6 +17,7 @@ Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.08f, 0.08f, 0.08f);
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
 	scene.components.GetAIFromID (newEnemy.scenId_).SetState(PATROLLING);
+	scene.components.GetPhysicsFromID (newEnemy.scenId_).drag = 0.1f;
 
   } else {
 	scene.EnableEntity (newEnemy.scenId_);
@@ -25,4 +26,8 @@ Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
    scene.components.GetTransformFromID (newEnemy.scenId_).position = position;
 
   return newEnemy;
+}
+
+Enemy::Enemy() : GameObject(), shootForce(10)
+{
 }

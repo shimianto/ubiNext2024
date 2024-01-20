@@ -32,7 +32,7 @@ void Scene::Update (float deltaTime)
 
   
   Systems::UpdatePlayer (*this, deltaTime);
-  Systems::UpdateEnemies (*this);
+  Systems::UpdateEnemies (*this, deltaTime);
   Systems::UpdateBullets (*this);
 
   Systems::CheckCollisions (*this);

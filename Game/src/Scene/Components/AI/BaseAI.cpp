@@ -12,22 +12,9 @@ void BaseAI::SetState (const AIState &newState)
   //OnEnter (currentState_);
 }
 
-void BaseAI::Update (const int &id, Scene &scene)
+const AIState &BaseAI::GetState() const
 {
-  switch (currentState_) {
-  case PATROLLING:
-	ExecutePatrollingState (scene, id);
-	break;
-  default:
-	break;
-  }
-}
-
-void BaseAI::ExecutePatrollingState (Scene &scene, const int &id)
-{
-  Transform &entTransf = scene.components.GetTransformFromID (id);
-  entTransf.rotation.x += 0.005;
-  entTransf.rotation.y += 0.005;
+  return currentState_;
 }
 
 void BaseAI::RevertState ()

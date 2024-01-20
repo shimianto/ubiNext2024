@@ -7,8 +7,9 @@ class Vector3;
 class Enemy : public GameObject
 {
   public:
-  
-	 static Enemy &InstantiateInScene (Scene &scene, Vector3 position);
+	  float shootForce;
 
-	  using GameObject::GameObject;
+	  static Enemy &InstantiateInScene (Scene &scene, Vector3 position);
+
+	  Enemy();
 };
