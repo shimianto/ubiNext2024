@@ -62,7 +62,6 @@ class Scene
       void EnableEntity (const int &id);
       void DisableEntity (const int &id);
 
-
       //Get Game Objecs
       void SetPlayer(Player &player);
       Player &GetPlayer();

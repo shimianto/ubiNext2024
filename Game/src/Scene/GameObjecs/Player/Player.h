@@ -11,6 +11,13 @@ class Player : public GameObject
     float maxPower;
     float chargeRate;
     int chargeBarId;
+    int healthBarId;
+    
+    //Hit
+    bool isHit;
+    int hitCooldown;
+    int maxCooldown;
+
 
 
 	 static Player &InstantiateInScene (Scene &scene);

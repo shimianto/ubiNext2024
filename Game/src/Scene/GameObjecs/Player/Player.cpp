@@ -16,9 +16,15 @@ Player &Player::InstantiateInScene (Scene &scene)
   playerPhysics.gravity = true;
   playerPhysics.drag = 0.05f;
 
-  UIBar chargeBar(Vector3 ((float)APP_VIRTUAL_WIDTH - 320, 20), Vector3 (300, 80), 0);
-  newPlayer.chargeBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (chargeBar);
+  Health &health = scene.components.GetHealthFromID (newPlayer.scenId_);
+  health.SetHealth (3);
 
+  UIBar healthBar (Vector3 (20, 20), Vector3 (300, 60), 1, Color (0.863f, 0.07f, 0.17));
+  newPlayer.healthBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (healthBar);
+
+
+  UIBar chargeBar(Vector3 ((float)APP_VIRTUAL_WIDTH - 320, 20), Vector3 (300, 60), 0);
+  newPlayer.chargeBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (chargeBar);
 
   scene.SetPlayer (newPlayer);
 
@@ -26,8 +32,11 @@ Player &Player::InstantiateInScene (Scene &scene)
 }
 
 Player::Player() : 
-	GameObject(),
-	moveForce (0), maxPower (100), chargeRate (0.4f), chargeBarId(-1)
+	GameObject(), moveForce (0), maxPower (100),
+	chargeRate (0.4f), chargeBarId (-1), 
+	healthBarId (-1), 
+	isHit (false), hitCooldown (100),
+      maxCooldown(100)
 {
 }
 
