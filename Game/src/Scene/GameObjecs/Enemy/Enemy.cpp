@@ -13,7 +13,10 @@ Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 
   if (newEnemy.scenId_ == -1) {
 	newEnemy.scenId_ = scene.InstantiateNewEntity();
-	scene.components.GetMeshFromID (newEnemy.scenId_).LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
+	Mesh &mesh = scene.components.GetMeshFromID (newEnemy.scenId_);	
+	mesh.LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
+	mesh.col = Color (0, 0, 1, 0);
+
 	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.08f, 0.08f, 0.08f);
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
 	scene.components.GetAIFromID (newEnemy.scenId_).SetState(PATROLLING);

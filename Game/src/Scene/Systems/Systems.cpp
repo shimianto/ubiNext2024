@@ -58,9 +58,9 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 {
   Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
-  Physics &playerPhysics = scene.components.GetPhysicsFromID (scene.GetPlayer().GetSceneId());
+  //Physics &playerPhysics = scene.components.GetPhysicsFromID (scene.GetPlayer().GetSceneId());
 
-  if(playerPhysics.velocity == Vector3())
+  //if(playerPhysics.velocity == Vector3())
 	playerTransform.rotation.z += rotation.x;
 }
 
@@ -89,10 +89,8 @@ void Systems::CheckCollisions (Scene &scene)
 	Enemy &e = enemyPool.GetElementByID (enemyId);
 
 	if (Collider::CheckCollision (scene, player.GetSceneId(), e.GetSceneId())) {
-	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (1, 0, 0, 0);
-	} else {
-	  scene.components.GetMeshFromID (e.GetSceneId()).col = Color (0, 0, 1, 0);
-	}
+	  scene.DisableEntity (e.GetSceneId());
+	} 
   }
 }
 
