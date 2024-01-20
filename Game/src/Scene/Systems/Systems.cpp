@@ -65,25 +65,6 @@ void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 	playerTransform.rotation.z += rotation.x;
 }
 
-void Systems::CheckCollisions (Scene &scene)
-{
-  Player &player = scene.GetPlayer();
-  Pool<Enemy> enemyPool = scene.GetEnemies(); 
-
-  for (auto &poolId : enemyPool.GetInUseElements()) {
-	Enemy &e = enemyPool.GetElementByID (poolId);
-
-	if (Collider::CheckCollision (scene, player.GetSceneId(), e.GetSceneId())) {
-	  scene.DisableEntity (e.GetSceneId());
-	  scene.GetEnemies().DisableElement (poolId);
-	} 
-  }
-
-  if (scene.waveController.IsWaveDone(scene)) {
-	scene.waveController.StartNextWave (scene);
-  }
-}
-
 void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
@@ -98,71 +79,31 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.chargeBarId, chargeBar);
 
   ExecuteEntityPhysics (playerTransform, playerPhysics, deltaTime);
-}
 
-void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime)
-{
+  //Check if was hit by projectile
+  if (p.isHit && p.hitCooldown == 0) {
+	Health &pHealth = scene.components.GetHealthFromID (p.GetSceneId());
+	pHealth.TakeDamage (1);
 
-  //Update pos
-  entityTransform.position += entityPhysics.velocity / deltaTime;
+	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.healthBarId);
+	healthBar.fill = (float)pHealth.GetValue() / (float)pHealth.GetMax();
 
-  //Bounce on boundaries
-  if (entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x) {
-	entityPhysics.velocity.x *= -1;
-	entityTransform.position.x = Physics::ENVIRONMENT_LOWER_BOUDS.x;
-  } 
-  else if(entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x) {
-	entityPhysics.velocity.x *= -1;
-	entityTransform.position.x = Physics::ENVIRONMENT_UPPER_BOUDS.x;
-  }
-  if (entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y) {
-	entityPhysics.velocity.y *= -1;
-	entityTransform.position.y = Physics::ENVIRONMENT_LOWER_BOUDS.y;
-  }
-  else if (entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y) {
-	entityPhysics.velocity.y *= -1;
-	entityTransform.position.y = Physics::ENVIRONMENT_UPPER_BOUDS.y;
-  }
+	scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.healthBarId, healthBar);
 
-	//Gravity
-  if (entityPhysics.gravity) {
-	  if (entityTransform.position.y > Physics::ENVIRONMENT_LOWER_BOUDS.y+1) {
-		entityPhysics.velocity.y -= entityPhysics.gravityForce;
-	  } else {
-	    entityPhysics.velocity.x *= 0.6;
-	    entityPhysics.velocity.y *= 0.6;
-	  }
-  }
 
-  //Execute drag
-  if (entityPhysics.velocity.x != 0) {
-	if (entityPhysics.velocity.x < 0) {
-	  entityPhysics.velocity.x += entityPhysics.drag;
-	} else {
-	  entityPhysics.velocity.x -= entityPhysics.drag;
-	}
-  }
-  if (entityPhysics.velocity.y != 0) {
-	if (entityPhysics.velocity.y < 0) {
-	  entityPhysics.velocity.y += entityPhysics.drag;
-	} else {
-	  entityPhysics.velocity.y -= entityPhysics.drag;
-	}
-  }
-  
-
-  //Set vel to zero if within variance
-  if (entityPhysics.velocity.x <= entityPhysics.drag && entityPhysics.velocity.x >= -entityPhysics.drag) {
-	entityPhysics.velocity.x = 0;
-  }
-  if (entityPhysics.velocity.y <= entityPhysics.drag && entityPhysics.velocity.y >= -entityPhysics.drag) {
-	entityPhysics.velocity.y = 0;
+	p.hitCooldown = p.maxCooldown;
+  } else if(p.hitCooldown > 0) {
+	p.hitCooldown--;
+	p.isHit = p.hitCooldown != 0;
   }
 }
 
 void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 {
+  Player &player = scene.GetPlayer();
   Pool<Enemy> &enemyPool = scene.GetEnemies();
+  std::vector<Enemy> enemiesHit;
+
   for (const auto &poolId : enemyPool.GetInUseElements()) {
 	Enemy &enemy = enemyPool.GetElementByID (poolId);
 	Transform &enemyTransform = scene.components.GetTransformFromID (enemy.GetSceneId());
@@ -181,6 +122,21 @@ void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 	default:
 	  break;
 	}
+
+	//Check Collisions
+	if (Collider::CheckCollision (scene, player.GetSceneId(), enemy.GetSceneId())) {
+	  enemiesHit.push_back (enemy);
+	} 
+  }
+
+  //Disabled hit
+  for (auto &e : enemiesHit) {
+	DisableGameObjectInScene (scene, &e, &enemyPool);
+  }
+
+  //Try new wave
+  if (scene.waveController.IsWaveDone (scene)) {
+	scene.waveController.StartNextWave (scene);
   }
 }
 
@@ -223,22 +179,92 @@ void Systems::ShootBullet (Scene &scene, Transform &enemyTransform, Transform &p
 
 void Systems::UpdateBullets (Scene &scene, const float &deltaTime)
 {
+  Player &player = scene.GetPlayer();
   Pool<Bullet> &bulletPool = scene.GetBullets();
-  std::set<int> activeBullets = bulletPool.GetInUseElements();
+  std::vector<Bullet> bulletsToDiable;
 
-  for (auto &bulletId : activeBullets) {
+  for (auto &bulletId : bulletPool.GetInUseElements())
+  {
 	Bullet &b = bulletPool.GetElementByID (bulletId);
 
 	b.lifetime--;
 
 	if (b.lifetime <= 0) {
-	  bulletPool.DisableElement (bulletId);
-	  scene.DisableEntity (b.GetSceneId());
+	  bulletsToDiable.push_back (b);
 	  continue;
 	}
 	Transform &transf = scene.components.GetTransformFromID (b.GetSceneId());
 	Physics &phys = scene.components.GetPhysicsFromID (b.GetSceneId());
 
 	ExecuteEntityPhysics (transf, phys, deltaTime);
+
+	//Check Collisions
+	if (!player.isHit && Collider::CheckCollision (scene, player.GetSceneId(), b.GetSceneId())) {
+	  bulletsToDiable.push_back (b);
+	  player.isHit = true;
+	} 
+  }
+
+  //Disabled hit
+  for (auto &bullet : bulletsToDiable) {
+	DisableGameObjectInScene (scene, &bullet, &bulletPool);
+  }
+}
+
+void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime)
+{
+
+  //Update pos
+  entityTransform.position += entityPhysics.velocity / deltaTime;
+
+  //Bounce on boundaries
+  if (entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x) {
+	entityPhysics.velocity.x *= -1;
+	entityTransform.position.x = Physics::ENVIRONMENT_LOWER_BOUDS.x;
+  } else if (entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x) {
+	entityPhysics.velocity.x *= -1;
+	entityTransform.position.x = Physics::ENVIRONMENT_UPPER_BOUDS.x;
+  }
+  if (entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y) {
+	entityPhysics.velocity.y *= -1;
+	entityTransform.position.y = Physics::ENVIRONMENT_LOWER_BOUDS.y;
+  } else if (entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y) {
+	entityPhysics.velocity.y *= -1;
+	entityTransform.position.y = Physics::ENVIRONMENT_UPPER_BOUDS.y;
+  }
+
+  //Gravity
+  if (entityPhysics.gravity) {
+	if (entityTransform.position.y > Physics::ENVIRONMENT_LOWER_BOUDS.y + 1) {
+	  entityPhysics.velocity.y -= entityPhysics.gravityForce;
+	} else {
+	  entityPhysics.velocity.x *= 0.6;
+	  entityPhysics.velocity.y *= 0.6;
+	}
+  }
+
+  //Execute drag
+  if (entityPhysics.velocity.x != 0) {
+	if (entityPhysics.velocity.x < 0) {
+	  entityPhysics.velocity.x += entityPhysics.drag;
+	} else {
+	  entityPhysics.velocity.x -= entityPhysics.drag;
+	}
+  }
+  if (entityPhysics.velocity.y != 0) {
+	if (entityPhysics.velocity.y < 0) {
+	  entityPhysics.velocity.y += entityPhysics.drag;
+	} else {
+	  entityPhysics.velocity.y -= entityPhysics.drag;
+	}
+  }
+
+
+  //Set vel to zero if within variance
+  if (entityPhysics.velocity.x <= entityPhysics.drag && entityPhysics.velocity.x >= -entityPhysics.drag) {
+	entityPhysics.velocity.x = 0;
+  }
+  if (entityPhysics.velocity.y <= entityPhysics.drag && entityPhysics.velocity.y >= -entityPhysics.drag) {
+	entityPhysics.velocity.y = 0;
   }
 }

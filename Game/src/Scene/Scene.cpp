@@ -35,8 +35,6 @@ void Scene::Update (float deltaTime)
   Systems::UpdateEnemies (*this, deltaTime);
   Systems::UpdateEnemyShooters(*this, deltaTime);
   Systems::UpdateBullets (*this, deltaTime);
-
-  Systems::CheckCollisions (*this);
 }
 
 void Scene::Render()
