@@ -9,7 +9,7 @@ class Enemy : public GameObject
   public:
 	  float moveForce;
 
-	  static Enemy &InstantiateInScene (Scene &scene, Vector3 position);
+      static void InstantiateInScene (Scene &scene, Vector3 position);
 
 	  Enemy();
 };

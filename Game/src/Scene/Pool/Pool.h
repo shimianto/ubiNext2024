@@ -18,9 +18,15 @@ class Pool
 
 	  Pool (int maxSize = 100);
 	  void DisableElement (const int &id);
+      void DisableAll();
+
 	  int InstantiateNextAvailable();
       T &GetElementByID (const int &id);
       const std::set<int> &GetInUseElements() const;
+
+      void SetPooSize (const int &maxSize);
+
+      std ::vector<T> &GetPoolAsVector();
 };
 
 template <class T> Pool<T>::Pool (int maxSize) : maxPoolSize_ (maxSize), poolSize_(0)
@@ -33,6 +39,13 @@ template <class T> void Pool<T>::DisableElement (const int &id)
 
       available_.insert (id);
       inUse_.erase (id);
+}
+
+template <class T> inline void Pool<T>::DisableAll()
+{
+      for (auto &id : inUse_) {
+	    DisableElement (id);
+      }
 }
 
 template <class T> int Pool<T>::InstantiateNextAvailable()
@@ -68,4 +81,14 @@ template <class T> T &Pool<T>::GetElementByID (const int &id)
 template <class T> const std::set<int> &Pool<T>::GetInUseElements() const
 {
       return inUse_;
+}
+
+template <class T> inline void Pool<T>::SetPooSize (const int &maxSize)
+{
+      maxPoolSize_ = maxSize;
+}
+
+template <class T> inline std::vector<T> &Pool<T>::GetPoolAsVector()
+{
+      return pool_;
 }

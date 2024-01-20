@@ -3,11 +3,13 @@
 #include "../../Scene.h"
 #include "../../../Math/Vector3/Vector3.h"
 
-EnemyShooter &EnemyShooter::InstantiateInScene (Scene &scene, Vector3 position, Vector3 rotation)
+void EnemyShooter::InstantiateInScene (Scene &scene, Vector3 position, Vector3 rotation)
 {
   int poolId = scene.GetEnemyShooters().InstantiateNextAvailable();
 
-  assert (poolId >= 0);
+    if (poolId == -1) {
+		return;
+	}
 
   EnemyShooter &newEnemy = scene.GetEnemyShooters().GetElementByID (poolId);
   newEnemy.poolId_ = poolId;
@@ -30,8 +32,6 @@ EnemyShooter &EnemyShooter::InstantiateInScene (Scene &scene, Vector3 position, 
 
   scene.components.GetTransformFromID (newEnemy.scenId_).position = position;
   scene.components.GetTransformFromID (newEnemy.scenId_).rotation = rotation;
-
-  return newEnemy;
 }
 
 EnemyShooter::EnemyShooter() : GameObject(), shootCooldown_ (100), coolDownTimer (shootCooldown_), projectileForce (10)

@@ -8,6 +8,7 @@
 #include "GameObjecs/Bullet/Bullet.h"
 #include "GameObjecs/Enemy/Enemy.h"
 #include "GameObjecs/EnemyShooter/EnemyShooter.h"
+#include "GameObjecs/WaveController/WaveController.h"
 
 class UIManager;
 
@@ -68,6 +69,7 @@ class Scene
       Pool<Bullet> &GetBullets();
       Pool<Enemy> &GetEnemies();
       Pool<EnemyShooter> &GetEnemyShooters();
+      WaveController waveController;
 
       void SetScene (const SceneType &type);
 };

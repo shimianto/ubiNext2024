@@ -12,7 +12,8 @@ class EnemyShooter : public GameObject
       float coolDownTimer;
       float projectileForce;
 
-  static EnemyShooter &InstantiateInScene (Scene &scene, Vector3 position, Vector3 rotation);
+  
+      static void InstantiateInScene (Scene &scene, Vector3 position, Vector3 rotation);
 
   EnemyShooter();
   void ResetCooldown();

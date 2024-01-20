@@ -20,10 +20,8 @@ void Systems::SetMainScene(Scene &scene)
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
-  
-  Enemy::InstantiateInScene (scene, Vector3 (20, 0, 0));
-  EnemyShooter::InstantiateInScene (scene, Vector3 (-30, 20, 0), Vector3 (0, 0, 0.6f));
-  EnemyShooter::InstantiateInScene (scene, Vector3 (30, 20, 0), Vector3 (0, 0, -0.6f));
+  scene.waveController.Init(scene, 2, 0, 5, 2, 1);
+  scene.waveController.StartNextWave (scene);
 }
 void Systems::SetMenuScene (Scene &scene)
 {
@@ -70,14 +68,19 @@ void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 void Systems::CheckCollisions (Scene &scene)
 {
   Player &player = scene.GetPlayer();
-  Pool<Enemy> &enemyPool = scene.GetEnemies();
+  Pool<Enemy> enemyPool = scene.GetEnemies(); 
 
-  for (auto &enemyId : enemyPool.GetInUseElements()) {
-	Enemy &e = enemyPool.GetElementByID (enemyId);
+  for (auto &poolId : enemyPool.GetInUseElements()) {
+	Enemy &e = enemyPool.GetElementByID (poolId);
 
 	if (Collider::CheckCollision (scene, player.GetSceneId(), e.GetSceneId())) {
 	  scene.DisableEntity (e.GetSceneId());
+	  scene.GetEnemies().DisableElement (poolId);
 	} 
+  }
+
+  if (scene.waveController.IsWaveDone(scene)) {
+	scene.waveController.StartNextWave (scene);
   }
 }
 
@@ -123,7 +126,7 @@ void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityP
 
 	//Gravity
   if (entityPhysics.gravity) {
-	  if (entityTransform.position.y > Physics::ENVIRONMENT_LOWER_BOUDS.y) {
+	  if (entityTransform.position.y > Physics::ENVIRONMENT_LOWER_BOUDS.y+1) {
 		entityPhysics.velocity.y -= entityPhysics.gravityForce;
 	  } else {
 	    entityPhysics.velocity.x *= 0.6;
