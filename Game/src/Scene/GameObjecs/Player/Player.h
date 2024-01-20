@@ -11,10 +11,12 @@ class Player : public GameObject
 	float fireRate;
     float fireCoolDown;
 
-
+	//Shoot
 	float shootPower;
     float maxPower;
     float chargeRate;
+    int chargeBarId;
+
 	float drag;
     Vector3 velocity;
 

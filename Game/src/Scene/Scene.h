@@ -26,7 +26,6 @@ class Scene
   
       EntityManager entityManager_;
       
-      UIManager *uiManager_;
       Renderer renderer_;
       InputHandler inputHandler_;
 
@@ -37,6 +36,7 @@ class Scene
 
   public:
 
+      UIManager *uiManager_;
       ComponentManager components;
 
       //Game Objects

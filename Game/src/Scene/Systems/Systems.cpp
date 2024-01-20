@@ -2,6 +2,7 @@
 #include "Systems.h"
 #include "../../Graphics3D/Camera/Camera.h"
 #include "../Scene.h"
+#include "../Managers/UIManager/UIManager.h"
 #include "../GameObjecs/Enemy/Enemy.h"
 #include "../GameObjecs/Player/Player.h"
 #include "../../Math/Vector3/Vector3.h"
@@ -18,6 +19,7 @@ void Systems::SetMainScene(Scene &scene)
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
+  
   Enemy::InstantiateInScene (scene, Vector3 (20, 0, 0));
 }
 void Systems::SetMenuScene (Scene &scene)
@@ -89,13 +91,28 @@ void Systems::CheckCollisions (Scene &scene)
 void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
-  Transform &pTrans = scene.components.GetTransformFromID (p.GetSceneId());
+  Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
+
+  UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.chargeBarId);
+  chargeBar.fill = (p.shootPower / p.maxPower);
+  chargeBar.fill = chargeBar.fill > 1 ? 1 : chargeBar.fill;
+  scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.chargeBarId, chargeBar);
 
   if (p.velocity == Vector3 (0, 0, 0)) {
 	return;
   }
 
-  pTrans.position += p.velocity / deltaTime;
+  //Update pos
+  playerTransform.position += p.velocity / deltaTime;
+
+  //Bounce on boundaries
+  if (playerTransform.position.x < -35 || playerTransform.position.x > 35) {
+	p.velocity.x *= -1;
+  }
+  if (playerTransform.position.y < -25 || playerTransform.position.y > 25) {
+	p.velocity.y *= -1;
+  }
+
 
   //Update velocity
   if (p.velocity.x != 0) {
