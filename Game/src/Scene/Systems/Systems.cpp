@@ -96,6 +96,8 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.chargeBarId);
   chargeBar.fill = (p.shootPower / p.maxPower);
   chargeBar.fill = chargeBar.fill > 1 ? 1 : chargeBar.fill;
+  chargeBar.color = Color (chargeBar.fill, 1 - chargeBar.fill, 0);
+
   scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.chargeBarId, chargeBar);
 
   if (p.velocity == Vector3 (0, 0, 0)) {
