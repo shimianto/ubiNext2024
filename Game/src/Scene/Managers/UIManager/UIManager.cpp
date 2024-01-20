@@ -1,20 +1,25 @@
 #include "stdafx.h"
 #include "UIManager.h"
+#include "../../UI/UI.h"
 #include "../../Scene.h"
 
 void UIManager::Init (const Scene &scene)
 {
   UI menuUI;
-  menuUI.InsertNewText (Vector3 (450, 700), "Menu: Ubi Next 2024", Color());
+  UIText menuText  (Vector3 (450, 700), "Menu: Ubi Next 2024", Color());
+  menuUI.InsertNewText (menuText);
   RegisterUI (MENU_SCENE, menuUI);
   
   UI mainGameUI;
-  mainGameUI.InsertNewText (Vector3 (450, 700), "Main Scene", Color());
+  UIText mainText (Vector3 (450, 700), "Main Scene", Color());
+  mainGameUI.InsertNewText (mainText);
   RegisterUI (MAIN_SCENE, mainGameUI);
 
   UI gridUI;
-  gridUI.InsertNewText (Vector3 (450, 700), "Gird Test", Color());
-  gridUI.InsertNewBar (Vector3 (450, 690), Vector3 (100, 5), 1);
+  UIText gridText (Vector3 (450, 700), "Gird Test", Color());
+  UIBar gridBar (Vector3 (450, 690), Vector3 (100, 5), 1);
+  gridUI.InsertNewText (gridText);
+  gridUI.InsertNewBar (gridBar);
   RegisterUI (GRID_TEST, gridUI);
 
   uiMap_[scene.GetActiveScene()].Init();
@@ -30,12 +35,12 @@ void UIManager::Render (const Scene &scene)
   uiMap_[scene.GetActiveScene()].Render();
 }
 
-void UIManager::RegisterUI (const SceneType &screen, UI &ui)
+void UIManager::RegisterUI (const SceneType &sceneType, UI &ui)
 {
-  uiMap_.insert (std::pair<SceneType, UI> (screen, ui));
+  uiMap_.insert (std::pair<SceneType, UI> (sceneType, ui));
 }
 
-UI UIManager::GetActiveUI (const Scene &scene)
+UI &UIManager::GetActiveUI (const Scene &scene)
 {
   return uiMap_[scene.GetActiveScene()];
 }

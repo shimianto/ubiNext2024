@@ -19,7 +19,7 @@ UIManager uiManager;
 void Init()
 {
   UnitTesting::RunAll();
-  mainScene.Init (uiManager, PARTICLES_SCENE);
+  mainScene.Init (uiManager, MAIN_SCENE);
 }
 
 void Update (float deltaTime)

@@ -26,8 +26,8 @@ void BaseAI::Update (const int &id, Scene &scene)
 void BaseAI::ExecutePatrollingState (Scene &scene, const int &id)
 {
   Transform &entTransf = scene.components.GetTransformFromID (id);
-  entTransf.rotation.x += 0.05;
-  entTransf.rotation.y += 0.05;
+  entTransf.rotation.x += 0.005;
+  entTransf.rotation.y += 0.005;
 }
 
 void BaseAI::RevertState ()

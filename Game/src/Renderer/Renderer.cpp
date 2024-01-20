@@ -28,28 +28,35 @@ void Renderer::Update (const float &deltaTime)
 
   visibleTriangles_.clear();
 
-  ThreadGroup threadGrp;
+  //ThreadGroup threadGrp;
 
   for (auto id : scene_->GetActiveEntities()) {
-	threadGrp.group.emplace_back (
+	SetVisibleTriangles (
+		scene_->components.GetMeshFromID (id), 
+		scene_->components.GetTransformFromID (id)
+	);
+
+	/*threadGrp.group.emplace_back (
 		&Renderer::SetVisibleTriangles, this, 
 		scene_->components.GetMeshFromID (id),
 		scene_->components.GetTransformFromID (id)
-	);
+	);*/
 	
 	ParticleSystem &ps = scene_->components.GetParticlesFromID (id);
 	if (ps.HasActiveParticles()) {
-		threadGrp.group.emplace_back (
+	  ps.Update (deltaTime);
+
+		/*threadGrp.group.emplace_back (
 			&ParticleSystem::Update, 
 			&ps,
 			deltaTime
-		);
+		);*/
 	}
   }
 
-  threadGrp.JoinAll();
+  //threadGrp.JoinAll();
 
-  SortVisibleTriangles();
+  //SortVisibleTriangles();
 }
 
 void Renderer::SetWorldMatrix()
@@ -105,7 +112,7 @@ void Renderer::SetViewMatrices()
   invViewMat_.m[3][3] = 1.0f;
 }
 
-void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform)
+void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform)	
 {
   Matrix localTransformedMat = Matrix::MakeTransformedMatrix (transform);
 
@@ -158,6 +165,7 @@ void Renderer::SetVisibleTriangles (const Mesh &mesh, const Transform &transform
 		triProjected.vertices[i].y *= 0.5f * (float)APP_INIT_WINDOW_HEIGHT;
 	  }
 
+	  triProjected.col = mesh.col;
 	  visibleTriangles_.push_back (triProjected);
 	}
   }
@@ -236,7 +244,7 @@ void Renderer::DrawVisibleTriangles()
 	  App::DrawLine (tri.vertices[1].x, tri.vertices[1].y, tri.vertices[2].x, tri.vertices[2].y, 0, 0, 0);
 	  App::DrawLine (tri.vertices[2].x, tri.vertices[2].y, tri.vertices[0].x, tri.vertices[0].y, 0, 0, 0);
 
-	  Graphics3D::DrawTriangle (tri, Color());
+	  Graphics3D::DrawTriangle (tri, triToRaster.col);
 	}
   }
 }

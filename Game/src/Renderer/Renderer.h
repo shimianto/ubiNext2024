@@ -6,6 +6,7 @@
 #include "..\Graphics3D\Camera\Camera.h"
 #include "..\Math\Matrix\Matrix.h"
 #include "../Scene/Components/Transform/Transform.h"
+#include <list>
 
 class Scene;
 
@@ -15,7 +16,7 @@ class Renderer
      const float FOV_ = 90.0f;
      const float NEAR_ = 0.1f; 
      const float FAR_ = 1000.0f; 
-     const Vector3 CAMERA_DEFAULT_TRANSLATION_ = Vector3 (0.0f, 0.0f, 8.0f);
+     const Vector3 CAMERA_DEFAULT_TRANSLATION_ = Vector3 (0.0f, 0.0f, 30.0f);
 
      Scene *scene_;
      std::vector<Triangle> visibleTriangles_;

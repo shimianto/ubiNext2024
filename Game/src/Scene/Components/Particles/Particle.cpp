@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Particle.h"
 
-Color Particle::DEFAULT_PARTICLE_COL = Color (0.8f, 0, 0.6f);
+Color Particle::DEFAULT_PARTICLE_COL = Color (0.208f, 0.968f, 0.6f);
 
 
 Particle::Particle () : 

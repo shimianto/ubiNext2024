@@ -27,6 +27,18 @@ BaseEntity &EntityManager::GetEntityFromID (const int &id)
   return entities_[id];
 }
 
+void EntityManager::Enable (const int &id)
+{
+  disabledEntities_.erase (id);
+  activeEntities_.insert (id);
+}
+
+void EntityManager::Disable (const int &id)
+{
+  disabledEntities_.insert (id);
+  activeEntities_.erase (id);
+}
+
 const std::set<int> EntityManager::GetActiveEntities() const
 {
   return activeEntities_;

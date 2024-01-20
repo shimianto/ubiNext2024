@@ -20,7 +20,7 @@ class Pool
 	  void DisableElement (const int &id);
 	  int InstantiateNextAvailable();
       T &GetElementByID (const int &id);
-      const std::set<int> GetInUseElements() const;
+      const std::set<int> &GetInUseElements() const;
 };
 
 template <class T> Pool<T>::Pool (int maxSize) : maxPoolSize_ (maxSize), poolSize_(0)
@@ -65,7 +65,7 @@ template <class T> T &Pool<T>::GetElementByID (const int &id)
       return pool_[id];
 }
 
-template <class T> const std::set<int> Pool<T>::GetInUseElements() const
+template <class T> const std::set<int> &Pool<T>::GetInUseElements() const
 {
       return inUse_;
 }

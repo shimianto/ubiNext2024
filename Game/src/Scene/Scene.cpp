@@ -29,8 +29,13 @@ void Scene::Update (float deltaTime)
 
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
+
   
+  Systems::UpdatePlayer (*this, deltaTime);
   Systems::UpdateEnemies (*this);
+  Systems::UpdateBullets (*this);
+
+  Systems::CheckCollisions (*this);
 }
 
 void Scene::Render()
@@ -67,6 +72,36 @@ BaseEntity Scene::GetEntityFromID (int id)
 std::set<int> Scene::GetActiveEntities() const
 {
   return entityManager_.GetActiveEntities();
+}
+
+void Scene::EnableEntity (const int &id)
+{
+  entityManager_.Enable (id);
+}
+
+void Scene::DisableEntity (const int &id)
+{
+  entityManager_.Disable (id);
+}
+
+void Scene::SetPlayer (Player &player)
+{
+  player_ = player;
+}
+
+Player &Scene::GetPlayer()
+{
+  return player_;
+}
+
+Pool<Bullet> &Scene::GetBullets()
+{
+  return bullets_;
+}
+
+Pool<Enemy> &Scene::GetEnemies()
+{
+  return enemies_;
 }
 
 void Scene::SetScene (const SceneType &type)

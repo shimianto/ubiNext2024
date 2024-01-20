@@ -2,13 +2,26 @@
 #include "Enemy.h"
 #include "../../Scene.h"
 
-int Enemy::Init (Scene &scene)
+Enemy &Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 {
-  int id = scene.InstantiateNewEntity();
-  scene.components.GetMeshFromID (id).LoadTrianglesFromObjectFile (".\\TestData\\teapot.obj");
-  scene.components.GetAIFromID (id).SetState (PATROLLING);
+  int poolId = scene.GetEnemies().InstantiateNextAvailable();
 
-  scene.enemyObjs.insert (id);
+  assert (poolId >= 0);
 
-  return id;
+  Enemy &newEnemy = scene.GetEnemies().GetElementByID (poolId);
+  newEnemy.poolId_ = poolId;
+
+  if (newEnemy.scenId_ == -1) {
+	newEnemy.scenId_ = scene.InstantiateNewEntity();
+	scene.components.GetMeshFromID (newEnemy.scenId_).LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (2, 2, 2);
+	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
+
+  } else {
+	scene.EnableEntity (newEnemy.scenId_);
+  }
+
+   scene.components.GetTransformFromID (newEnemy.scenId_).position = position;
+
+  return newEnemy;
 }

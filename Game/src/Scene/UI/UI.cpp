@@ -32,26 +32,24 @@ void UI::Render()
   }
 }
 
-int UI::InsertNewText (const Vector3 &position, const char *text, const Color &color, void *font)
+int UI::InsertNewText (UIText &text)
 {
-  UIText newText (position, text, color, font);
-  uiTexts_.push_back (newText);
-  return uiTexts_.size() - 1; // index where text was inserted
+  uiTexts_.push_back (text);
+  return uiTexts_.size() - 1;
 }
 
-int UI::InsertNewBar (const Vector3 &position, const Vector3 &size, const float &fill, const Color &color)
+int UI::InsertNewBar (UIBar &bar)
 {
-  UIBar newBar (position, size, fill, color);
-  uiBars_.push_back (newBar);
+  uiBars_.push_back (bar);
   return uiBars_.size() - 1;
 }
 
-UIText UI::GetTextFromId (const int &id)
+UIText &UI::GetTextFromId (const int &id)
 {
   return uiTexts_[id];
 }
 
-UIBar UI::GetBarFromId (const int &id)
+UIBar &UI::GetBarFromId (const int &id)
 {
   return uiBars_[id];
 }

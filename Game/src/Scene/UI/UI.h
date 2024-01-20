@@ -42,11 +42,11 @@ class UI
       void Update();
       void Render();
 
-      int InsertNewText (const Vector3 &position = Vector3(), const char *text = "", const Color &color = Color(), void *font = GLUT_BITMAP_TIMES_ROMAN_24);
-      int InsertNewBar (const Vector3 &position = Vector3(), const Vector3 &size = Vector3 (1, 1), const float &fill = 1, const Color &color = Color());
+      int InsertNewText (UIText &text);
+      int InsertNewBar (UIBar &bar);
 
-      UIText GetTextFromId (const int &id);
-      UIBar GetBarFromId (const int &id);
+      UIText &GetTextFromId (const int &id);
+      UIBar &GetBarFromId (const int &id);
 
       void UpdateTextFromId (const int &id, const UIText &text);
       void UpdateBarFromId (const int &id, const UIBar &bar);
