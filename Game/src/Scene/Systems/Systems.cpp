@@ -29,7 +29,9 @@ void Systems::SetMenuScene (Scene &scene)
 void Systems::ChargePlayer (Scene &scene)
 {
   Player &p = scene.GetPlayer();
-  if (p.velocity == Vector3() && p.shootPower < p.maxPower) {
+  Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
+
+  if (playerPhysics.velocity == Vector3() && p.shootPower < p.maxPower) {
 	p.shootPower += p.chargeRate;
   }
 }
@@ -37,15 +39,17 @@ void Systems::ChargePlayer (Scene &scene)
 void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
-  if (p.shootPower > 0 && p.velocity == Vector3()) {
-	  Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
-	  Matrix matRot = Matrix::MakeRotationMatrix (playerTransform.rotation);
+  Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
 
-	  // Calculate new forward direction
-	  Vector3 vForward = ((Vector3(0,1,0)) * matRot).Normalize();
+  if (p.shootPower > 0 && playerPhysics.velocity == Vector3()) {
+	Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
+	Matrix matRot = Matrix::MakeRotationMatrix (playerTransform.rotation);
 
-	  p.velocity = vForward * p.shootPower;
-	  p.shootPower = 0;
+	// Calculate new forward direction
+	Vector3 vForward = ((Vector3 (0, 1, 0)) * matRot).Normalize();
+
+	playerPhysics.velocity = vForward * p.shootPower;
+	p.shootPower = 0;
   }
 
 }
@@ -60,7 +64,7 @@ void Systems::ShootBullet (Scene &scene)
 {
   Player &player = scene.GetPlayer();
 
-  if (player.fireCoolDown > 0) {
+  /*if (player.fireCoolDown > 0) {
 	return;
   }
 
@@ -69,7 +73,7 @@ void Systems::ShootBullet (Scene &scene)
   Bullet &newBullet = Bullet::InstantiateInScene (scene);
 
   scene.components.GetTransformFromID (newBullet.GetSceneId()).position =
-    scene.components.GetTransformFromID (player.GetSceneId()).position + Vector3 (0, 0, 10);
+    scene.components.GetTransformFromID (player.GetSceneId()).position + Vector3 (0, 0, 10);*/
 }
 
 void Systems::CheckCollisions (Scene &scene)
@@ -92,6 +96,7 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
   Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
+  Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
 
   UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.chargeBarId);
   chargeBar.fill = (p.shootPower / p.maxPower);
@@ -100,55 +105,58 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 
   scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.chargeBarId, chargeBar);
 
+  ExecuteEntityPhysics (playerTransform, playerPhysics, deltaTime);
+}
 
-  //Gravity
-  if (playerTransform.position.y > -24) {
-	p.velocity.y -= p.drag;
-  }
-
-  if (p.velocity == Vector3 (0, 0, 0)) {
-	return;
-  }
+void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime)
+{
 
   //Update pos
-  playerTransform.position += p.velocity / deltaTime;
+  entityTransform.position += entityPhysics.velocity / deltaTime;
 
   //Bounce on boundaries
-  if (playerTransform.position.x < -35 || playerTransform.position.x > 35) {
-	p.velocity.x *= -0.9;
+  if (entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x || entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x) {
+	entityPhysics.velocity.x *= -1;
   }
-  if (playerTransform.position.y < -25) {
-	p.velocity.x *= 0.6;
-	p.velocity.y *= -0.6;
-  } else if (playerTransform.position.y > 25) {
-	p.velocity.y *= -1;
+  if (entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y || entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y) {
+	entityPhysics.velocity.y *= -1;
   }
 
 
-  //Update velocity
-  if (p.velocity.x != 0) {
-	  if (p.velocity.x < 0)
-	  {
-		//p.velocity.x += p.drag;
+	//Gravity
+  if (entityPhysics.gravity) {
+	  if (entityTransform.position.y > Physics::ENVIRONMENT_LOWER_BOUDS.y) {
+		entityPhysics.velocity.y -= entityPhysics.gravityForce;
 	  } else {
-		//p.velocity.x -= p.drag;
+	    entityPhysics.velocity.x *= 0.6;
+	    entityPhysics.velocity.y *= 0.6;
 	  }
   }
-  if (p.velocity.y != 0) {
-	  if (p.velocity.y < 0) {
-		//p.velocity.y += p.drag;
-	  } else {
-		//p.velocity.y -= p.drag;
-	  }
+
+  //Execute drag
+  if (entityPhysics.velocity.x != 0) {
+	if (entityPhysics.velocity.x < 0) {
+	  entityPhysics.velocity.x += entityPhysics.drag;
+	} else {
+	  entityPhysics.velocity.x -= entityPhysics.drag;
+	}
   }
+  if (entityPhysics.velocity.y != 0) {
+	if (entityPhysics.velocity.y < 0) {
+	  entityPhysics.velocity.y += entityPhysics.drag;
+	} else {
+	  entityPhysics.velocity.y -= entityPhysics.drag;
+	}
+  }
+  
 
   //Set vel to zero if within variance
-  if (p.velocity.x <= p.drag && p.velocity.x >= -p.drag) {
-	p.velocity.x = 0;
-  } 
-  if (p.velocity.y <= p.drag && p.velocity.y >= -p.drag && playerTransform.position.y < -24) {
-	p.velocity.y = 0;
-  } 
+  if (entityPhysics.velocity.x <= entityPhysics.drag && entityPhysics.velocity.x >= -entityPhysics.drag) {
+	entityPhysics.velocity.x = 0;
+  }
+  if (entityPhysics.velocity.y <= entityPhysics.drag && entityPhysics.velocity.y >= -entityPhysics.drag && entityTransform.position.y < -24) {
+	entityPhysics.velocity.y = 0;
+  }
 }
 
 void Systems::UpdateBullets (Scene &scene)

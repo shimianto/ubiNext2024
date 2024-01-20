@@ -7,6 +7,7 @@
 #include "../../Components/Grid/Grid.h"
 #include "../../Components/AI/BaseAI.h"
 #include "../../Components/Collider/Collider.h"
+#include "../../Components/Physics/Physics.h"
 
 class ComponentManager
 {
@@ -20,6 +21,7 @@ class ComponentManager
       std::vector<Grid> gridComponents_;
       std::vector<BaseAI> baseAIComponents_;
       std::vector<Collider> colliderComponents_;
+      std::vector<Physics> physicsComponents_;
 
   public:
       ~ComponentManager();
@@ -33,6 +35,7 @@ class ComponentManager
       Grid &GetGridFromID (const int &id);
       BaseAI &GetAIFromID (const int &id);
       Collider &GetColliderFromID (const int &id);
+      Physics &GetPhysicsFromID (const int &id);
 
 	  void ClearComponents();
 };

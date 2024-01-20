@@ -199,6 +199,7 @@
     <ClInclude Include="src\Scene\Components\Grid\GridElement.h" />
     <ClInclude Include="src\Scene\Components\Particles\Particle.h" />
     <ClInclude Include="src\Scene\Components\Particles\ParticleSystem.h" />
+    <ClInclude Include="src\Scene\Components\Physics\Physics.h" />
     <ClInclude Include="src\Scene\Components\Transform\Transform.h" />
     <ClInclude Include="src\Scene\GameObjecs\Bullet\Bullet.h" />
     <ClInclude Include="src\Scene\GameObjecs\Enemy\Enemy.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="src\Scene\Components\Grid\GridElement.cpp" />
     <ClCompile Include="src\Scene\Components\Particles\Particle.cpp" />
     <ClCompile Include="src\Scene\Components\Particles\ParticleSystem.cpp" />
+    <ClCompile Include="src\Scene\Components\Physics\Physics.cpp" />
     <ClCompile Include="src\Scene\Components\Transform\Transform.cpp" />
     <ClCompile Include="src\Scene\GameObjecs\Bullet\Bullet.cpp" />
     <ClCompile Include="src\Scene\GameObjecs\Enemy\Enemy.cpp" />
