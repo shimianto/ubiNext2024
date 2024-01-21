@@ -2,6 +2,7 @@
 #include "BaseAI.h"
 #include "../../Scene.h"
 #include "../Transform/Transform.h"
+#include "StateMachine/BaseState.h"
 
 void BaseAI::SetState (const AIState &newState)
 {
@@ -16,7 +17,6 @@ const AIState &BaseAI::GetCurrentStateType() const
 {
   return currentState_;
 }
-
 void BaseAI::RevertState ()
 {
   SetState (previousState_);

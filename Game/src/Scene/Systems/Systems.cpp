@@ -8,6 +8,7 @@
 #include "../../Graphics3D/Camera/Camera.h"
 #include "../../Math/Vector3/Vector3.h"
 #include "../../Math/Utils/Utils.h"
+#include "../Components/AI/StateMachine/States/EnemyPatrolling.h"
 
 
 void Systems::SetUpMainScene(Scene &scene)
@@ -112,24 +113,11 @@ void Systems::TryDamageToPlayer (Player &player, Health &pHealth)
 
 void Systems::ExecuteEnemyAI (Scene &scene, Enemy *enemy)
 {
-  Transform &enemyTransform = scene.components.GetTransformFromID (enemy->GetSceneId());
-  Physics &enemyPhysics = scene.components.GetPhysicsFromID (enemy->GetSceneId());
   BaseAI &enemyAI = scene.components.GetAIFromID (enemy->GetSceneId());
-  Mesh &entityMesh = scene.components.GetMeshFromID (enemy->GetSceneId());
-  ParticleSystem &entityParticles = scene.components.GetParticlesFromID (enemy->GetSceneId());
 
   switch (enemyAI.GetCurrentStateType()) {
   case PATROLLING:
-	if (enemyPhysics.velocity == Vector3()) {
-	  enemyPhysics.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2)) * enemy->moveForce;
-
-	  entityParticles.SpawnParticles (
-	    5, enemyTransform.position - enemyPhysics.velocity.Normalize() * 2, (enemyPhysics.velocity.Normalize() * -1) / 2, entityMesh.col);
-
-	  if (!App::IsSoundPlaying (AudioManager::ENEMY_DASH_SFX)) {
-		App::PlaySound (AudioManager::ENEMY_DASH_SFX);
-	  }
-	}
+	EnemyPatrolling (enemy->moveForce).OnExecute(scene, enemy->GetSceneId());
 	break;
   default:
 	break;
@@ -151,7 +139,7 @@ void Systems::ExecuteEnemyShooterAI (Scene &scene, EnemyShooter &enemy)
 
 
   //Run AI
-  switch (enemyAI.GetCurrentStateType()) {
+  switch (IDLE) {
   case SHOOTING:
 	if (enemy.coolDownTimer <= 0) {
 	  ShootBullet (scene, enemyTransform, playerTransf);

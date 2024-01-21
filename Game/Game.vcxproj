@@ -174,6 +174,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\States\EnemyPatrolling.h" />
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\BaseState.h" />
     <ClInclude Include="src\InputHandler\Command\Command.h" />
     <ClInclude Include="src\Math\Quad\Quad.h" />
     <ClInclude Include="src\Math\Utils\Utils.h" />
@@ -226,6 +228,8 @@
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\States\EnemyPatrolling.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\BaseState.cpp" />
     <ClCompile Include="src\Math\Quad\Quad.cpp" />
     <ClCompile Include="src\Math\Utils\Utils.cpp" />
     <ClCompile Include="src\Scene\BaseEntity\BaseEntity.cpp" />
