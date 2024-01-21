@@ -50,11 +50,25 @@ void WaveController::StartNextWave (Scene &scene)
   }
 
   if (waveNum_ == 1) {
-	EnemyShooter::InstantiateInScene (scene, Vector3 (-35, 25, 0), Vector3 (0, 0, 0.6f));
+	EnemyShooter::InstantiateInScene (
+		scene, 
+		Vector3 (Physics::ENVIRONMENT_LOWER_BOUDS.x, Physics::ENVIRONMENT_UPPER_BOUDS.y, 0), 
+		Vector3 (0, 0, 0.6f));
   }
-	
+
   if (waveNum_ == 2) {
-	EnemyShooter::InstantiateInScene (scene, Vector3 (35, 25, 0), Vector3 (0, 0, -0.6f));
+	EnemyShooter::InstantiateInScene (
+		scene, 
+		Vector3 (Physics::ENVIRONMENT_UPPER_BOUDS.x, Physics::ENVIRONMENT_UPPER_BOUDS.y, 0), 
+		Vector3 (0, 0, -0.6f));
+  }
+
+  if (waveNum_ == 3) {
+	EnemyShooter::InstantiateInScene (
+		scene, 
+		Vector3 (0, Physics::ENVIRONMENT_UPPER_BOUDS.y, 0), 
+		Vector3 ()
+	);
   }
 
   waveNum_++;

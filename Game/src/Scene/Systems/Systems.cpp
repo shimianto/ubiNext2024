@@ -23,7 +23,7 @@ void Systems::SetUpMainScene(Scene &scene)
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
-  scene.waveController.Init(scene, 1, 0, 5, 2, 1);
+  scene.waveController.Init(scene, 1, 0, 10, 3, 1);
   scene.waveController.StartNextWave (scene);
 }
 void Systems::SetUpMenuScene (Scene &scene)

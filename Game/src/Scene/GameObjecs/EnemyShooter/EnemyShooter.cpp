@@ -17,7 +17,7 @@ void EnemyShooter::InstantiateInScene (Scene &scene, Vector3 position, Vector3 r
   if (newEnemy.scenId_ == -1) {
 	newEnemy.scenId_ = scene.InstantiateNewEntity();
 	Mesh &mesh = scene.components.GetMeshFromID (newEnemy.scenId_);
-	mesh.LoadTrianglesFromObjectFile ("./data/cylinder3d.obj");
+	mesh.LoadTrianglesFromObjectFile ("./data/cone3d.obj");
 	mesh.col = Color (1, 0, 0, 0);
 
 	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.04f, 0.04f, 0.04f);
