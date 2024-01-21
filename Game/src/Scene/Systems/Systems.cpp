@@ -8,6 +8,8 @@
 #include "../../Math/Vector3/Vector3.h"
 #include "../../Math/Utils/Utils.h"
 #include "../Managers/AudioManager/AudioManager.h"
+#include <functional>
+#include <cmath>
 
 
 void Systems::SetMainScene(Scene &scene)
@@ -21,7 +23,7 @@ void Systems::SetMainScene(Scene &scene)
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
-  scene.waveController.Init(scene, 2, 0, 5, 2, 1);
+  scene.waveController.Init(scene, 1, 0, 5, 2, 1);
   scene.waveController.StartNextWave (scene);
 }
 void Systems::SetMenuScene (Scene &scene)

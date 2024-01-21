@@ -38,11 +38,11 @@ void WaveController::StartNextWave (Scene &scene)
   }
 
   if (waveNum_ == 1) {
-	EnemyShooter::InstantiateInScene (scene, Vector3 (-30, 20, 0), Vector3 (0, 0, 0.6f));
+	EnemyShooter::InstantiateInScene (scene, Vector3 (-35, 25, 0), Vector3 (0, 0, 0.6f));
   }
 	
   if (waveNum_ == 2) {
-	EnemyShooter::InstantiateInScene (scene, Vector3 (30, 20, 0), Vector3 (0, 0, -0.6f));
+	EnemyShooter::InstantiateInScene (scene, Vector3 (35, 25, 0), Vector3 (0, 0, -0.6f));
   }
 
   waveNum_++;

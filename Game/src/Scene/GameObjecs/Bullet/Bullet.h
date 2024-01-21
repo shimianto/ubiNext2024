@@ -16,5 +16,5 @@ class Bullet : public GameObject
 
 	  static Bullet &InstantiateInScene (Scene &scene, Vector3 position, Vector3 direction);
 
-	  Bullet(int speed = 5, int lifetime = 300);
+	  Bullet(int speed = 10, int lifetime = 200);
 };

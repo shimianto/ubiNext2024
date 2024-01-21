@@ -20,7 +20,7 @@ void EnemyShooter::InstantiateInScene (Scene &scene, Vector3 position, Vector3 r
 	mesh.LoadTrianglesFromObjectFile ("./data/cylinder3d.obj");
 	mesh.col = Color (1, 0, 0, 0);
 
-	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.06f, 0.06f, 0.06f);
+	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.04f, 0.04f, 0.04f);
 
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
 	scene.components.GetAIFromID (newEnemy.scenId_).SetState (SHOOTING);
@@ -34,7 +34,7 @@ void EnemyShooter::InstantiateInScene (Scene &scene, Vector3 position, Vector3 r
   scene.components.GetTransformFromID (newEnemy.scenId_).rotation = rotation;
 }
 
-EnemyShooter::EnemyShooter() : GameObject(), shootCooldown_ (100), coolDownTimer (shootCooldown_), projectileForce (10)
+EnemyShooter::EnemyShooter() : GameObject(), shootCooldown_ (300), coolDownTimer (shootCooldown_), projectileForce (20)
 {
 }
 
