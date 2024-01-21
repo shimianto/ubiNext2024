@@ -92,6 +92,8 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   if (p.isHit && p.hitCooldown == 0) {
 	Health &pHealth = scene.components.GetHealthFromID (p.GetSceneId());
 	pHealth.TakeDamage (1);
+	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
+
 
 	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.healthBarId);
 	healthBar.fill = (float)pHealth.GetValue() / (float)pHealth.GetMax();
@@ -186,6 +188,7 @@ void Systems::ShootBullet (Scene &scene, Transform &enemyTransform, Transform &p
   direction.z = 0;
 
   Bullet::InstantiateInScene (scene, spawn, direction);
+  App::PlaySound (AudioManager::ENEMY_SHOOT_SFX);
 }
 
 void Systems::UpdateBullets (Scene &scene, const float &deltaTime)
