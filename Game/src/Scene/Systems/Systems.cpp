@@ -28,6 +28,7 @@ void Systems::SetUpMainScene(Scene &scene)
 }
 void Systems::SetUpMenuScene (Scene &scene)
 {
+  Player::InstantiateInScene (scene);
 }
 void Systems::SetUpParticleScene (Scene & scene)
 {
