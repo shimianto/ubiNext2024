@@ -1,9 +1,5 @@
 #include "Scene.h"
-#include <list>
 #include "stdafx.h"
-#include "Components/Mesh/Mesh.h"
-#include "../Renderer/Renderer.h"
-#include "../InputHandler/InputHandler.h"
 #include "Managers//UIManager/UIManager.h"
 #include "Systems/Systems.h"
 
@@ -14,6 +10,7 @@ Scene::Scene()
 void Scene::Init (UIManager &uiManager, const SceneType &sceneType)
 {
   uiManager_ = &uiManager;
+
 
   inputHandler_.Init (*this);
   uiManager_->Init(*this);
@@ -140,15 +137,6 @@ void Scene::SetScene (const SceneType &type)
   case MAIN_SCENE:
 	Systems::SetUpMainScene(*this);
 	break;
-  case GRID_TEST:
-  {
-	  int newGrid = InstantiateNewEntity();
-	  components.GetGridFromID (newGrid).Init (6, 6, Vector3 (100, 100), Vector3 (160, 80));
-  }
-	  break;
-  case PARTICLES_SCENE:
-	  Systems::SetUpParticleScene (*this);
-	  break;
   default:
 	break;
   }

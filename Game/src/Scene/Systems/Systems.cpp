@@ -1,26 +1,21 @@
 #include "stdafx.h"
 #include "Systems.h"
-#include "../../Graphics3D/Camera/Camera.h"
 #include "../Scene.h"
-#include "../Managers/UIManager/UIManager.h"
 #include "../GameObjecs/Enemy/Enemy.h"
 #include "../GameObjecs/Player/Player.h"
+#include "../Managers/UIManager/UIManager.h"
+#include "../Managers/AudioManager/AudioManager.h"
+#include "../../Graphics3D/Camera/Camera.h"
 #include "../../Math/Vector3/Vector3.h"
 #include "../../Math/Utils/Utils.h"
-#include "../Managers/AudioManager/AudioManager.h"
-#include <functional>
-#include <cmath>
 
 
 void Systems::SetUpMainScene(Scene &scene)
 {
   Camera::mainCamera.transform = Transform();
 
-  //Camera::mainCamera.transform.position = Vector3 (-6.18, 7.38, -6.72);
-  //Camera::mainCamera.transform.rotation = Vector3 (0, -0.42, 0); 
-  
-  //int newEntityId = scene.InstantiateNewEntity();
-  //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
+  UI mainGameUI;
+  scene.uiManager_->RegisterUI (MAIN_SCENE, mainGameUI);
 
   Player::InstantiateInScene (scene);
   scene.waveController.Init(scene, 1, 0, 10, 3, 1);
@@ -28,6 +23,24 @@ void Systems::SetUpMainScene(Scene &scene)
 }
 void Systems::SetUpMenuScene (Scene &scene)
 {
+  Camera::mainCamera.transform = Transform();
+
+  UI menuUI;
+
+  //menuUI.InsertNewBar (UIBar (Vector3 (0, 500), Vector3 (APP_VIRTUAL_WIDTH, 300), 1, Color ()));
+
+  menuUI.InsertNewText (UIText (Vector3 (450, 600), "Hit here to play", Color(), GLUT_BITMAP_9_BY_15));
+
+  menuUI.InsertNewText (UIText (Vector3 (20, 470), "Space / Right trigger to charge", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (20, 450), "Release to shoot", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (20, 400), "A&D / Left stick to aim", Color(), GLUT_BITMAP_9_BY_15));
+
+  menuUI.InsertNewText (UIText (Vector3 (750, 450), "Hit all blue for next wave", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (750, 400), "Avoid red and pink", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (750, 350), "Have fun! :)", Color(), GLUT_BITMAP_9_BY_15));
+
+  scene.uiManager_->RegisterUI (MENU_SCENE, menuUI);
+
   App::PlaySound (AudioManager::MENU_BGM, true);
   Player::InstantiateInScene (scene);
   Button::InstantiateInScene (scene, Vector3 (0, 15));

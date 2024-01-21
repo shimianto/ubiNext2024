@@ -1,8 +1,8 @@
 #pragma once
-#include "../../../Math/Triangle/Triangle.h"
-#include "../Transform/Transform.h"
-#include "../../../Graphics3D/Color/Color.h"
 #include "../Mesh/Mesh.h"
+#include "../../../Math/Triangle/Triangle.h"
+#include "../../../Graphics3D/Color/Color.h"
+#include "../Transform/Transform.h"
 
 class Particle
 {

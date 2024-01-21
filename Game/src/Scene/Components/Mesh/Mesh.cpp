@@ -5,10 +5,8 @@
 #include <fstream>
 #include <strstream>
 #include <App/app.h>
-//---------------------------------------------------------------------------------
 
 using namespace std;
-
 
 vector<Triangle> Mesh::LoadTrianglesFromObjectFile (string fileName)
 {

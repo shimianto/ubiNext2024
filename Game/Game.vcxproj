@@ -266,7 +266,6 @@
     <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
     <ClCompile Include="src\Scene\Components\Health\Health.cpp" />
     <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
-    <ClCompile Include="src\Scene\Pool\Pool.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Systems\Systems.cpp" />
     <ClCompile Include="src\Scene\UI\UI.cpp" />

@@ -1,8 +1,8 @@
 #pragma once
-#include "./Managers/EntityManager/EntityManager.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 #include "Managers/ComponentManager/ComponentManager.h"
+#include "Managers/EntityManager/EntityManager.h"
 #include "Components/Particles/ParticleSystem.h"
 #include "GameObjecs/Player/Player.h"
 #include "GameObjecs/Bullet/Bullet.h"
