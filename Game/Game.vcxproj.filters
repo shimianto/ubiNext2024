@@ -77,6 +77,14 @@
     <ClCompile Include="src\UnitTesting\Vector3Test.cpp" />
     <ClCompile Include="src\UnitTesting\EntityManagerTest.cpp" />
     <ClCompile Include="src\UnitTesting\PoolTest.cpp" />
+    <ClCompile Include="src\Math\Utils\Utils.cpp" />
+    <ClCompile Include="src\Scene\Components\Collider\Collider.cpp" />
+    <ClCompile Include="src\Scene\Components\Physics\Physics.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\Bullet\Bullet.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\EnemyShooter\EnemyShooter.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\Player\Player.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\WaveController\WaveController.cpp" />
+    <ClCompile Include="src\Scene\Managers\AudioManager\AudioManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -159,6 +167,15 @@
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
     <ClInclude Include="src\Scene\GameObjecs\Enemy\Enemy.h" />
     <ClInclude Include="src\InputHandler\Command\Command.h" />
+    <ClInclude Include="src\Math\Utils\Utils.h" />
+    <ClInclude Include="src\Scene\Components\Collider\Collider.h" />
+    <ClInclude Include="src\Scene\Components\Physics\Physics.h" />
+    <ClInclude Include="src\Scene\GameObjecs\Bullet\Bullet.h" />
+    <ClInclude Include="src\Scene\GameObjecs\EnemyShooter\EnemyShooter.h" />
+    <ClInclude Include="src\Scene\GameObjecs\GameObject.h" />
+    <ClInclude Include="src\Scene\GameObjecs\Player\Player.h" />
+    <ClInclude Include="src\Scene\GameObjecs\WaveController\WaveController.h" />
+    <ClInclude Include="src\Scene\Managers\AudioManager\AudioManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

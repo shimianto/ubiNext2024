@@ -125,6 +125,9 @@ void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 	case PATROLLING:
 	  if (enemyPhysics.velocity == Vector3()) {
 		enemyPhysics.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2)) * enemy.moveForce;
+		if (!App::IsSoundPlaying (AudioManager::ENEMY_DASH_SFX)) {
+			App::PlaySound (AudioManager::ENEMY_DASH_SFX);
+		}
 	  }
 	  break;
 	default:
