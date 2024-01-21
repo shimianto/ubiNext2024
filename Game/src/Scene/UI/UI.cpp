@@ -64,6 +64,12 @@ void UI::UpdateBarFromId (const int &id, const UIBar &bar)
   uiBars_[id] = bar;
 }
 
+void UI::Clear()
+{
+  uiBars_.clear();
+  uiTexts_.clear();
+}
+
 UIText::UIText (const Vector3 &position, const char *text, const Color &color, void *font) : 
 	position (position), text (text), color (color), font (font)
 {

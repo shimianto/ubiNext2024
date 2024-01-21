@@ -50,4 +50,5 @@ class UI
 
       void UpdateTextFromId (const int &id, const UIText &text);
       void UpdateBarFromId (const int &id, const UIBar &bar);
+      void Clear();
 };

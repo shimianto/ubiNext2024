@@ -28,7 +28,9 @@ void Systems::SetUpMainScene(Scene &scene)
 }
 void Systems::SetUpMenuScene (Scene &scene)
 {
+  App::PlaySound (AudioManager::MENU_BGM, true);
   Player::InstantiateInScene (scene);
+  Button::InstantiateInScene (scene, Vector3 (0, 15));
 }
 void Systems::SetUpParticleScene (Scene & scene)
 {
@@ -108,6 +110,9 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 	Health &pHealth = scene.components.GetHealthFromID (player.GetSceneId());
 	pHealth.TakeDamage (1);
 	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
+	if (pHealth.GetValue() <= 0) {
+	  scene.SetScene (MENU_SCENE);
+	}
 
 
 	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (player.healthBarId);

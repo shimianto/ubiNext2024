@@ -7,9 +7,9 @@ void UIManager::Init (const Scene &scene)
 {
   UI menuUI;
 
-  menuUI.InsertNewBar (UIBar (Vector3 (0, 500), Vector3 (APP_VIRTUAL_WIDTH, 300), 1, Color ()));
+  //menuUI.InsertNewBar (UIBar (Vector3 (0, 500), Vector3 (APP_VIRTUAL_WIDTH, 300), 1, Color ()));
 
-  menuUI.InsertNewText (UIText (Vector3 (450, 600), "Hit here to play", Color(0,0,0)));
+  menuUI.InsertNewText (UIText (Vector3 (450, 600), "Hit here to play", Color(), GLUT_BITMAP_9_BY_15));
 
   menuUI.InsertNewText (UIText (Vector3 (20, 470), "Space / Right trigger to charge", Color(), GLUT_BITMAP_9_BY_15));
   menuUI.InsertNewText (UIText (Vector3 (20, 450), "Release to shoot", Color(), GLUT_BITMAP_9_BY_15));
