@@ -8,15 +8,27 @@ enum AIState
 	SHOOTING,
 };
 
+class State
+{
+	public:
+    AIState aiState;
+    virtual void execute() = 0;
+};
+
 class BaseAI
 {
   private:
 	AIState currentState_;
 	AIState previousState_;
 
+	State *stateMachine;
+
   public:
     void SetState (const AIState &newState);
-    const AIState &GetState () const;
+    
+	
+	const AIState &GetCurrentStateType () const;
+
 
 	void RevertState ();
 

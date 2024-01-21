@@ -39,6 +39,8 @@ class Scene
       Pool<EnemyShooter> enemyShooters_;
       Pool<Button> buttons_;
 
+      void UpdatePlayer (float &deltaTime);
+      void UpdateEnemies (float &deltaTime);
   public:
 
       UIManager *uiManager_;
@@ -52,7 +54,7 @@ class Scene
 
       Scene ();
       void Init (UIManager &uiManager, const SceneType &sceneType = MENU_SCENE);
-      void Update(float deltaTime);
+      void Update (float deltaTime);
       void Render();
       void Shutdown();
 

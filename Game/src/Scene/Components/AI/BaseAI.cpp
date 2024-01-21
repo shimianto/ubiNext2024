@@ -12,7 +12,7 @@ void BaseAI::SetState (const AIState &newState)
   //OnEnter (currentState_);
 }
 
-const AIState &BaseAI::GetState() const
+const AIState &BaseAI::GetCurrentStateType() const
 {
   return currentState_;
 }

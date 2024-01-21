@@ -36,8 +36,6 @@ template <class T> Pool<T>::Pool (int maxSize) : maxPoolSize_ (maxSize), poolSiz
 
 template <class T> void Pool<T>::DisableElement (const int &id)
 {
-      assert (!available_.count (id));
-
       available_.insert (id);
       inUse_.erase (id);
 }

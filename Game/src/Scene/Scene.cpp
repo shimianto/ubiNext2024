@@ -26,12 +26,24 @@ void Scene::Update (float deltaTime)
 
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
+
+
+ 
+  UpdatePlayer (deltaTime);
+  UpdateEnemies (deltaTime);
+
+   for (auto &poolId : enemyShooters_.GetInUseElements()) {
+	EnemyShooter &enemy = enemyShooters_.GetElementByID (poolId);
+	enemy.coolDownTimer -= 1;
+	Systems::ExecuteEnemyShooterAI(*this, enemy);
+  }
   
-  Systems::UpdatePlayer (*this, deltaTime);
-  Systems::UpdateEnemies (*this, deltaTime);
-  Systems::UpdateEnemyShooters(*this, deltaTime);
   Systems::UpdateBullets (*this, deltaTime);
 
+  //Try new wave
+  if (waveController.IsWaveDone (*this)) {
+	waveController.StartNextWave (*this);
+  }
 
   bool changeScene = false;
   for (auto &btnId : buttons_.GetInUseElements()) {
@@ -42,6 +54,50 @@ void Scene::Update (float deltaTime)
   }
   if (changeScene) {
 	  SetScene (MAIN_SCENE);
+  }
+}
+
+void Scene::UpdateEnemies (float &deltaTime)
+{
+  //Enemies
+  std::set<int> enemiesIdsCopy = enemies_.GetInUseElements();
+  for (const auto &poolId : enemiesIdsCopy) {
+	  Enemy &enemy = enemies_.GetElementByID (poolId);
+	  Transform &enemyTransform = components.GetTransformFromID (enemy.GetSceneId());
+	  Physics &enemyPhysics = components.GetPhysicsFromID (enemy.GetSceneId());
+
+	  Systems::ExecuteEntityPhysics (enemyTransform, enemyPhysics, deltaTime);
+	  Systems::ExecuteEnemyAI (*this, &enemy);
+
+	  //Check Collisions
+	  if (player_.GetSceneId() != -1 && Collider::CheckCollision (*this, player_.GetSceneId(), enemy.GetSceneId())) {
+	  Systems::DisableGameObjectInScene (*this, &enemy, &enemies_);
+	  }
+  }
+}
+
+void Scene::UpdatePlayer (float &deltaTime)
+{
+  // Player
+  if (player_.GetSceneId() >= 0) {
+	  Transform &playerTransform = components.GetTransformFromID (player_.GetSceneId());
+	  Physics &playerPhysics = components.GetPhysicsFromID (player_.GetSceneId());
+	  Health &pHealth = components.GetHealthFromID (player_.GetSceneId());
+
+	  // Update Charge bar
+	  uiManager_->GetActiveUI (*this).UpdateBarFromId (player_.chargeBarId, player_.GetChargeBar());
+
+	  Systems::ExecuteEntityPhysics (playerTransform, playerPhysics, deltaTime);
+	  Systems::TryDamageToPlayer (player_, pHealth);
+
+	  if (pHealth.GetValue() <= 0) {
+	  SetScene (MENU_SCENE);
+	  }
+
+	  UIBar &healthBar = uiManager_->GetActiveUI (*this).GetBarFromId (player_.healthBarId);
+	  healthBar.fill = (float)pHealth.GetValue() / (float)pHealth.GetMax();
+
+	  uiManager_->GetActiveUI (*this).UpdateBarFromId (player_.healthBarId, healthBar);
   }
 }
 

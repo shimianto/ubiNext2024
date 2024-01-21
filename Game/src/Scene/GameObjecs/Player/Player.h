@@ -2,6 +2,7 @@
 #include "../GameObject.h"
 
 class Scene;
+class UIBar;
 
 class Player : public GameObject
 {
@@ -20,5 +21,7 @@ class Player : public GameObject
 
 	 static Player &InstantiateInScene (Scene &scene);
 
-	 Player();
+
+	Player();
+    UIBar GetChargeBar();
 };

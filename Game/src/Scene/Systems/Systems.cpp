@@ -98,135 +98,68 @@ void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 	playerTransform.rotation.z += rotation.x;
 }
 
-void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
+void Systems::TryDamageToPlayer (Player &player, Health &pHealth)
 {
-  Player &player = scene.GetPlayer();
-
-  if (player.GetSceneId() == -1) {
-	return;
-  }
-
-  Transform &playerTransform = scene.components.GetTransformFromID (player.GetSceneId());
-  Physics &playerPhysics = scene.components.GetPhysicsFromID (player.GetSceneId());
-
-  UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (player.chargeBarId);
-  chargeBar.fill = (player.moveForce / player.maxPower);
-  chargeBar.fill = chargeBar.fill > 1 ? 1 : chargeBar.fill;
-  chargeBar.color = Color (chargeBar.fill, 1 - chargeBar.fill, 0);
-
-  scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (player.chargeBarId, chargeBar);
-
-  ExecuteEntityPhysics (playerTransform, playerPhysics, deltaTime);
-
-  //Check if was hit by projectile
   if (player.isHit && player.hitCooldown == 0) {
-	Health &pHealth = scene.components.GetHealthFromID (player.GetSceneId());
 	pHealth.TakeDamage (1);
 	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
-	if (pHealth.GetValue() <= 0) {
-	  scene.SetScene (MENU_SCENE);
-	}
-
-
-	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (player.healthBarId);
-	healthBar.fill = (float)pHealth.GetValue() / (float)pHealth.GetMax();
-
-	scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (player.healthBarId, healthBar);
-
-
 	player.hitCooldown = player.maxCooldown;
-  } else if(player.hitCooldown > 0) {
+  } else if (player.hitCooldown > 0) {
 	player.hitCooldown--;
 	player.isHit = player.hitCooldown != 0;
   }
 }
 
-void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
+void Systems::ExecuteEnemyAI (Scene &scene, Enemy *enemy)
 {
-  Player &player = scene.GetPlayer();
+  Transform &enemyTransform = scene.components.GetTransformFromID (enemy->GetSceneId());
+  Physics &enemyPhysics = scene.components.GetPhysicsFromID (enemy->GetSceneId());
+  BaseAI &enemyAI = scene.components.GetAIFromID (enemy->GetSceneId());
+  Mesh &entityMesh = scene.components.GetMeshFromID (enemy->GetSceneId());
+  ParticleSystem &entityParticles = scene.components.GetParticlesFromID (enemy->GetSceneId());
 
-  if (player.GetSceneId() == -1) {
-	return;
-  }
+  switch (enemyAI.GetCurrentStateType()) {
+  case PATROLLING:
+	if (enemyPhysics.velocity == Vector3()) {
+	  enemyPhysics.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2)) * enemy->moveForce;
 
-  Pool<Enemy> &enemyPool = scene.GetEnemies();
-  std::vector<Enemy> enemiesHit;
+	  entityParticles.SpawnParticles (
+	    5, enemyTransform.position - enemyPhysics.velocity.Normalize() * 2, (enemyPhysics.velocity.Normalize() * -1) / 2, entityMesh.col);
 
-  for (const auto &poolId : enemyPool.GetInUseElements()) {
-	Enemy &enemy = enemyPool.GetElementByID (poolId);
-	Transform &enemyTransform = scene.components.GetTransformFromID (enemy.GetSceneId());
-	Physics &enemyPhysics = scene.components.GetPhysicsFromID (enemy.GetSceneId());
-	BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
-	
-	ParticleSystem &entityParticles = scene.components.GetParticlesFromID (enemy.GetSceneId());
-	Mesh &entityMesh = scene.components.GetMeshFromID (enemy.GetSceneId());
-
-	ExecuteEntityPhysics (enemyTransform, enemyPhysics, deltaTime);
-
-	//Run AI
-	switch (enemyAI.GetState()) {
-	case PATROLLING:
-	  if (enemyPhysics.velocity == Vector3()) {
-		enemyPhysics.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2)) * enemy.moveForce;
-		
-		entityParticles.SpawnParticles (5, enemyTransform.position - enemyPhysics.velocity.Normalize() * 2, (enemyPhysics.velocity.Normalize() * -1)/2, entityMesh.col);
-		
-		if (!App::IsSoundPlaying (AudioManager::ENEMY_DASH_SFX)) {
-			App::PlaySound (AudioManager::ENEMY_DASH_SFX);
-		}
+	  if (!App::IsSoundPlaying (AudioManager::ENEMY_DASH_SFX)) {
+		App::PlaySound (AudioManager::ENEMY_DASH_SFX);
 	  }
-	  break;
-	default:
-	  break;
 	}
-
-	//Check Collisions
-	if (Collider::CheckCollision (scene, player.GetSceneId(), enemy.GetSceneId())) {
-	  enemiesHit.push_back (enemy);
-	} 
-  }
-
-  //Disabled hit
-  for (auto &e : enemiesHit) {
-	DisableGameObjectInScene (scene, &e, &enemyPool);
-  }
-
-  //Try new wave
-  if (scene.waveController.IsWaveDone (scene)) {
-	scene.waveController.StartNextWave (scene);
+	break;
+  default:
+	break;
   }
 }
 
-void Systems::UpdateEnemyShooters (Scene &scene, const float &deltaTime)
+void Systems::ExecuteEnemyShooterAI (Scene &scene, EnemyShooter &enemy)
 {
   Player &player = scene.GetPlayer();
-  
+
   if (player.GetSceneId() == -1) {
 	return;
   }
 
   Transform &playerTransf = scene.components.GetTransformFromID (player.GetSceneId());
 
-  Pool<EnemyShooter> &enemyShootersPool = scene.GetEnemyShooters();
-  
-  for (auto &poolId	: enemyShootersPool.GetInUseElements()) {
-	EnemyShooter &enemy = enemyShootersPool.GetElementByID (poolId);
-	Transform &enemyTransform = scene.components.GetTransformFromID (enemy.GetSceneId());
-	BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
-	
-	enemy.coolDownTimer -= 1;
+  Transform &enemyTransform = scene.components.GetTransformFromID (enemy.GetSceneId());
+  BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
 
-	//Run AI
-	switch (enemyAI.GetState()) {
-	case SHOOTING:
-	  if (enemy.coolDownTimer <= 0) {
-		ShootBullet (scene, enemyTransform, playerTransf);
-		enemy.ResetCooldown();
-	  }
-	  break;
-	default:
-	  break;
+
+  //Run AI
+  switch (enemyAI.GetCurrentStateType()) {
+  case SHOOTING:
+	if (enemy.coolDownTimer <= 0) {
+	  ShootBullet (scene, enemyTransform, playerTransf);
+	  enemy.ResetCooldown();
 	}
+	break;
+  default:
+	break;
   }
 }
 

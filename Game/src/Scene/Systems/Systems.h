@@ -3,6 +3,10 @@ class Scene;
 class Vector3;
 class Transform;
 class Physics;
+class Player;
+class Enemy;
+class EnemyShooter;
+class Health;
 class GameObject;
 template <class T> class Pool;
 
@@ -18,10 +22,12 @@ namespace Systems
 	
     void ShootBullet (Scene &scene, Transform &enemyTransform, Transform &playerTransf);
 
-    void UpdatePlayer (Scene &scene, const float &deltaTime);
+    void TryDamageToPlayer (Player &player, Health &pHealth);
+
+    void ExecuteEnemyAI (Scene &scene, Enemy *enemy);
     void UpdateBullets (Scene &scene, const float &deltaTime);
-    void UpdateEnemies (Scene &scene, const float &deltaTime);
-    void UpdateEnemyShooters (Scene &scene, const float &deltaTime);
+
+    void ExecuteEnemyShooterAI (Scene &scene, EnemyShooter &enemy);
 
     void ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime);
 
