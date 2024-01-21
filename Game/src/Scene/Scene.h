@@ -71,4 +71,5 @@ class Scene
       WaveController waveController;
 
       void SetScene (const SceneType &type);
+      void ClearGameObjects();
 };

@@ -12,7 +12,7 @@
 #include <cmath>
 
 
-void Systems::SetMainScene(Scene &scene)
+void Systems::SetUpMainScene(Scene &scene)
 {
   Camera::mainCamera.transform = Transform();
 
@@ -26,8 +26,13 @@ void Systems::SetMainScene(Scene &scene)
   scene.waveController.Init(scene, 1, 0, 5, 2, 1);
   scene.waveController.StartNextWave (scene);
 }
-void Systems::SetMenuScene (Scene &scene)
+void Systems::SetUpMenuScene (Scene &scene)
 {
+}
+void Systems::SetUpParticleScene (Scene & scene)
+{
+  scene.InstantiateNewEntity();
+  scene.components.GetParticlesFromID (0).mesh.LoadTrianglesFromObjectFile ("./data/cube3d.obj");
 }
 
 void Systems::ChargePlayer (Scene &scene)
@@ -49,8 +54,11 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
   Player &p = scene.GetPlayer();
   Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
 
+
   if (p.moveForce > 0 && playerPhysics.velocity == Vector3()) {
 	Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
+	ParticleSystem &playerParticles = scene.components.GetParticlesFromID (p.GetSceneId());
+
 	Matrix matRot = Matrix::MakeRotationMatrix (playerTransform.rotation);
 
 	// Calculate new forward direction
@@ -60,6 +68,8 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 	playerPhysics.velocity = vForward * p.moveForce;
 	p.moveForce = 0;
 
+	playerParticles.SpawnParticles (5, playerTransform.position, vForward*-1);
+
 	App::StopSound (AudioManager::PLAYER_CHARGING_SFX);
 	App::PlaySound (AudioManager::PLAYER_DASH_SFX);
   }
@@ -68,51 +78,58 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 
 void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 {
-  Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
-  //Physics &playerPhysics = scene.components.GetPhysicsFromID (scene.GetPlayer().GetSceneId());
-
-  //if(playerPhysics.velocity == Vector3())
+	Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
 	playerTransform.rotation.z += rotation.x;
 }
 
 void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 {
-  Player &p = scene.GetPlayer();
-  Transform &playerTransform = scene.components.GetTransformFromID (p.GetSceneId());
-  Physics &playerPhysics = scene.components.GetPhysicsFromID (p.GetSceneId());
+  Player &player = scene.GetPlayer();
 
-  UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.chargeBarId);
-  chargeBar.fill = (p.moveForce / p.maxPower);
+  if (player.GetSceneId() == -1) {
+	return;
+  }
+
+  Transform &playerTransform = scene.components.GetTransformFromID (player.GetSceneId());
+  Physics &playerPhysics = scene.components.GetPhysicsFromID (player.GetSceneId());
+
+  UIBar &chargeBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (player.chargeBarId);
+  chargeBar.fill = (player.moveForce / player.maxPower);
   chargeBar.fill = chargeBar.fill > 1 ? 1 : chargeBar.fill;
   chargeBar.color = Color (chargeBar.fill, 1 - chargeBar.fill, 0);
 
-  scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.chargeBarId, chargeBar);
+  scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (player.chargeBarId, chargeBar);
 
   ExecuteEntityPhysics (playerTransform, playerPhysics, deltaTime);
 
   //Check if was hit by projectile
-  if (p.isHit && p.hitCooldown == 0) {
-	Health &pHealth = scene.components.GetHealthFromID (p.GetSceneId());
+  if (player.isHit && player.hitCooldown == 0) {
+	Health &pHealth = scene.components.GetHealthFromID (player.GetSceneId());
 	pHealth.TakeDamage (1);
 	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
 
 
-	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.healthBarId);
+	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (player.healthBarId);
 	healthBar.fill = (float)pHealth.GetValue() / (float)pHealth.GetMax();
 
-	scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (p.healthBarId, healthBar);
+	scene.uiManager_->GetActiveUI (scene).UpdateBarFromId (player.healthBarId, healthBar);
 
 
-	p.hitCooldown = p.maxCooldown;
-  } else if(p.hitCooldown > 0) {
-	p.hitCooldown--;
-	p.isHit = p.hitCooldown != 0;
+	player.hitCooldown = player.maxCooldown;
+  } else if(player.hitCooldown > 0) {
+	player.hitCooldown--;
+	player.isHit = player.hitCooldown != 0;
   }
 }
 
 void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 {
   Player &player = scene.GetPlayer();
+
+  if (player.GetSceneId() == -1) {
+	return;
+  }
+
   Pool<Enemy> &enemyPool = scene.GetEnemies();
   std::vector<Enemy> enemiesHit;
 
@@ -121,6 +138,9 @@ void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 	Transform &enemyTransform = scene.components.GetTransformFromID (enemy.GetSceneId());
 	Physics &enemyPhysics = scene.components.GetPhysicsFromID (enemy.GetSceneId());
 	BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
+	
+	ParticleSystem &entityParticles = scene.components.GetParticlesFromID (enemy.GetSceneId());
+	Mesh &entityMesh = scene.components.GetMeshFromID (enemy.GetSceneId());
 
 	ExecuteEntityPhysics (enemyTransform, enemyPhysics, deltaTime);
 
@@ -129,6 +149,9 @@ void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 	case PATROLLING:
 	  if (enemyPhysics.velocity == Vector3()) {
 		enemyPhysics.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2)) * enemy.moveForce;
+		
+		entityParticles.SpawnParticles (5, enemyTransform.position - enemyPhysics.velocity.Normalize() * 2, (enemyPhysics.velocity.Normalize() * -1)/2, entityMesh.col);
+		
 		if (!App::IsSoundPlaying (AudioManager::ENEMY_DASH_SFX)) {
 			App::PlaySound (AudioManager::ENEMY_DASH_SFX);
 		}
@@ -158,6 +181,11 @@ void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 void Systems::UpdateEnemyShooters (Scene &scene, const float &deltaTime)
 {
   Player &player = scene.GetPlayer();
+  
+  if (player.GetSceneId() == -1) {
+	return;
+  }
+
   Transform &playerTransf = scene.components.GetTransformFromID (player.GetSceneId());
 
   Pool<EnemyShooter> &enemyShootersPool = scene.GetEnemyShooters();
@@ -196,6 +224,11 @@ void Systems::ShootBullet (Scene &scene, Transform &enemyTransform, Transform &p
 void Systems::UpdateBullets (Scene &scene, const float &deltaTime)
 {
   Player &player = scene.GetPlayer();
+
+  if (player.GetSceneId() == -1) {
+	return;
+  }
+
   Pool<Bullet> &bulletPool = scene.GetBullets();
   std::vector<Bullet> bulletsToDiable;
 
@@ -211,8 +244,12 @@ void Systems::UpdateBullets (Scene &scene, const float &deltaTime)
 	}
 	Transform &transf = scene.components.GetTransformFromID (b.GetSceneId());
 	Physics &phys = scene.components.GetPhysicsFromID (b.GetSceneId());
+	ParticleSystem &entityParticles = scene.components.GetParticlesFromID (b.GetSceneId());
+	Mesh &entityMesh = scene.components.GetMeshFromID (b.GetSceneId());
 
 	ExecuteEntityPhysics (transf, phys, deltaTime);
+	entityParticles.SpawnParticles (1, transf.position - phys.velocity.Normalize()*2, (phys.velocity.Normalize() * -1) / 2, entityMesh.col);
+
 
 	//Check Collisions
 	if (!player.isHit && Collider::CheckCollision (scene, player.GetSceneId(), b.GetSceneId())) {

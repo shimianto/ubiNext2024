@@ -7,42 +7,68 @@
 template class Pool<Particle>;
 
 
-void ParticleSystem::NewParticle (const Vector3 &pos, const Color &col)
+ParticleSystem::ParticleSystem() : particleLife_ (100), particlesScale_ (1)
 {
-  int id = particlePool_.InstantiateNextAvailable();
+}
+
+void ParticleSystem::SpawnParticles (const int &num, const Vector3 &pos, const Vector3 &direction, const Color &col)
+{
+  mesh.col = col;
+  for (int i = 0; i < num; i++) {
+	NewParticle (pos, direction, col);
+  }
+}
+
+void ParticleSystem::NewParticle (const Vector3 &pos, const Vector3 &direction, const Color &col)
+{
+  int id = particlePool.InstantiateNextAvailable();
 
   if (id == -1) {
 	return;
   }
 
-  Particle &p = particlePool_.GetElementByID (id);
-  p.lifeTime = 100;
-  p.position = pos;
-  p.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2));
+  Particle &p = particlePool.GetElementByID (id);
+  p.lifeTime = particleLife_;
+  p.transform.position = pos;
+  p.transform.scale = Vector3 (1, 1, 1) * particlesScale_;
+  p.velocity.x = direction.x * Utils::RandFloat() * 2.0f;
+  p.velocity.y = direction.y * Utils::RandFloat() * 2.0f;
+  p.velocity.z = Utils::RandFloat();
   p.color = col;
 }
 
 void ParticleSystem::Update (const float &deltaTime)
 {
-  for (const auto &id : particlePool_.GetInUseElements()) {
-	bool isDone = particlePool_.GetElementByID (id).animate();
+  std::set<int> activeParticles = particlePool.GetInUseElements(); 
+  for (const auto &id : activeParticles) {
+	bool isDone = particlePool.GetElementByID (id).animate();
 	
 	if (isDone) {
-	  particlePool_.DisableElement (id);
+	  particlePool.DisableElement (id);
 	}
   }
 }
 
-void ParticleSystem::Render()
+void ParticleSystem::Render2D()
 {
-  for (const auto &id : particlePool_.GetInUseElements()) {
-	Particle p = particlePool_.GetElementByID (id);
+  for (const auto &id : particlePool.GetInUseElements()) {
+	Particle p = particlePool.GetElementByID (id);
 
-	Graphics3D::DrawTriangle((p.tri + p.position), p.color);
+	Graphics3D::DrawTriangle((p.triangle2D + p.transform.position), p.color);
   }
 }
 
 bool ParticleSystem::HasActiveParticles()
 {
-  return particlePool_.GetInUseElements().size() > 0;
+  return particlePool.GetInUseElements().size() > 0;
+}
+
+void ParticleSystem::SetParticleLife (const int &life)
+{
+  particleLife_ = life;
+}
+
+void ParticleSystem::SetParticleScale (const float &scale)
+{
+  particlesScale_ = scale;
 }

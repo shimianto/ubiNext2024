@@ -8,8 +8,9 @@ template <class T> class Pool;
 
 namespace Systems
 {
-	void SetMainScene (Scene &scene);
-	void SetMenuScene (Scene &scene);
+	void SetUpMainScene (Scene &scene);
+    void SetUpMenuScene (Scene &scene);
+    void SetUpParticleScene (Scene &scene);
 
 	void ChargePlayer (Scene &scene);
 	void ShootPlayer (Scene &scene, const float &deltaTime);

@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Particle.h"
 
-Color Particle::DEFAULT_PARTICLE_COL = Color (0.208f, 0.968f, 0.6f);
+Color Particle::DEFAULT_PARTICLE_COL = Color (0.208f, 0.968f, 0.6f, 0);
 
 
 Particle::Particle () : 
-	tri(Triangle (Vector3(), Vector3(0,20,0), Vector3(20,10))), 
+	triangle2D(Triangle (Vector3(), Vector3(0,20,0), Vector3(20,10))), 
 	color (DEFAULT_PARTICLE_COL),
 	lifeTime (100)
 {
@@ -14,8 +14,8 @@ Particle::Particle () :
 bool Particle::animate()
 {
   lifeTime--;
-  position.x += velocity.x;
-  position.y += velocity.y;
+  transform.position.x += velocity.x;
+  transform.position.y += velocity.y;
 
   return lifeTime <= 0;
 }

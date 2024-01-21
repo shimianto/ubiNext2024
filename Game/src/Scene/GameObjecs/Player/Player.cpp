@@ -20,6 +20,8 @@ Player &Player::InstantiateInScene (Scene &scene)
   Health &health = scene.components.GetHealthFromID (newPlayer.scenId_);
   health.SetHealth (3);
 
+  scene.components.GetParticlesFromID (newPlayer.scenId_).mesh.LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+
   UIBar healthBar (Vector3 (20, 20), Vector3 (300, 60), 1, Color (0.863f, 0.07f, 0.17));
   newPlayer.healthBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (healthBar);
 
