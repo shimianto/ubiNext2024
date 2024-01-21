@@ -25,6 +25,7 @@ class Pool
       const std::set<int> &GetInUseElements() const;
 
       void SetPooSize (const int &maxSize);
+      void Clear ();
 
       std ::vector<T> &GetPoolAsVector();
 };
@@ -86,6 +87,14 @@ template <class T> const std::set<int> &Pool<T>::GetInUseElements() const
 template <class T> inline void Pool<T>::SetPooSize (const int &maxSize)
 {
       maxPoolSize_ = maxSize;
+}
+
+template <class T> inline void Pool<T>::Clear()
+{
+      inUse_.clear();
+      available_.clear();
+      pool_.clear();
+      poolSize_ = 0;
 }
 
 template <class T> inline std::vector<T> &Pool<T>::GetPoolAsVector()

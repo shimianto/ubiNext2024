@@ -17,6 +17,11 @@ Bullet &Bullet::InstantiateInScene (Scene &scene, Vector3 position, Vector3 dire
 	mesh.LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
 	mesh.col = Color (1, 0, 1, 1);
 
+	ParticleSystem &ps = scene.components.GetParticlesFromID (b.scenId_);
+	ps.mesh.LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+	ps.SetParticleLife (5);
+	ps.SetParticleScale (0.5f);
+
 	scene.components.GetTransformFromID (b.scenId_).scale = Vector3 (0.04f, 0.04f, 0.04f);
 	scene.components.GetColliderFromID (b.scenId_).radius = 1;
 

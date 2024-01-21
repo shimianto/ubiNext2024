@@ -21,6 +21,10 @@ void Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 	mesh.LoadTrianglesFromObjectFile ("./data/sphere3d.obj");
 	mesh.col = Color (0, 0, 1, 0);
 
+	ParticleSystem &ps = scene.components.GetParticlesFromID (newEnemy.scenId_);
+	ps.mesh.LoadTrianglesFromObjectFile ("./data/cube3d.obj");
+	ps.SetParticleScale (0.8f);
+
 	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.065f, 0.065f, 0.065f);
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
 	scene.components.GetAIFromID (newEnemy.scenId_).SetState (PATROLLING);

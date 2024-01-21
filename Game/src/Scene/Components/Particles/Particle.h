@@ -2,6 +2,7 @@
 #include "../../../Math/Triangle/Triangle.h"
 #include "../Transform/Transform.h"
 #include "../../../Graphics3D/Color/Color.h"
+#include "../Mesh/Mesh.h"
 
 class Particle
 {
@@ -9,8 +10,8 @@ class Particle
   
       static Color DEFAULT_PARTICLE_COL;
 	  
-      Triangle tri;
-      Vector3 position;
+      Triangle triangle2D;
+      Transform transform;
       Vector3 velocity;
       Color color;
 

@@ -4,7 +4,7 @@
 #include "../../../Math/Utils/Utils.h"
 #include <algorithm>
 
-WaveController::WaveController() : waveNum_(0)
+WaveController::WaveController() : waveNum_ (0), isInitialized_(false)
 {
 }
 
@@ -18,6 +18,13 @@ void WaveController::Init (Scene &scene, int numEnemyStart, int numEnemyShooterS
 
   scene.GetEnemies().SetPooSize (maxEnemies);
   scene.GetEnemyShooters().SetPooSize (maxEnemyShooters);
+
+  isInitialized_ = true;
+}
+
+bool WaveController::IsInitialized()
+{
+  return isInitialized_;
 }
 
 bool WaveController::IsWaveDone (Scene &scene)
@@ -25,8 +32,13 @@ bool WaveController::IsWaveDone (Scene &scene)
   return scene.GetEnemies().GetInUseElements().size() == 0;
 }
 
+
 void WaveController::StartNextWave (Scene &scene)
 {
+  if (!isInitialized_) {
+	return;
+  }
+
   for (int i = 0; i < numEnemyStart + (waveNum_ * enemiesIncrement) && i < maxEnemies; i++) {
 	Enemy::InstantiateInScene (scene, 
 		Vector3 (

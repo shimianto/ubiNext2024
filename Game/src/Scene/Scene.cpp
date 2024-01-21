@@ -29,7 +29,6 @@ void Scene::Update (float deltaTime)
 
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
-
   
   Systems::UpdatePlayer (*this, deltaTime);
   Systems::UpdateEnemies (*this, deltaTime);
@@ -40,7 +39,7 @@ void Scene::Update (float deltaTime)
 void Scene::Render()
 {
   uiManager_->Render (*this);
-  renderer_.Render();
+  renderer_.Render();  
 }
 
 void Scene::Shutdown()
@@ -112,14 +111,16 @@ void Scene::SetScene (const SceneType &type)
 {
   entityManager_.ClearEntities();
   components.ClearComponents();
+  ClearGameObjects();
+  player_ = Player();
 
   activeScene_ = type;
   switch (type) {
   case MENU_SCENE:
-	Systems::SetMenuScene(*this);
+	Systems::SetUpMenuScene(*this);
 	break;
   case MAIN_SCENE:
-	Systems::SetMainScene(*this);
+	Systems::SetUpMainScene(*this);
 	break;
   case GRID_TEST:
   {
@@ -128,9 +129,18 @@ void Scene::SetScene (const SceneType &type)
   }
 	  break;
   case PARTICLES_SCENE:
-	  InstantiateNewEntity();
+	  Systems::SetUpParticleScene (*this);
 	  break;
   default:
 	break;
   }
+}
+
+void Scene::ClearGameObjects()
+{
+  bullets_.Clear();
+  enemies_.Clear();
+  enemyShooters_.Clear();
+
+  waveController = WaveController();
 }

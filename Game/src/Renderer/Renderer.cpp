@@ -31,10 +31,7 @@ void Renderer::Update (const float &deltaTime)
   //ThreadGroup threadGrp;
 
   for (auto id : scene_->GetActiveEntities()) {
-	SetVisibleTriangles (
-		scene_->components.GetMeshFromID (id), 
-		scene_->components.GetTransformFromID (id)
-	);
+	SetVisibleTriangles (scene_->components.GetMeshFromID (id), scene_->components.GetTransformFromID (id));
 
 	/*threadGrp.group.emplace_back (
 		&Renderer::SetVisibleTriangles, this, 
@@ -44,13 +41,10 @@ void Renderer::Update (const float &deltaTime)
 	
 	ParticleSystem &ps = scene_->components.GetParticlesFromID (id);
 	if (ps.HasActiveParticles()) {
-	  ps.Update (deltaTime);
-
-		/*threadGrp.group.emplace_back (
-			&ParticleSystem::Update, 
-			&ps,
-			deltaTime
-		);*/
+	  ps.Update (deltaTime);// Revisit most appropriate place for this call
+	  for (const auto &particleId : ps.particlePool.GetInUseElements()) {
+		SetVisibleTriangles (ps.mesh, ps.particlePool.GetElementByID(particleId).transform);
+	  }
 	}
   }
 
@@ -181,10 +175,10 @@ void Renderer::SortVisibleTriangles()
 
 void Renderer::Render()
 {
-  for (auto id : scene_->GetActiveEntities()) {
-	  scene_->components.GetParticlesFromID (id).Render();
+  /*for (auto id : scene_->GetActiveEntities()) {
+	  scene_->components.GetParticlesFromID (id).Render2D();
 	  scene_->components.GetGridFromID (id).DrawGrid2D();
-  }
+  }*/
   DrawVisibleTriangles();
 }
 void Renderer::DrawVisibleTriangles()

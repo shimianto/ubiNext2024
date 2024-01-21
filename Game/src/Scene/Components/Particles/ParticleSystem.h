@@ -5,13 +5,23 @@
 class ParticleSystem
 {
   private:
-
-	  Pool<Particle> particlePool_;
-
+  
+      int particleLife_;
+      float particlesScale_;
   public:
 
-	  void NewParticle (const Vector3 &pos, const Color &col = Particle::DEFAULT_PARTICLE_COL);
+	  Pool<Particle> particlePool;
+      Mesh mesh;
+
+      ParticleSystem();
+
+
       void Update (const float &deltaTime);
-      void Render();
+      void Render2D();
+
+      void SpawnParticles (const int &num, const Vector3 &pos, const Vector3 &direction, const Color &col = Particle::DEFAULT_PARTICLE_COL);
+      void NewParticle (const Vector3 &pos, const Vector3 &direction, const Color &col = Particle::DEFAULT_PARTICLE_COL);
       bool HasActiveParticles();
+      void SetParticleLife (const int &life);
+      void SetParticleScale (const float &scale);
 };
