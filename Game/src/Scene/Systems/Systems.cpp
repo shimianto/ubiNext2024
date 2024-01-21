@@ -7,6 +7,9 @@
 #include "../GameObjecs/Player/Player.h"
 #include "../../Math/Vector3/Vector3.h"
 #include "../../Math/Utils/Utils.h"
+#include "../Managers/AudioManager/AudioManager.h"
+#include <functional>
+#include <cmath>
 
 
 void Systems::SetMainScene(Scene &scene)
@@ -20,7 +23,7 @@ void Systems::SetMainScene(Scene &scene)
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
-  scene.waveController.Init(scene, 2, 0, 5, 2, 1);
+  scene.waveController.Init(scene, 1, 0, 5, 2, 1);
   scene.waveController.StartNextWave (scene);
 }
 void Systems::SetMenuScene (Scene &scene)
@@ -34,6 +37,10 @@ void Systems::ChargePlayer (Scene &scene)
 
   if (playerPhysics.velocity == Vector3() && p.moveForce < p.maxPower) {
 	p.moveForce += p.chargeRate;
+
+	if (!App::IsSoundPlaying (AudioManager::PLAYER_CHARGING_SFX)) {
+	  App::PlaySound (AudioManager::PLAYER_CHARGING_SFX, true);
+	}
   }
 }
 
@@ -52,6 +59,9 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 
 	playerPhysics.velocity = vForward * p.moveForce;
 	p.moveForce = 0;
+
+	App::StopSound (AudioManager::PLAYER_CHARGING_SFX);
+	App::PlaySound (AudioManager::PLAYER_DASH_SFX);
   }
 
 }
@@ -84,6 +94,8 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
   if (p.isHit && p.hitCooldown == 0) {
 	Health &pHealth = scene.components.GetHealthFromID (p.GetSceneId());
 	pHealth.TakeDamage (1);
+	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
+
 
 	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (p.healthBarId);
 	healthBar.fill = (float)pHealth.GetValue() / (float)pHealth.GetMax();
@@ -116,7 +128,10 @@ void Systems::UpdateEnemies (Scene &scene, const float &deltaTime)
 	switch (enemyAI.GetState()) {
 	case PATROLLING:
 	  if (enemyPhysics.velocity == Vector3()) {
-		enemyPhysics.velocity = Vector3(Utils::RandInt(-1,1)) * enemy.moveForce;
+		enemyPhysics.velocity = Vector3 (Utils::RandInt (-2, 2), Utils::RandInt (-2, 2)) * enemy.moveForce;
+		if (!App::IsSoundPlaying (AudioManager::ENEMY_DASH_SFX)) {
+			App::PlaySound (AudioManager::ENEMY_DASH_SFX);
+		}
 	  }
 	  break;
 	default:
@@ -175,6 +190,7 @@ void Systems::ShootBullet (Scene &scene, Transform &enemyTransform, Transform &p
   direction.z = 0;
 
   Bullet::InstantiateInScene (scene, spawn, direction);
+  App::PlaySound (AudioManager::ENEMY_SHOOT_SFX);
 }
 
 void Systems::UpdateBullets (Scene &scene, const float &deltaTime)
@@ -218,20 +234,7 @@ void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityP
   entityTransform.position += entityPhysics.velocity / deltaTime;
 
   //Bounce on boundaries
-  if (entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x) {
-	entityPhysics.velocity.x *= -1;
-	entityTransform.position.x = Physics::ENVIRONMENT_LOWER_BOUDS.x;
-  } else if (entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x) {
-	entityPhysics.velocity.x *= -1;
-	entityTransform.position.x = Physics::ENVIRONMENT_UPPER_BOUDS.x;
-  }
-  if (entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y) {
-	entityPhysics.velocity.y *= -1;
-	entityTransform.position.y = Physics::ENVIRONMENT_LOWER_BOUDS.y;
-  } else if (entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y) {
-	entityPhysics.velocity.y *= -1;
-	entityTransform.position.y = Physics::ENVIRONMENT_UPPER_BOUDS.y;
-  }
+  ExecuteOutOfBoundsPhysics (entityTransform, entityPhysics);
 
   //Gravity
   if (entityPhysics.gravity) {
@@ -267,4 +270,32 @@ void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityP
   if (entityPhysics.velocity.y <= entityPhysics.drag && entityPhysics.velocity.y >= -entityPhysics.drag) {
 	entityPhysics.velocity.y = 0;
   }
+}
+
+void Systems::ExecuteOutOfBoundsPhysics (Transform &entityTransform, Physics &entityPhysics)
+{
+  bool hitLowerXBound = entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x;
+  bool hitUpperXBound = entityTransform.position.x > Physics::ENVIRONMENT_UPPER_BOUDS.x;
+  bool hitLowerYBound = entityTransform.position.y < Physics::ENVIRONMENT_LOWER_BOUDS.y;
+  bool hitUpperYBound = entityTransform.position.y > Physics::ENVIRONMENT_UPPER_BOUDS.y;
+
+  if (hitLowerXBound) {
+	entityPhysics.velocity.x *= -1;
+	entityTransform.position.x = Physics::ENVIRONMENT_LOWER_BOUDS.x;
+  } else if (hitUpperXBound) {
+	entityPhysics.velocity.x *= -1;
+	entityTransform.position.x = Physics::ENVIRONMENT_UPPER_BOUDS.x;
+  }
+  if (hitLowerYBound) {
+	entityPhysics.velocity.y *= -1;
+	entityTransform.position.y = Physics::ENVIRONMENT_LOWER_BOUDS.y;
+  } else if (hitUpperYBound) {
+	entityPhysics.velocity.y *= -1;
+	entityTransform.position.y = Physics::ENVIRONMENT_UPPER_BOUDS.y;
+  }
+
+  if (entityPhysics.bounceSFX && (hitLowerXBound || hitLowerYBound || hitUpperXBound || hitUpperYBound)) {
+	App::PlaySound (AudioManager::ENTITY_BOUNCE_SFX);
+  }
+
 }

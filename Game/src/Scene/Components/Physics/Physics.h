@@ -8,7 +8,8 @@ class Physics
       static const Vector3 ENVIRONMENT_UPPER_BOUDS;
       static const Vector3 ENVIRONMENT_LOWER_BOUDS;
   
-	  bool gravity;
+	  bool bounceSFX;
+      bool gravity;
       float gravityForce;
       float drag;
       Vector3 velocity;
