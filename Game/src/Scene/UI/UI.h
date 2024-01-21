@@ -42,12 +42,13 @@ class UI
       void Update();
       void Render();
 
-      int InsertNewText (UIText &text);
-      int InsertNewBar (UIBar &bar);
+      int InsertNewText (UIText text);
+      int InsertNewBar (UIBar bar);
 
       UIText &GetTextFromId (const int &id);
       UIBar &GetBarFromId (const int &id);
 
       void UpdateTextFromId (const int &id, const UIText &text);
       void UpdateBarFromId (const int &id, const UIBar &bar);
+      void Clear();
 };

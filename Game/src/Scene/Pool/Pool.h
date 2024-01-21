@@ -74,8 +74,6 @@ template <class T> int Pool<T>::InstantiateNextAvailable()
 
 template <class T> T &Pool<T>::GetElementByID (const int &id)
 {
-      assert (id >= 0 && id < poolSize_);
-
       return pool_[id];
 }
 

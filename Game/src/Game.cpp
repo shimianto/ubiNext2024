@@ -19,7 +19,7 @@ UIManager uiManager;
 void Init()
 {
   UnitTesting::RunAll();
-  mainScene.Init (uiManager, MAIN_SCENE);
+  mainScene.Init (uiManager, MENU_SCENE);
 }
 
 void Update (float deltaTime)

@@ -85,6 +85,7 @@
     <ClCompile Include="src\Scene\GameObjecs\Player\Player.cpp" />
     <ClCompile Include="src\Scene\GameObjecs\WaveController\WaveController.cpp" />
     <ClCompile Include="src\Scene\Managers\AudioManager\AudioManager.cpp" />
+    <ClCompile Include="src\Scene\GameObjecs\Button\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextAPI\App\app.h">
@@ -176,6 +177,7 @@
     <ClInclude Include="src\Scene\GameObjecs\Player\Player.h" />
     <ClInclude Include="src\Scene\GameObjecs\WaveController\WaveController.h" />
     <ClInclude Include="src\Scene\Managers\AudioManager\AudioManager.h" />
+    <ClInclude Include="src\Scene\GameObjecs\Button\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NextAPI">

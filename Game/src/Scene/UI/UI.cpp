@@ -17,6 +17,10 @@ void UI::Update()
 
 void UI::Render()
 {
+  for (const auto &bar : uiBars_) {
+	Graphics3D::DrawBar (bar);
+  }
+
   for (const auto &text : uiTexts_) {
 	App::Print (
 		text.position.x, 
@@ -26,19 +30,15 @@ void UI::Render()
 		text.font
 	);
   }
-
-  for (const auto &bar : uiBars_) {
-	Graphics3D::DrawBar (bar);
-  }
 }
 
-int UI::InsertNewText (UIText &text)
+int UI::InsertNewText (UIText text)
 {
   uiTexts_.push_back (text);
   return uiTexts_.size() - 1;
 }
 
-int UI::InsertNewBar (UIBar &bar)
+int UI::InsertNewBar (UIBar bar)
 {
   uiBars_.push_back (bar);
   return uiBars_.size() - 1;
@@ -62,6 +62,12 @@ void UI::UpdateTextFromId (const int &id, const UIText &text)
 void UI::UpdateBarFromId (const int &id, const UIBar &bar)
 {
   uiBars_[id] = bar;
+}
+
+void UI::Clear()
+{
+  uiBars_.clear();
+  uiTexts_.clear();
 }
 
 UIText::UIText (const Vector3 &position, const char *text, const Color &color, void *font) : 

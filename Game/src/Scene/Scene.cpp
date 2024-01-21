@@ -34,6 +34,18 @@ void Scene::Update (float deltaTime)
   Systems::UpdateEnemies (*this, deltaTime);
   Systems::UpdateEnemyShooters(*this, deltaTime);
   Systems::UpdateBullets (*this, deltaTime);
+
+
+  bool changeScene = false;
+  for (auto &btnId : buttons_.GetInUseElements()) {
+	Button &btn = buttons_.GetElementByID (btnId);
+	if (Collider::CheckCollision (*this, btn.GetSceneId(), player_.GetSceneId())) {
+	  changeScene = true;
+	}
+  }
+  if (changeScene) {
+	  SetScene (MAIN_SCENE);
+  }
 }
 
 void Scene::Render()
@@ -107,10 +119,16 @@ Pool<EnemyShooter> &Scene::GetEnemyShooters()
   return enemyShooters_;
 }
 
+Pool<Button> &Scene::GetButtons()
+{
+  return buttons_;
+}
+
 void Scene::SetScene (const SceneType &type)
 {
   entityManager_.ClearEntities();
   components.ClearComponents();
+  uiManager_->GetActiveUI (*this).Clear();
   ClearGameObjects();
   player_ = Player();
 
@@ -141,6 +159,7 @@ void Scene::ClearGameObjects()
   bullets_.Clear();
   enemies_.Clear();
   enemyShooters_.Clear();
+  buttons_.Clear();
 
   waveController = WaveController();
 }

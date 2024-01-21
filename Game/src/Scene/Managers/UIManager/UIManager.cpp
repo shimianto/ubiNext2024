@@ -6,21 +6,23 @@
 void UIManager::Init (const Scene &scene)
 {
   UI menuUI;
-  UIText menuText  (Vector3 (450, 700), "Menu: Ubi Next 2024", Color());
-  menuUI.InsertNewText (menuText);
+
+  //menuUI.InsertNewBar (UIBar (Vector3 (0, 500), Vector3 (APP_VIRTUAL_WIDTH, 300), 1, Color ()));
+
+  menuUI.InsertNewText (UIText (Vector3 (450, 600), "Hit here to play", Color(), GLUT_BITMAP_9_BY_15));
+
+  menuUI.InsertNewText (UIText (Vector3 (20, 470), "Space / Right trigger to charge", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (20, 450), "Release to shoot", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (20, 400), "A&D / Left stick to aim", Color(), GLUT_BITMAP_9_BY_15));
+
+  menuUI.InsertNewText (UIText (Vector3 (750, 450), "Hit all blue for next wave", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (750, 400), "Avoid red and pink", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (750, 350), "Have fun! :)", Color(), GLUT_BITMAP_9_BY_15));
+  
   RegisterUI (MENU_SCENE, menuUI);
   
   UI mainGameUI;
-  UIText mainText (Vector3 (450, 700), "Main Scene", Color());
-  mainGameUI.InsertNewText (mainText);
   RegisterUI (MAIN_SCENE, mainGameUI);
-
-  UI gridUI;
-  UIText gridText (Vector3 (450, 700), "Gird Test", Color());
-  UIBar gridBar (Vector3 (450, 690), Vector3 (100, 5), 1);
-  gridUI.InsertNewText (gridText);
-  gridUI.InsertNewBar (gridBar);
-  RegisterUI (GRID_TEST, gridUI);
 
   uiMap_[scene.GetActiveScene()].Init();
 }

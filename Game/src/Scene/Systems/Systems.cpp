@@ -23,11 +23,14 @@ void Systems::SetUpMainScene(Scene &scene)
   //scene.components.GetMeshFromID (newEntityId).LoadTrianglesFromObjectFile (".\\TestData\\mountains.obj");
 
   Player::InstantiateInScene (scene);
-  scene.waveController.Init(scene, 1, 0, 5, 2, 1);
+  scene.waveController.Init(scene, 1, 0, 10, 3, 1);
   scene.waveController.StartNextWave (scene);
 }
 void Systems::SetUpMenuScene (Scene &scene)
 {
+  App::PlaySound (AudioManager::MENU_BGM, true);
+  Player::InstantiateInScene (scene);
+  Button::InstantiateInScene (scene, Vector3 (0, 15));
 }
 void Systems::SetUpParticleScene (Scene & scene)
 {
@@ -107,6 +110,9 @@ void Systems::UpdatePlayer (Scene &scene, const float &deltaTime)
 	Health &pHealth = scene.components.GetHealthFromID (player.GetSceneId());
 	pHealth.TakeDamage (1);
 	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
+	if (pHealth.GetValue() <= 0) {
+	  scene.SetScene (MENU_SCENE);
+	}
 
 
 	UIBar &healthBar = scene.uiManager_->GetActiveUI (scene).GetBarFromId (player.healthBarId);
