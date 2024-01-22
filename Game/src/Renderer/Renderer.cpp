@@ -30,12 +30,10 @@ void Renderer::Update (const float &deltaTime)
 	SetVisibleTriangles (scene_->components.GetMeshFromID (id), scene_->components.GetTransformFromID (id));
 	ParticleSystem &ps = scene_->components.GetParticlesFromID (id);
 	
-	if (ps.HasActiveParticles()) {
-	  ps.Update (deltaTime);// Revisit most appropriate place for this call
-	  for (const auto &particleId : ps.particlePool.GetInUseElements()) {
+	//Add Particles to visible triangles
+	for (const auto &particleId : ps.particlePool.GetInUseElements()) {
 		SetVisibleTriangles (ps.mesh, ps.particlePool.GetElementByID(particleId).transform);
 	  }
-	}
   }
 }
 

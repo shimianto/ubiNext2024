@@ -38,9 +38,9 @@ void Systems::SetUpMenuScene (Scene &scene)
   menuUI.InsertNewText (UIText (Vector3 (20, 450), "Release to shoot", Color(), GLUT_BITMAP_9_BY_15));
   menuUI.InsertNewText (UIText (Vector3 (20, 400), "A&D / Left stick to aim", Color(), GLUT_BITMAP_9_BY_15));
 
-  menuUI.InsertNewText (UIText (Vector3 (750, 450), "Hit all blue for next wave", Color(), GLUT_BITMAP_9_BY_15));
-  menuUI.InsertNewText (UIText (Vector3 (750, 400), "Avoid red and pink", Color(), GLUT_BITMAP_9_BY_15));
-  menuUI.InsertNewText (UIText (Vector3 (750, 350), "Have fun! :)", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (700, 450), "Hit all blue and red for next wave", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (700, 400), "Avoid pink", Color(), GLUT_BITMAP_9_BY_15));
+  menuUI.InsertNewText (UIText (Vector3 (700, 350), "Have fun! :)", Color(), GLUT_BITMAP_9_BY_15));
 
   scene.uiManager_->RegisterUI (MENU_SCENE, menuUI);
 

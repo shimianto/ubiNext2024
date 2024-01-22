@@ -53,6 +53,7 @@ class Scene
       Scene ();
       void Init (UIManager &uiManager, const SceneType &sceneType = MENU_SCENE);
       void Update (float deltaTime);
+      void UpdateParticles (float &deltaTime);
       void TryButtons();
       void UpdateBullets (float &deltaTime);
       void UpdateEnemyShooters (float &deltaTime);

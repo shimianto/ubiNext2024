@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Managers//UIManager/UIManager.h"
 #include "Systems/Systems.h"
+#include "../ThreadGroup/ThreadGroup.h"
 
 Scene::Scene()
 {
@@ -27,12 +28,19 @@ void Scene::Update (float deltaTime)
   uiManager_->Update (*this);
   renderer_.Update (deltaTime);
 
+  //ThreadGroup thrGrp;
 
- 
+  //thrGrp.group.emplace_back (&Scene::UpdatePlayer, this, deltaTime);
+  //thrGrp.group.emplace_back (&Scene::UpdateEnemies, this, deltaTime);
+  //thrGrp.group.emplace_back (&Scene::UpdateEnemyShooters, this, deltaTime);
+  //thrGrp.group.emplace_back (&Scene::UpdateBullets, this, deltaTime);
+  //thrGrp.group.emplace_back (&Scene::UpdateParticles, this, deltaTime);
+
   UpdatePlayer (deltaTime);
   UpdateEnemies (deltaTime);
   UpdateEnemyShooters (deltaTime);
   UpdateBullets (deltaTime);
+  UpdateParticles (deltaTime);
   
 
   //Try new wave
@@ -41,6 +49,13 @@ void Scene::Update (float deltaTime)
   }
 
   TryButtons();
+}
+
+void Scene::UpdateParticles (float &deltaTime)
+{
+  for (auto &entityId : entityManager_.GetActiveEntities()) {
+	components.GetParticlesFromID (entityId).Update (deltaTime);
+  }
 }
 
 void Scene::TryButtons()
@@ -79,8 +94,8 @@ void Scene::UpdateBullets (float &deltaTime)
 
 	  //Check Collisions
 	  if (player_.GetSceneId() != -1 && !player_.isHit && Collider::CheckCollision (*this, player_.GetSceneId(), b.GetSceneId())) {
-	  Systems::DisableGameObjectInScene (*this, &b, &bullets_);
-	  player_.isHit = true;
+		Systems::DisableGameObjectInScene (*this, &b, &bullets_);
+		player_.isHit = true;
 	  }
   }
 }
