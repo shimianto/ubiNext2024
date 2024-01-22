@@ -2,7 +2,6 @@
 #include "Enemy.h"
 #include "../../Scene.h"
 #include "../../../Math/Vector3/Vector3.h"
-#include "../../Components/AI/StateMachine/States/EnemyPatrolling.h"
 
 
 void Enemy::InstantiateInScene (Scene &scene, Vector3 position)
@@ -27,7 +26,6 @@ void Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 	ps.SetParticleScale (0.8f);
 	ps.SetParticleLife (30);
 
-	EnemyPatrolling patrollingState (newEnemy.moveForce);
 	scene.components.GetAIFromID (newEnemy.scenId_).SetState (PATROLLING);
 
 

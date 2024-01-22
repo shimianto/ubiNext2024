@@ -16,9 +16,7 @@ class UIManager;
 enum SceneType
 {
     MENU_SCENE,
-    MAIN_SCENE,
-    GRID_TEST,
-    PARTICLES_SCENE
+    MAIN_SCENE
 };
 
 class Scene
@@ -55,6 +53,9 @@ class Scene
       Scene ();
       void Init (UIManager &uiManager, const SceneType &sceneType = MENU_SCENE);
       void Update (float deltaTime);
+      void TryButtons();
+      void UpdateBullets (float &deltaTime);
+      void UpdateEnemyShooters (float &deltaTime);
       void Render();
       void Shutdown();
 

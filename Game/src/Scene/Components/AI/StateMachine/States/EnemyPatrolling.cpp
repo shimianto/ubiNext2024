@@ -9,12 +9,12 @@
 #include "../../../../../Math/Utils/Utils.h"
 #include "../../../../Managers/AudioManager/AudioManager.h"
 
-EnemyPatrolling::EnemyPatrolling (const float &dashForce) : dashForce_ (dashForce)
+EnemyPatrollingState::EnemyPatrollingState (const float &dashForce) : dashForce_ (dashForce)
 {
   aiState = PATROLLING;
 }
 
-void EnemyPatrolling::OnExecute (Scene &scene, const int &entityId)
+void EnemyPatrollingState::OnExecute (Scene &scene, const int &entityId)
 {
   Transform &enemyTransform = scene.components.GetTransformFromID (entityId);
   Physics &enemyPhysics = scene.components.GetPhysicsFromID (entityId);

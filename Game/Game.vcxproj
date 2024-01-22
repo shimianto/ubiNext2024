@@ -196,6 +196,8 @@
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\InputHandler\InputHandler.h" />
     <ClInclude Include="src\Scene\Components\AI\BaseAI.h" />
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterAttack.h" />
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterPatrollingState.h" />
     <ClInclude Include="src\Scene\Components\Collider\Collider.h" />
     <ClInclude Include="src\Scene\Components\Grid\Grid.h" />
     <ClInclude Include="src\Scene\Components\Grid\GridElement.h" />
@@ -246,6 +248,8 @@
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
     <ClCompile Include="src\Scene\Components\AI\BaseAI.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterAttack.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterPatrollingState.cpp" />
     <ClCompile Include="src\Scene\Components\Collider\Collider.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\Grid.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\GridElement.cpp" />

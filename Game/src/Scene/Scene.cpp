@@ -31,29 +31,76 @@ void Scene::Update (float deltaTime)
  
   UpdatePlayer (deltaTime);
   UpdateEnemies (deltaTime);
-
-   for (auto &poolId : enemyShooters_.GetInUseElements()) {
-	EnemyShooter &enemy = enemyShooters_.GetElementByID (poolId);
-	enemy.coolDownTimer -= 1;
-	Systems::ExecuteEnemyShooterAI(*this, enemy);
-  }
+  UpdateEnemyShooters (deltaTime);
+  UpdateBullets (deltaTime);
   
-  Systems::UpdateBullets (*this, deltaTime);
 
   //Try new wave
   if (waveController.IsWaveDone (*this)) {
 	waveController.StartNextWave (*this);
   }
 
+  TryButtons();
+}
+
+void Scene::TryButtons()
+{
   bool changeScene = false;
   for (auto &btnId : buttons_.GetInUseElements()) {
-	Button &btn = buttons_.GetElementByID (btnId);
-	if (Collider::CheckCollision (*this, btn.GetSceneId(), player_.GetSceneId())) {
+	  Button &btn = buttons_.GetElementByID (btnId);
+	  if (Collider::CheckCollision (*this, btn.GetSceneId(), player_.GetSceneId())) {
 	  changeScene = true;
-	}
+	  }
   }
   if (changeScene) {
 	  SetScene (MAIN_SCENE);
+  }
+}
+
+void Scene::UpdateBullets (float &deltaTime)
+{
+  std::set<int> bulletsIdsCopy = bullets_.GetInUseElements();
+
+  for (auto &bulletId : bulletsIdsCopy) {
+	  Bullet &b = bullets_.GetElementByID (bulletId);
+
+	  b.lifetime--;
+
+	  if (b.lifetime <= 0) {
+	  Systems::DisableGameObjectInScene (*this, &b, &bullets_);
+	  continue;
+	  }
+
+	  Transform &transf = components.GetTransformFromID (b.GetSceneId());
+	  Physics &phys = components.GetPhysicsFromID (b.GetSceneId());
+
+	  Systems::ExecuteEntityPhysics (transf, phys, deltaTime);
+	  Systems::ExecuteBulletParticles (*this, b);
+
+	  //Check Collisions
+	  if (player_.GetSceneId() != -1 && !player_.isHit && Collider::CheckCollision (*this, player_.GetSceneId(), b.GetSceneId())) {
+	  Systems::DisableGameObjectInScene (*this, &b, &bullets_);
+	  player_.isHit = true;
+	  }
+  }
+}
+
+void Scene::UpdateEnemyShooters (float &deltaTime)
+{
+  std::set<int> enemyShootersIdsCopy = enemyShooters_.GetInUseElements();
+
+  for (auto &poolId : enemyShootersIdsCopy) {
+	  EnemyShooter &enemy = enemyShooters_.GetElementByID (poolId);
+	  Transform &enemyTransform = components.GetTransformFromID (enemy.GetSceneId());
+	  Physics &enemyPhysics = components.GetPhysicsFromID (enemy.GetSceneId());
+
+	  Systems::ExecuteEntityPhysics (enemyTransform, enemyPhysics, deltaTime);
+	  Systems::ExecuteEnemyShooterAI (*this, enemy);
+
+	  //Check Collisions
+	  if (player_.GetSceneId() != -1 && Collider::CheckCollision (*this, player_.GetSceneId(), enemy.GetSceneId())) {
+	  Systems::DisableGameObjectInScene (*this, &enemy, &enemyShooters_);
+	  }
   }
 }
 
@@ -71,7 +118,7 @@ void Scene::UpdateEnemies (float &deltaTime)
 
 	  //Check Collisions
 	  if (player_.GetSceneId() != -1 && Collider::CheckCollision (*this, player_.GetSceneId(), enemy.GetSceneId())) {
-	  Systems::DisableGameObjectInScene (*this, &enemy, &enemies_);
+		Systems::DisableGameObjectInScene (*this, &enemy, &enemies_);
 	  }
   }
 }

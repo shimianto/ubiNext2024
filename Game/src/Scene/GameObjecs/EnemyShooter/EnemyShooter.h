@@ -1,10 +1,10 @@
 #pragma once
-#include "../GameObject.h"
+#include "../Enemy/Enemy.h"
 
 class Scene;
 class Vector3;
 
-class EnemyShooter : public GameObject
+class EnemyShooter : public Enemy
 {
       float shootCooldown_;
   public:

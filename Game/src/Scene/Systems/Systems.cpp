@@ -9,6 +9,8 @@
 #include "../../Math/Vector3/Vector3.h"
 #include "../../Math/Utils/Utils.h"
 #include "../Components/AI/StateMachine/States/EnemyPatrolling.h"
+#include "../Components/AI/StateMachine/States/EnemyShooterPatrollingState.h"
+#include "../Components/AI/StateMachine/States/EnemyShooterAttack.h"
 
 
 void Systems::SetUpMainScene(Scene &scene)
@@ -46,11 +48,6 @@ void Systems::SetUpMenuScene (Scene &scene)
   Player::InstantiateInScene (scene);
   Button::InstantiateInScene (scene, Vector3 (0, 15));
 }
-void Systems::SetUpParticleScene (Scene & scene)
-{
-  scene.InstantiateNewEntity();
-  scene.components.GetParticlesFromID (0).mesh.LoadTrianglesFromObjectFile ("./data/cube3d.obj");
-}
 
 void Systems::ChargePlayer (Scene &scene)
 {
@@ -65,7 +62,6 @@ void Systems::ChargePlayer (Scene &scene)
 	}
   }
 }
-
 void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
 {
   Player &p = scene.GetPlayer();
@@ -92,116 +88,10 @@ void Systems::ShootPlayer (Scene &scene, const float &deltaTime)
   }
 
 }
-
 void Systems::RotatePlayer (Scene &scene, const Vector3 &rotation)
 {
 	Transform &playerTransform = scene.components.GetTransformFromID (scene.GetPlayer().GetSceneId());
 	playerTransform.rotation.z += rotation.x;
-}
-
-void Systems::TryDamageToPlayer (Player &player, Health &pHealth)
-{
-  if (player.isHit && player.hitCooldown == 0) {
-	pHealth.TakeDamage (1);
-	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
-	player.hitCooldown = player.maxCooldown;
-  } else if (player.hitCooldown > 0) {
-	player.hitCooldown--;
-	player.isHit = player.hitCooldown != 0;
-  }
-}
-
-void Systems::ExecuteEnemyAI (Scene &scene, Enemy *enemy)
-{
-  BaseAI &enemyAI = scene.components.GetAIFromID (enemy->GetSceneId());
-
-  switch (enemyAI.GetCurrentStateType()) {
-  case PATROLLING:
-	EnemyPatrolling (enemy->moveForce).OnExecute(scene, enemy->GetSceneId());
-	break;
-  default:
-	break;
-  }
-}
-
-void Systems::ExecuteEnemyShooterAI (Scene &scene, EnemyShooter &enemy)
-{
-  Player &player = scene.GetPlayer();
-
-  if (player.GetSceneId() == -1) {
-	return;
-  }
-
-  Transform &playerTransf = scene.components.GetTransformFromID (player.GetSceneId());
-
-  Transform &enemyTransform = scene.components.GetTransformFromID (enemy.GetSceneId());
-  BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
-
-
-  //Run AI
-  switch (IDLE) {
-  case SHOOTING:
-	if (enemy.coolDownTimer <= 0) {
-	  ShootBullet (scene, enemyTransform, playerTransf);
-	  enemy.ResetCooldown();
-	}
-	break;
-  default:
-	break;
-  }
-}
-
-void Systems::ShootBullet (Scene &scene, Transform &enemyTransform, Transform &playerTransf)
-{
-  Vector3 spawn = enemyTransform.position;
-  Vector3 direction = (playerTransf.position - enemyTransform.position);
-  direction.z = 0;
-
-  Bullet::InstantiateInScene (scene, spawn, direction);
-  App::PlaySound (AudioManager::ENEMY_SHOOT_SFX);
-}
-
-void Systems::UpdateBullets (Scene &scene, const float &deltaTime)
-{
-  Player &player = scene.GetPlayer();
-
-  if (player.GetSceneId() == -1) {
-	return;
-  }
-
-  Pool<Bullet> &bulletPool = scene.GetBullets();
-  std::vector<Bullet> bulletsToDiable;
-
-  for (auto &bulletId : bulletPool.GetInUseElements())
-  {
-	Bullet &b = bulletPool.GetElementByID (bulletId);
-
-	b.lifetime--;
-
-	if (b.lifetime <= 0) {
-	  bulletsToDiable.push_back (b);
-	  continue;
-	}
-	Transform &transf = scene.components.GetTransformFromID (b.GetSceneId());
-	Physics &phys = scene.components.GetPhysicsFromID (b.GetSceneId());
-	ParticleSystem &entityParticles = scene.components.GetParticlesFromID (b.GetSceneId());
-	Mesh &entityMesh = scene.components.GetMeshFromID (b.GetSceneId());
-
-	ExecuteEntityPhysics (transf, phys, deltaTime);
-	entityParticles.SpawnParticles (1, transf.position - phys.velocity.Normalize()*2, (phys.velocity.Normalize() * -1) / 2, entityMesh.col);
-
-
-	//Check Collisions
-	if (!player.isHit && Collider::CheckCollision (scene, player.GetSceneId(), b.GetSceneId())) {
-	  bulletsToDiable.push_back (b);
-	  player.isHit = true;
-	} 
-  }
-
-  //Disabled hit
-  for (auto &bullet : bulletsToDiable) {
-	DisableGameObjectInScene (scene, &bullet, &bulletPool);
-  }
 }
 
 void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityPhysics, const float &deltaTime)
@@ -248,7 +138,6 @@ void Systems::ExecuteEntityPhysics (Transform &entityTransform, Physics &entityP
 	entityPhysics.velocity.y = 0;
   }
 }
-
 void Systems::ExecuteOutOfBoundsPhysics (Transform &entityTransform, Physics &entityPhysics)
 {
   bool hitLowerXBound = entityTransform.position.x < Physics::ENVIRONMENT_LOWER_BOUDS.x;
@@ -274,5 +163,69 @@ void Systems::ExecuteOutOfBoundsPhysics (Transform &entityTransform, Physics &en
   if (entityPhysics.bounceSFX && (hitLowerXBound || hitLowerYBound || hitUpperXBound || hitUpperYBound)) {
 	App::PlaySound (AudioManager::ENTITY_BOUNCE_SFX);
   }
-
 }
+
+void Systems::TryDamageToPlayer (Player &player, Health &pHealth)
+{
+  if (player.isHit && player.hitCooldown == 0) {
+	pHealth.TakeDamage (1);
+	App::PlaySound (AudioManager::PLAYER_DMG_SFX);
+	player.hitCooldown = player.maxCooldown;
+  } else if (player.hitCooldown > 0) {
+	player.hitCooldown--;
+	player.isHit = player.hitCooldown != 0;
+  }
+}
+void Systems::ShootBullet (Scene &scene, Transform &enemyTransform, Transform &playerTransf)
+{
+  Vector3 spawn = enemyTransform.position;
+  Vector3 direction = (playerTransf.position - enemyTransform.position);
+  direction.z = 0;
+
+  Bullet::InstantiateInScene (scene, spawn, direction);
+  App::PlaySound (AudioManager::ENEMY_SHOOT_SFX);
+}
+
+
+void Systems::ExecuteEnemyAI (Scene &scene, Enemy *enemy)
+{
+  BaseAI &enemyAI = scene.components.GetAIFromID (enemy->GetSceneId());
+
+  switch (enemyAI.GetCurrentStateType()) {
+  case PATROLLING:
+	EnemyPatrollingState (enemy->moveForce).OnExecute(scene, enemy->GetSceneId());
+	break;
+  default:
+	break;
+  }
+}
+void Systems::ExecuteEnemyShooterAI (Scene &scene, EnemyShooter &enemy)
+{
+  BaseAI &enemyAI = scene.components.GetAIFromID (enemy.GetSceneId());
+
+
+  //Run AI
+  switch (enemyAI.GetCurrentStateType()) {
+  case PATROLLING:
+	EnemyShooterPatrollingState (enemy.moveForce).OnExecute (scene, enemy.GetSceneId());
+	break;
+  case SHOOTING:
+	EnemyShooterAttackState (&enemy).OnExecute (scene, enemy.GetSceneId());
+	break;
+  default:
+	break;
+  }
+}
+void Systems::ExecuteBulletParticles (Scene &scene, Bullet &b)
+{
+  Transform &transf = scene.components.GetTransformFromID (b.GetSceneId());
+  Physics &phys = scene.components.GetPhysicsFromID (b.GetSceneId());
+  ParticleSystem &entityParticles = scene.components.GetParticlesFromID (b.GetSceneId());
+  Mesh &entityMesh = scene.components.GetMeshFromID (b.GetSceneId());
+
+  entityParticles.SpawnParticles (1, transf.position - phys.velocity.Normalize() * 2, (phys.velocity.Normalize() * -1) / 2, entityMesh.col);
+}
+
+
+
+
