@@ -2,9 +2,9 @@
 #include "stdafx.h"
 #include <string>
 #include <vector>
+#include "../../../glut/include/GL/freeglut_std.h"
 #include "../../Graphics3D/Color/Color.h"
 #include "../../Math/Vector3/Vector3.h"
-#include "../../../glut/include/GL/freeglut_std.h"
 #include "../../Math/Quad/Quad.h"
 
 struct UIText

@@ -26,9 +26,7 @@ Player &Player::InstantiateInScene (Scene &scene)
   UIBar healthBar (Vector3 (20, 20), Vector3 (300, 60), 1, Color (0.863f, 0.07f, 0.17));
   newPlayer.healthBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (healthBar);
 
-
-  UIBar chargeBar(Vector3 ((float)APP_VIRTUAL_WIDTH - 320, 20), Vector3 (300, 60), 0);
-  newPlayer.chargeBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (chargeBar);
+  newPlayer.chargeBarId = scene.uiManager_->GetActiveUI (scene).InsertNewBar (newPlayer.GetChargeBar());
 
   scene.SetPlayer (newPlayer);
 
@@ -42,5 +40,16 @@ Player::Player() :
 	isHit (false), hitCooldown (100),
       maxCooldown(100)
 {
+}
+
+UIBar Player::GetChargeBar ()
+{
+  UIBar chargeBar (Vector3 ((float)APP_VIRTUAL_WIDTH - 320, 20), Vector3 (300, 60), 0);
+
+  chargeBar.fill = (moveForce / maxPower);
+  chargeBar.fill = chargeBar.fill > 1 ? 1 : chargeBar.fill;
+  chargeBar.color = Color (chargeBar.fill, 1 - chargeBar.fill, 0);
+
+  return chargeBar;
 }
 

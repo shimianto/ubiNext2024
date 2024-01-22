@@ -1,6 +1,6 @@
-#include "stdafx.h"
 #include "Graphics3D.h"
-#include "App\app.h"
+
+#include "App/app.h"
 #include "../Scene/UI/UI.h"
 #include "../Math/Triangle/Triangle.h"
 #include "../Math/Quad/Quad.h"

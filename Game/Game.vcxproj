@@ -174,6 +174,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\States\EnemyPatrolling.h" />
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\BaseState.h" />
     <ClInclude Include="src\InputHandler\Command\Command.h" />
     <ClInclude Include="src\Math\Quad\Quad.h" />
     <ClInclude Include="src\Math\Utils\Utils.h" />
@@ -194,6 +196,8 @@
     <ClInclude Include="src\Graphics3D\Color\Color.h" />
     <ClInclude Include="src\InputHandler\InputHandler.h" />
     <ClInclude Include="src\Scene\Components\AI\BaseAI.h" />
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterAttack.h" />
+    <ClInclude Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterPatrollingState.h" />
     <ClInclude Include="src\Scene\Components\Collider\Collider.h" />
     <ClInclude Include="src\Scene\Components\Grid\Grid.h" />
     <ClInclude Include="src\Scene\Components\Grid\GridElement.h" />
@@ -226,6 +230,8 @@
     <ClInclude Include="src\ThreadGroup\ThreadGroup.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\States\EnemyPatrolling.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\BaseState.cpp" />
     <ClCompile Include="src\Math\Quad\Quad.cpp" />
     <ClCompile Include="src\Math\Utils\Utils.cpp" />
     <ClCompile Include="src\Scene\BaseEntity\BaseEntity.cpp" />
@@ -242,6 +248,8 @@
     <ClCompile Include="src\Graphics3D\Graphics3D.cpp" />
     <ClCompile Include="src\Graphics3D\Color\Color.cpp" />
     <ClCompile Include="src\Scene\Components\AI\BaseAI.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterAttack.cpp" />
+    <ClCompile Include="src\Scene\Components\AI\StateMachine\States\EnemyShooterPatrollingState.cpp" />
     <ClCompile Include="src\Scene\Components\Collider\Collider.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\Grid.cpp" />
     <ClCompile Include="src\Scene\Components\Grid\GridElement.cpp" />
@@ -266,7 +274,6 @@
     <ClCompile Include="src\Math\Matrix\Matrix.cpp" />
     <ClCompile Include="src\Scene\Components\Health\Health.cpp" />
     <ClCompile Include="src\Scene\Managers\UIManager\UIManager.cpp" />
-    <ClCompile Include="src\Scene\Pool\Pool.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Systems\Systems.cpp" />
     <ClCompile Include="src\Scene\UI\UI.cpp" />

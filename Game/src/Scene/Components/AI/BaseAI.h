@@ -1,12 +1,8 @@
 #pragma once
-class Scene;
+#include <map>
+#include "StateMachine/BaseState.h"
 
-enum AIState
-{
-	IDLE,
-	PATROLLING,
-	SHOOTING,
-};
+class Scene;
 
 class BaseAI
 {
@@ -14,13 +10,15 @@ class BaseAI
 	AIState currentState_;
 	AIState previousState_;
 
+
   public:
-    void SetState (const AIState &newState);
-    const AIState &GetState () const;
-
-	void RevertState ();
-
-	bool IsInState (const AIState &state);
+    
+		
+	  const AIState &GetCurrentStateType () const;
+	  
+	  void SetState (const AIState &newState);
+	  void RevertState ();
+	  bool IsInState (const AIState &state);
 };
 
 // TODO: Implement BaseState class and populate StateMachine with custom state classes

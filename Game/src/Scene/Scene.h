@@ -1,8 +1,8 @@
 #pragma once
-#include "./Managers/EntityManager/EntityManager.h"
 #include "../Renderer/Renderer.h"
 #include "../InputHandler/InputHandler.h"
 #include "Managers/ComponentManager/ComponentManager.h"
+#include "Managers/EntityManager/EntityManager.h"
 #include "Components/Particles/ParticleSystem.h"
 #include "GameObjecs/Player/Player.h"
 #include "GameObjecs/Bullet/Bullet.h"
@@ -16,9 +16,7 @@ class UIManager;
 enum SceneType
 {
     MENU_SCENE,
-    MAIN_SCENE,
-    GRID_TEST,
-    PARTICLES_SCENE
+    MAIN_SCENE
 };
 
 class Scene
@@ -39,6 +37,8 @@ class Scene
       Pool<EnemyShooter> enemyShooters_;
       Pool<Button> buttons_;
 
+      void UpdatePlayer (float &deltaTime);
+      void UpdateEnemies (float &deltaTime);
   public:
 
       UIManager *uiManager_;
@@ -52,7 +52,11 @@ class Scene
 
       Scene ();
       void Init (UIManager &uiManager, const SceneType &sceneType = MENU_SCENE);
-      void Update(float deltaTime);
+      void Update (float deltaTime);
+      void UpdateParticles (float &deltaTime);
+      void TryButtons();
+      void UpdateBullets (float &deltaTime);
+      void UpdateEnemyShooters (float &deltaTime);
       void Render();
       void Shutdown();
 

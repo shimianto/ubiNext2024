@@ -26,9 +26,11 @@ void Enemy::InstantiateInScene (Scene &scene, Vector3 position)
 	ps.SetParticleScale (0.8f);
 	ps.SetParticleLife (30);
 
+	scene.components.GetAIFromID (newEnemy.scenId_).SetState (PATROLLING);
+
+
 	scene.components.GetTransformFromID (newEnemy.scenId_).scale = Vector3 (0.065f, 0.065f, 0.065f);
 	scene.components.GetColliderFromID (newEnemy.scenId_).radius = 2;
-	scene.components.GetAIFromID (newEnemy.scenId_).SetState (PATROLLING);
 	scene.components.GetPhysicsFromID (newEnemy.scenId_).drag = 0.1f;
 
   } else {

@@ -23,18 +23,18 @@ class Renderer
 
      Matrix matWorld_;
      Matrix matProj_;
-     Matrix viewMat_, invViewMat_;
+     Matrix viewMat_;
 
     void SetWorldMatrix();
     void SetViewMatrices();
     void SetVisibleTriangles (const Mesh &mesh, const Transform &transform);
-    void SortVisibleTriangles();
 
     void DrawVisibleTriangles();
-    
-    Vector3 PlaneInersection (Vector3 &plane_p, Vector3 &plane_n, Vector3 &lineStart, Vector3 &lineEnd);
-    int GetNumPtsCliped (Vector3 plane_p, Vector3 plane_n, Triangle &in_tri, Triangle &out_tri1, Triangle &out_tri2);
 
+    bool IsBehindCamera (Triangle &triTransformed);
+
+    bool IsTriangleClipped (Vector3 point, Vector3 normal, Triangle &triangle);
+    
  public:
 
 	Renderer ();
